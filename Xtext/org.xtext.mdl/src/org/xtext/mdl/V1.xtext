@@ -1,0 +1,70 @@
+grammar org.xtext.mdl.V1 with org.eclipse.xtext.common.Terminals
+
+generate v1 "http://www.xtext.org/mdl/V1"
+
+// Parsing
+Workflow:
+	(dateDebut=DATE)? etapes+=Etape*
+;
+
+
+Etape :
+	id=ID name=STRING rappels+=Rappel* obj=Objet
+;
+
+Objet :
+	obj=QCM cond=CondFin
+	| mail=Mail dateEnvoi=DATE
+	| synchDate=SynchDate cond=CondFin
+	| dateFin=DATE
+	| depot=Depot
+;
+
+CondFin:
+	date=DATE
+;
+
+SynchDate:
+	start=DATE end=DATE precision=STRING?
+;
+
+Depot:
+	intitule=STRING limiteSize=INT (format+=STRING)* 
+;
+
+
+QCM:
+	type=TypeQCM intitule=STRING (responses+=STRING)* suite=QCM?
+;
+
+TypeQCM:
+	OPENQUESTION='OpenQuestion' |
+	CHECKBOX='CheckBox' |
+	RADIOBUTTON='RadioButton'
+;
+
+
+Rappel:
+	date=DATE mail=Mail
+;
+
+Mail:
+	'From' expediteur=ADDRESSEMAIL 'To' (destinataire+=ADDRESSEMAIL)+ 'PJ'(pj=STRING)? 'Body' corps=Contenu
+;
+
+// A REDIFINIR
+Contenu:
+	corps=STRING & invitation=STRING
+;
+
+// Lexing
+// TODO Ajouter un verificateur.
+terminal DATE:
+	('0'..'2')('0'..'9')'/'('0'..'1')('0'..'9')'/'('0'..'9')('0'..'9')
+;
+
+terminal ADDRESSEMAIL:
+	('0'..'9'|'a'..'z'|'A'..'Z')+ "@" ('a'..'z'|'A'..'Z')+ 	"." ('a'..'z'|'A'..'Z')+
+;
+
+
