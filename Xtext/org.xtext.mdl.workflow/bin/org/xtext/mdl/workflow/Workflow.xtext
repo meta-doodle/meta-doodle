@@ -1,0 +1,100 @@
+grammar org.xtext.mdl.workflow.Workflow with org.eclipse.xtext.common.Terminals
+
+generate workflow "http://www.xtext.org/mdl/workflow/Workflow"
+
+// Traduire les variables.
+
+// Parsing
+Workflow:
+	(dateDebut=DATE)? etapes+=Etape*
+;
+	
+Etape:
+	id=ID name=STRING rappels+=Rappel* obj=Objet
+;
+
+Rappel:
+	date=DATE mail=Mail
+;
+
+Mail:
+	expediteur=ADDRESSEMAIL (destinataire+=ADDRESSEMAIL)+ (pj=TEXT)? corps=Contenu
+;
+
+//TODO gérer l'invitation.
+Contenu:
+	corp=TEXT & invitation=TEXT
+;
+
+Objet:
+	obj=QCM cond=CondFin
+	| mail=Mail dateEnvoi=DATE
+	| synchDate=SynchDate cond=CondFin
+	| dateFin=DATE
+	| depot=Depot
+;
+
+QCM:
+	type=TypeQCM intitule=TEXT (responses+=TEXT)* suite=QCM?
+;
+
+enum TypeQCM:
+	OPENQUESTION='OpenQuestion' |
+	CHECKBOX='CheckBox' |
+	RADIOBUTTON='RadioButton'
+;
+
+// TODO Ajouter bool (% des gens qui doivent participer.
+CondFin:
+	date=DATE
+;
+
+// TODO precision a spécifier.
+SynchDate:
+	start=DATE end=DATE precision=TEXT?
+;
+
+// TODO format a spécifier.
+Depot:
+	intitule=TEXT limiteSize=INT (format+=TEXT)* 
+;
+
+
+// Lexing
+// TODO Ajouter un verificateur.
+terminal DATE:
+	('0'..'2')('0'..'9')'/'('0'..'1')('0'..'9')'/'('0'..'9')('0'..'9')
+;
+
+terminal ADDRESSEMAIL:
+	('0'..'9'|'a'..'z'|'A'..'Z')+ "@" ('a'..'z'|'A'..'Z')+ 	"." ('a'..'z'|'A'..'Z')+
+;
+
+terminal TEXT:
+	.
+;
+
+/* xtext comon terminals
+
+terminal ID: 
+    '^'?('a'..'z'|'A'..'Z'|'_')('a'..'z'|'A'..'Z'|'_'|'0'..'9')*;
+ 
+terminal INT returns ecore::EInt: 
+    ('0'..'9')+;
+ 
+terminal STRING: 
+    '"' ( '\\'('b'|'t'|'n'|'f'|'r'|'u'|'"'|"'"|'\\') | !('\\'|'"') )* '"' |
+    "'" ( '\\'('b'|'t'|'n'|'f'|'r'|'u'|'"'|"'"|'\\') | !('\\'|"'") )* "'";
+ 
+terminal ML_COMMENT: 
+    '/*' -> '* /';
+ 
+terminal SL_COMMENT: 
+    '//' !('\n'|'\r')* ('\r'? '\n')?;
+ 
+terminal WS: 
+    (' '|'\t'|'\r'|'\n')+;
+ 
+terminal ANY_OTHER: 
+    .;
+ */
