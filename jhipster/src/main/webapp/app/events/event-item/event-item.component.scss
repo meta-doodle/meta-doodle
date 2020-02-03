@@ -1,0 +1,37 @@
+.main{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: "space-evenly";
+    background-color: #cccccc;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.container{
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.middle_container{
+    border-left: 1px solid grey;
+    border-right: 1px solid grey;
+    flex-grow: 3;
+}
+
+.left_container{
+    width: 20%;
+    font-weight: bold;
+}
+
+.right_container{
+    width: 10%;
+}
+
+.manage_button{
+    width: 100%;
+    border-radius: 5px;
+    margin-bottom: 2px;
+}

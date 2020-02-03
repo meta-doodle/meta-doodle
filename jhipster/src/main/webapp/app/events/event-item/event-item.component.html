@@ -1,0 +1,15 @@
+<div class="main">
+    <div class="container left_container">
+        <p>{{event.title}}</p>
+    </div>
+    <div class="container middle_container">
+        <p>{{event.owner}}</p>
+        <p>{{event.desc}}</p>
+    </div>
+    <div class="container right_container">
+        <button class="btn btn-sm btn-success manage_button" (click)="details()">Détails</button>
+        <button *ngIf="event.status == 'invited'" class="btn btn-sm btn-success manage_button"
+            (click)="join()">Rejoindre</button>
+        <button class="btn btn-sm btn-danger manage_button" (click)="delete()">Supprimer</button>
+    </div>
+</div>
