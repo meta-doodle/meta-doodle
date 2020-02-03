@@ -7,7 +7,7 @@
         <p>{{event.desc}}</p>
     </div>
     <div class="container right_container">
-        <button class="btn btn-sm btn-success manage_button" (click)="details()">Détails</button>
+        <button class="btn btn-sm btn-success manage_button detail_button" (click)="details()">Détails</button>
         <button *ngIf="event.status == 'invited'" class="btn btn-sm btn-success manage_button"
             (click)="join()">Rejoindre</button>
         <button class="btn btn-sm btn-danger manage_button" (click)="delete()">Supprimer</button>
