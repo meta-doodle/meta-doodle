@@ -1,31 +1,35 @@
-grammar org.xtext.mdl.V1 with org.eclipse.xtext.common.Terminals
+grammar org.xtext.mdl.V1 
+	hidden(WS, ML_COMMENT, SL_COMMENT)
 
 generate v1 "http://www.xtext.org/mdl/V1"
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
 
 // Parsing
 Workflow:
-	(dateDebut=DATE)? (etapes+=Etape)*
+	(dateDebut=DATE  ENDLINE)? (etapes+=Etape)*
 ;
 
-
 Etape :
-	id=ID name=STRING rappels+=Rappel* obj=Objet
+	'StepNumber:' id=IDNUM 'StepName:' name=STRING 
+	(LP rappels+=Rappel+ RP)? STEP 
+	obj=Objet ';'
 ;
 
 Objet :
-	obj=QCM cond=CondFin
-	| mail=Mail dateEnvoi=DATE
-	| synchDate=SynchDate cond=CondFin
-	| dateFin=DATE
+	obj=QCM STEP cond=CondFin
+	| mail=Mail STEP dateEnvoi=DATE
+	| synchDate=SynchDate STEP cond=CondFin
+	| dateFin=DATE // Etape vide
 	| depot=Depot
 ;
 
 CondFin:
-	date=DATE
+	date=DATE ( 'ParticipantsRequired:' ParticipantsRequired=INT)?
 ;
 
+// TODO "Precision" a developper.
 SynchDate:
-	start=DATE end=DATE precision=STRING?
+	'StartingDate:' start=DATE 'EndingDate:' end=DATE 'Accuracy:' precision=STRING?
 ;
 
 Depot:
@@ -34,7 +38,9 @@ Depot:
 
 
 QCM:
-	type=TypeQCM intitule=STRING (responses+=STRING)* suite=QCM?
+	LA 'QuestionType:' type=TypeQCM STEP
+	'Title:' intitule=STRING 
+	(STEP 'PossibleResponse:' responses+=STRING)* RA (STEP suite=QCM)?
 ;
 
 TypeQCM:
@@ -45,16 +51,19 @@ TypeQCM:
 
 
 Rappel:
-	date=DATE mail=Mail
+	(date+=DATE)+ STEP mail=Mail
 ;
 
 Mail:
-	'From' expediteur=ADDRESSEMAIL 'To' (destinataire+=ADDRESSEMAIL)+ 'PJ'(pj=STRING)? 'Body' corps=Contenu
+	'From:' expediteur=ADDRESSEMAIL STEP
+	'To:' (destinataire+=ADDRESSEMAIL)+ STEP 
+	('PJ:'pj=STRING STEP )?
+	'Body:' corps=Contenu
 ;
 
-// A REDIFINIR
+// "invitation" A REDIFINIR
 Contenu:
-	corps=STRING & invitation=STRING
+	(corps=STRING (invitation=STRING)? | invitation=STRING (corps=STRING)?)
 ;
 
 // Lexing
@@ -67,3 +76,34 @@ terminal ADDRESSEMAIL:
 	('0'..'9'|'a'..'z'|'A'..'Z')+ "@" ('a'..'z'|'A'..'Z')+ 	"." ('a'..'z'|'A'..'Z')+
 ;
 
+terminal ENDLINE: '\n';
+
+terminal IDNUM:
+	('0'..'9'|'a'..'z'|'A'..'Z')+
+;
+
+terminal RP: '(' ;
+terminal LP: ')' ;
+terminal RA: '{' ;
+terminal LA: '}' ;
+
+terminal STEP: '\n\t';
+
+terminal INT returns ecore::EInt: 
+    ('0'..'9')+;
+ 
+terminal STRING: 
+    '"' ( '\\'('b'|'t'|'n'|'f'|'r'|'u'|'"'|"'"|'\\') | !('\\'|'"') )* '"' |
+    "'" ( '\\'('b'|'t'|'n'|'f'|'r'|'u'|'"'|"'"|'\\') | !('\\'|"'") )* "'";
+ 
+terminal ML_COMMENT: 
+    '/*' -> '*/';
+ 
+terminal SL_COMMENT: 
+    '//' !('\n'|'\r')* ('\r'? '\n')?;
+ 
+terminal WS: 
+    (' '|'\r')+;
+ 
+terminal ANY_OTHER: 
+    .;
