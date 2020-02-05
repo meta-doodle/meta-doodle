@@ -6,7 +6,7 @@ export const manageRoute: Route = {
     path: 'manage',
     component: ManageComponent,
     data: {
-        authorities: ['ROLE_USER'],
+        /* authorities: ['ROLE_USER'], */
         pageTitle: 'Gérer'
     },
     canActivate: [UserRouteAccessService]
