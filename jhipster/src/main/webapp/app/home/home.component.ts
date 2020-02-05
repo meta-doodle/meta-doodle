@@ -13,6 +13,7 @@ import { Account } from 'app/core/user/account.model';
 export class HomeComponent implements OnInit, OnDestroy {
   account: Account | null = null;
   authSubscription?: Subscription;
+  name = 'Manu';
 
   constructor(private accountService: AccountService, private loginModalService: LoginModalService) {}
 

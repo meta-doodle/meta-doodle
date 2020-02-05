@@ -4,9 +4,10 @@ import { RouterModule } from '@angular/router';
 import { MdlSharedModule } from 'app/shared/shared.module';
 import { HOME_ROUTE } from './home.route';
 import { HomeComponent } from './home.component';
+import { SondageComponent } from 'app/sondage/sondage.component';
 
 @NgModule({
   imports: [MdlSharedModule, RouterModule.forChild([HOME_ROUTE])],
-  declarations: [HomeComponent]
+  declarations: [HomeComponent, SondageComponent]
 })
 export class MdlHomeModule {}

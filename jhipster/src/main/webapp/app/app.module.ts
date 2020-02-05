@@ -6,8 +6,10 @@ import { MdlSharedModule } from 'app/shared/shared.module';
 import { MdlCoreModule } from 'app/core/core.module';
 import { MdlAppRoutingModule } from './app-routing.module';
 import { MdlHomeModule } from './home/home.module';
+import { FormsModule } from '@angular/forms';
 import { MdlEntityModule } from './entities/entity.module';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
+
 import { MainComponent } from './layouts/main/main.component';
 import { NavbarComponent } from './layouts/navbar/navbar.component';
 import { FooterComponent } from './layouts/footer/footer.component';
@@ -22,7 +24,8 @@ import { ErrorComponent } from './layouts/error/error.component';
     MdlHomeModule,
     // jhipster-needle-angular-add-module JHipster will add new module here
     MdlEntityModule,
-    MdlAppRoutingModule
+    MdlAppRoutingModule,
+    FormsModule
   ],
   declarations: [MainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, FooterComponent],
   bootstrap: [MainComponent]
