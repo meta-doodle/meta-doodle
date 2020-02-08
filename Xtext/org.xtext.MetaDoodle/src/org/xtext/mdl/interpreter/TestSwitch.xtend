@@ -5,6 +5,7 @@ import org.xtext.mdl.v1.QCM
 import org.xtext.mdl.v1.SynchDate
 import org.xtext.mdl.v1.Depot
 import org.xtext.mdl.v1.Mail
+import org.xtext.mdl.v1.V1Factory
 
 class TestSwitch extends V1Switch<Boolean> {
 	
@@ -22,6 +23,15 @@ class TestSwitch extends V1Switch<Boolean> {
 	
 	override caseMail(Mail object) {
 		return Boolean.FALSE
+	}
+	
+	def static void main(String[] args) {
+		val s = new TestSwitch
+		val f = V1Factory.eINSTANCE
+		val depot = f.createDepot
+		val qcm= f.createQCM
+		println(s.doSwitch(depot))
+		println(s.doSwitch(qcm))
 	}
 	
 }
