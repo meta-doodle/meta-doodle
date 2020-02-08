@@ -1,0 +1,108 @@
+grammar org.xtext.mdl.V1 
+	hidden(WS, ML_COMMENT, SL_COMMENT)
+
+generate v1 "http://www.xtext.org/mdl/V1"
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+
+// Parsing
+Workflow:
+	(dateDebut=DATE  ENDLINE)? (etapes+=Etape)*
+;
+
+Etape :
+	'StepNumber:' id=IDNUM 'StepName:' name=STRING 
+	(LP rappels+=Rappel+ RP)? STEP 
+	obj=Objet ';'
+;
+
+Objet :
+	obj=QCM STEP cond=CondFin
+	| mail=Mail STEP dateEnvoi=DATE
+	| synchDate=SynchDate STEP cond=CondFin
+	| dateFin=DATE // Etape vide
+	| depot=Depot
+;
+
+CondFin:
+	date=DATE ( 'ParticipantsRequired:' ParticipantsRequired=INT)?
+;
+
+// TODO "Precision" a developper.
+SynchDate:
+	'StartingDate:' start=DATE 'EndingDate:' end=DATE 'Accuracy:' precision=STRING?
+;
+
+Depot:
+	'TitleSubmission:' intitule=STRING 'SizeLimite:' limiteSize=INT (format+=STRING)* 
+;
+
+QCM:
+	LA 'QuestionType:' type=TypeQCM STEP
+	'TitleQuestion:' intitule=STRING 
+	(STEP 'PossibleResponse:' responses+=STRING)* RA (STEP suite=QCM)?
+;
+
+TypeQCM:
+	OPENQUESTION='OpenQuestion' |
+	CHECKBOX='CheckBox' |
+	RADIOBUTTON='RadioButton'
+;
+
+
+Rappel:
+	(date+=DATE)+ STEP mail=Mail
+;
+
+Mail:
+	'From:' expediteur=ADDRESSEMAIL STEP
+	'To:' (destinataire+=ADDRESSEMAIL)+ STEP 
+	('Attachment:'pj=STRING STEP )?
+	'Body:' corps=Contenu // TODO Ajouter un symbole de fin de mail ?
+;
+
+// "invitation" A REDIFINIR
+Contenu:
+	(corps=STRING (invitation=STRING)? | invitation=STRING (corps=STRING)?)
+;
+
+// Lexing
+// TODO Ajouter un verificateur.
+terminal DATE:
+	('0'..'2')('0'..'9')'/'('0'..'1')('0'..'9')'/'('0'..'9')('0'..'9')
+;
+
+terminal ADDRESSEMAIL:
+	('0'..'9'|'a'..'z'|'A'..'Z')+ "@" ('a'..'z'|'A'..'Z')+ 	"." ('a'..'z'|'A'..'Z')+
+;
+
+terminal ENDLINE: '\n';
+
+terminal IDNUM:
+	('0'..'9'|'a'..'z'|'A'..'Z')+
+;
+
+terminal RP: '(' ;
+terminal LP: ')' ;
+terminal RA: '{' ;
+terminal LA: '}' ;
+
+terminal STEP: '\n\t';
+
+terminal INT returns ecore::EInt: 
+    ('0'..'9')+;
+ 
+terminal STRING: 
+    '"' ( '\\'('b'|'t'|'n'|'f'|'r'|'u'|'"'|"'"|'\\') | !('\\'|'"') )* '"' |
+    "'" ( '\\'('b'|'t'|'n'|'f'|'r'|'u'|'"'|"'"|'\\') | !('\\'|"'") )* "'";
+ 
+terminal ML_COMMENT: 
+    '/*' -> '*/';
+ 
+terminal SL_COMMENT: 
+    '//' !('\n'|'\r')* ('\r'? '\n')?;
+ 
+terminal WS: 
+    (' '|'\r')+;
+ 
+terminal ANY_OTHER: 
+    .;
