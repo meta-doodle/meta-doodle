@@ -1820,7 +1820,7 @@ rule__QCM__Group__5__Impl
 :
 (
 	{ before(grammarAccess.getQCMAccess().getGroup_5()); }
-	(rule__QCM__Group_5__0)*
+	(rule__QCM__Group_5__0)?
 	{ after(grammarAccess.getQCMAccess().getGroup_5()); }
 )
 ;
@@ -1926,9 +1926,16 @@ rule__QCM__Group_5__1__Impl
 	}
 :
 (
-	{ before(grammarAccess.getQCMAccess().getResponsesAssignment_5_1()); }
-	(rule__QCM__ResponsesAssignment_5_1)
-	{ after(grammarAccess.getQCMAccess().getResponsesAssignment_5_1()); }
+	(
+		{ before(grammarAccess.getQCMAccess().getResponsesAssignment_5_1()); }
+		(rule__QCM__ResponsesAssignment_5_1)
+		{ after(grammarAccess.getQCMAccess().getResponsesAssignment_5_1()); }
+	)
+	(
+		{ before(grammarAccess.getQCMAccess().getResponsesAssignment_5_1()); }
+		(rule__QCM__ResponsesAssignment_5_1)*
+		{ after(grammarAccess.getQCMAccess().getResponsesAssignment_5_1()); }
+	)
 )
 ;
 finally {

@@ -1,0 +1,56 @@
+StartDate: 02/01/2019 {
+	StepNumber: 1 StepName: "invitation"
+	Mail {
+		From: toto@gmail.com
+		To: riri@gmail.com  fifi@gmail.com  loulou@gmail.com
+		Body: "Je vous invite à mon anniversaire !!!" 
+	}
+	02/01/19 // date d'envoie
+}
+{
+	StepNumber: 2 StepName: "Choix d'une date" 
+		( Reminder 12/01/19 22/01/19{
+			From: toto@gmail.com
+			To: riri@gmail.com  fifi@gmail.com  loulou@gmail.com
+			Body: "N'oubliez pas d'ajouter vos disponibilités." 
+			} 
+		)
+	Calendar {
+		StartingDate: 01/02/19 EndingDate: 29/02/19 Accuracy: "1 Day"
+	}
+	//ENDCOND
+	25/01/19
+	ParticipantsRequired: 3
+}
+{ 
+	StepNumber: 3 StepName: "Choix du dîner"
+ 	Questions {
+		QuestionType: CheckBox
+		TitleQuestion: "Que voulez vous manger ?"
+		PossibleResponse: "Pizza" "Crèpe" "BBQ"
+	}
+	{	
+		QuestionType: OpenQuestion
+		TitleQuestion: "Ou autre chose :"
+	}
+	29/01/19 //endcond
+}
+{ 
+	StepNumber: 4 StepName: "Rien" 
+		TimeLaps 01/03/19
+}
+{ 
+	StepNumber: 5 StepName: "Dépôt des appréciations de la soirée" 
+		( Reminder 10/03/19 15/03/19
+    		{ 
+    			From: toto@gmail.com
+       			To: riri@gmail.com  fifi@gmail.com  loulou@gmail.com
+        		Attachment: "A:/toto/Doc/Formulaire.pdf"
+       			Body: "N’oubliez pas de répondre au formulaire ci-joint."
+			}
+		)
+    FileDepository {
+    	TitleSubmission: "Dépot de formulaire."
+    	SizeLimite: 5 "Mb" 
+	}
+}

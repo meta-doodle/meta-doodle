@@ -1555,7 +1555,7 @@ public class InternalV1Parser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleQCM"
-    // InternalV1.g:698:1: ruleQCM returns [EObject current=null] : (this_LA_0= RULE_LA otherlv_1= 'QuestionType:' ( (lv_type_2_0= ruleTypeQCM ) ) otherlv_3= 'TitleQuestion:' ( (lv_intitule_4_0= RULE_STRING ) ) (otherlv_5= 'PossibleResponse:' ( (lv_responses_6_0= RULE_STRING ) ) )* this_RA_7= RULE_RA ( (lv_suite_8_0= ruleQCM ) )? ) ;
+    // InternalV1.g:698:1: ruleQCM returns [EObject current=null] : (this_LA_0= RULE_LA otherlv_1= 'QuestionType:' ( (lv_type_2_0= ruleTypeQCM ) ) otherlv_3= 'TitleQuestion:' ( (lv_intitule_4_0= RULE_STRING ) ) (otherlv_5= 'PossibleResponse:' ( (lv_responses_6_0= RULE_STRING ) )+ )? this_RA_7= RULE_RA ( (lv_suite_8_0= ruleQCM ) )? ) ;
     public final EObject ruleQCM() throws RecognitionException {
         EObject current = null;
 
@@ -1575,11 +1575,11 @@ public class InternalV1Parser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalV1.g:704:2: ( (this_LA_0= RULE_LA otherlv_1= 'QuestionType:' ( (lv_type_2_0= ruleTypeQCM ) ) otherlv_3= 'TitleQuestion:' ( (lv_intitule_4_0= RULE_STRING ) ) (otherlv_5= 'PossibleResponse:' ( (lv_responses_6_0= RULE_STRING ) ) )* this_RA_7= RULE_RA ( (lv_suite_8_0= ruleQCM ) )? ) )
-            // InternalV1.g:705:2: (this_LA_0= RULE_LA otherlv_1= 'QuestionType:' ( (lv_type_2_0= ruleTypeQCM ) ) otherlv_3= 'TitleQuestion:' ( (lv_intitule_4_0= RULE_STRING ) ) (otherlv_5= 'PossibleResponse:' ( (lv_responses_6_0= RULE_STRING ) ) )* this_RA_7= RULE_RA ( (lv_suite_8_0= ruleQCM ) )? )
+            // InternalV1.g:704:2: ( (this_LA_0= RULE_LA otherlv_1= 'QuestionType:' ( (lv_type_2_0= ruleTypeQCM ) ) otherlv_3= 'TitleQuestion:' ( (lv_intitule_4_0= RULE_STRING ) ) (otherlv_5= 'PossibleResponse:' ( (lv_responses_6_0= RULE_STRING ) )+ )? this_RA_7= RULE_RA ( (lv_suite_8_0= ruleQCM ) )? ) )
+            // InternalV1.g:705:2: (this_LA_0= RULE_LA otherlv_1= 'QuestionType:' ( (lv_type_2_0= ruleTypeQCM ) ) otherlv_3= 'TitleQuestion:' ( (lv_intitule_4_0= RULE_STRING ) ) (otherlv_5= 'PossibleResponse:' ( (lv_responses_6_0= RULE_STRING ) )+ )? this_RA_7= RULE_RA ( (lv_suite_8_0= ruleQCM ) )? )
             {
-            // InternalV1.g:705:2: (this_LA_0= RULE_LA otherlv_1= 'QuestionType:' ( (lv_type_2_0= ruleTypeQCM ) ) otherlv_3= 'TitleQuestion:' ( (lv_intitule_4_0= RULE_STRING ) ) (otherlv_5= 'PossibleResponse:' ( (lv_responses_6_0= RULE_STRING ) ) )* this_RA_7= RULE_RA ( (lv_suite_8_0= ruleQCM ) )? )
-            // InternalV1.g:706:3: this_LA_0= RULE_LA otherlv_1= 'QuestionType:' ( (lv_type_2_0= ruleTypeQCM ) ) otherlv_3= 'TitleQuestion:' ( (lv_intitule_4_0= RULE_STRING ) ) (otherlv_5= 'PossibleResponse:' ( (lv_responses_6_0= RULE_STRING ) ) )* this_RA_7= RULE_RA ( (lv_suite_8_0= ruleQCM ) )?
+            // InternalV1.g:705:2: (this_LA_0= RULE_LA otherlv_1= 'QuestionType:' ( (lv_type_2_0= ruleTypeQCM ) ) otherlv_3= 'TitleQuestion:' ( (lv_intitule_4_0= RULE_STRING ) ) (otherlv_5= 'PossibleResponse:' ( (lv_responses_6_0= RULE_STRING ) )+ )? this_RA_7= RULE_RA ( (lv_suite_8_0= ruleQCM ) )? )
+            // InternalV1.g:706:3: this_LA_0= RULE_LA otherlv_1= 'QuestionType:' ( (lv_type_2_0= ruleTypeQCM ) ) otherlv_3= 'TitleQuestion:' ( (lv_intitule_4_0= RULE_STRING ) ) (otherlv_5= 'PossibleResponse:' ( (lv_responses_6_0= RULE_STRING ) )+ )? this_RA_7= RULE_RA ( (lv_suite_8_0= ruleQCM ) )?
             {
             this_LA_0=(Token)match(input,RULE_LA,FOLLOW_21); 
 
@@ -1650,72 +1650,88 @@ public class InternalV1Parser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalV1.g:755:3: (otherlv_5= 'PossibleResponse:' ( (lv_responses_6_0= RULE_STRING ) ) )*
-            loop9:
-            do {
-                int alt9=2;
-                int LA9_0 = input.LA(1);
+            // InternalV1.g:755:3: (otherlv_5= 'PossibleResponse:' ( (lv_responses_6_0= RULE_STRING ) )+ )?
+            int alt10=2;
+            int LA10_0 = input.LA(1);
 
-                if ( (LA9_0==33) ) {
-                    alt9=1;
-                }
+            if ( (LA10_0==33) ) {
+                alt10=1;
+            }
+            switch (alt10) {
+                case 1 :
+                    // InternalV1.g:756:4: otherlv_5= 'PossibleResponse:' ( (lv_responses_6_0= RULE_STRING ) )+
+                    {
+                    otherlv_5=(Token)match(input,33,FOLLOW_8); 
 
+                    				newLeafNode(otherlv_5, grammarAccess.getQCMAccess().getPossibleResponseKeyword_5_0());
+                    			
+                    // InternalV1.g:760:4: ( (lv_responses_6_0= RULE_STRING ) )+
+                    int cnt9=0;
+                    loop9:
+                    do {
+                        int alt9=2;
+                        int LA9_0 = input.LA(1);
 
-                switch (alt9) {
-            	case 1 :
-            	    // InternalV1.g:756:4: otherlv_5= 'PossibleResponse:' ( (lv_responses_6_0= RULE_STRING ) )
-            	    {
-            	    otherlv_5=(Token)match(input,33,FOLLOW_8); 
-
-            	    				newLeafNode(otherlv_5, grammarAccess.getQCMAccess().getPossibleResponseKeyword_5_0());
-            	    			
-            	    // InternalV1.g:760:4: ( (lv_responses_6_0= RULE_STRING ) )
-            	    // InternalV1.g:761:5: (lv_responses_6_0= RULE_STRING )
-            	    {
-            	    // InternalV1.g:761:5: (lv_responses_6_0= RULE_STRING )
-            	    // InternalV1.g:762:6: lv_responses_6_0= RULE_STRING
-            	    {
-            	    lv_responses_6_0=(Token)match(input,RULE_STRING,FOLLOW_24); 
-
-            	    						newLeafNode(lv_responses_6_0, grammarAccess.getQCMAccess().getResponsesSTRINGTerminalRuleCall_5_1_0());
-            	    					
-
-            	    						if (current==null) {
-            	    							current = createModelElement(grammarAccess.getQCMRule());
-            	    						}
-            	    						addWithLastConsumed(
-            	    							current,
-            	    							"responses",
-            	    							lv_responses_6_0,
-            	    							"org.eclipse.xtext.common.Terminals.STRING");
-            	    					
-
-            	    }
+                        if ( (LA9_0==RULE_STRING) ) {
+                            alt9=1;
+                        }
 
 
-            	    }
+                        switch (alt9) {
+                    	case 1 :
+                    	    // InternalV1.g:761:5: (lv_responses_6_0= RULE_STRING )
+                    	    {
+                    	    // InternalV1.g:761:5: (lv_responses_6_0= RULE_STRING )
+                    	    // InternalV1.g:762:6: lv_responses_6_0= RULE_STRING
+                    	    {
+                    	    lv_responses_6_0=(Token)match(input,RULE_STRING,FOLLOW_18); 
+
+                    	    						newLeafNode(lv_responses_6_0, grammarAccess.getQCMAccess().getResponsesSTRINGTerminalRuleCall_5_1_0());
+                    	    					
+
+                    	    						if (current==null) {
+                    	    							current = createModelElement(grammarAccess.getQCMRule());
+                    	    						}
+                    	    						addWithLastConsumed(
+                    	    							current,
+                    	    							"responses",
+                    	    							lv_responses_6_0,
+                    	    							"org.eclipse.xtext.common.Terminals.STRING");
+                    	    					
+
+                    	    }
 
 
-            	    }
-            	    break;
+                    	    }
+                    	    break;
 
-            	default :
-            	    break loop9;
-                }
-            } while (true);
+                    	default :
+                    	    if ( cnt9 >= 1 ) break loop9;
+                                EarlyExitException eee =
+                                    new EarlyExitException(9, input);
+                                throw eee;
+                        }
+                        cnt9++;
+                    } while (true);
+
+
+                    }
+                    break;
+
+            }
 
             this_RA_7=(Token)match(input,RULE_RA,FOLLOW_4); 
 
             			newLeafNode(this_RA_7, grammarAccess.getQCMAccess().getRATerminalRuleCall_6());
             		
             // InternalV1.g:783:3: ( (lv_suite_8_0= ruleQCM ) )?
-            int alt10=2;
-            int LA10_0 = input.LA(1);
+            int alt11=2;
+            int LA11_0 = input.LA(1);
 
-            if ( (LA10_0==RULE_LA) ) {
-                alt10=1;
+            if ( (LA11_0==RULE_LA) ) {
+                alt11=1;
             }
-            switch (alt10) {
+            switch (alt11) {
                 case 1 :
                     // InternalV1.g:784:4: (lv_suite_8_0= ruleQCM )
                     {
@@ -1825,31 +1841,31 @@ public class InternalV1Parser extends AbstractInternalAntlrParser {
             // InternalV1.g:820:2: ( ( (lv_OPENQUESTION_0_0= 'OpenQuestion' ) ) | ( (lv_CHECKBOX_1_0= 'CheckBox' ) ) | ( (lv_RADIOBUTTON_2_0= 'RadioButton' ) ) )
             {
             // InternalV1.g:820:2: ( ( (lv_OPENQUESTION_0_0= 'OpenQuestion' ) ) | ( (lv_CHECKBOX_1_0= 'CheckBox' ) ) | ( (lv_RADIOBUTTON_2_0= 'RadioButton' ) ) )
-            int alt11=3;
+            int alt12=3;
             switch ( input.LA(1) ) {
             case 34:
                 {
-                alt11=1;
+                alt12=1;
                 }
                 break;
             case 35:
                 {
-                alt11=2;
+                alt12=2;
                 }
                 break;
             case 36:
                 {
-                alt11=3;
+                alt12=3;
                 }
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("", 11, 0, input);
+                    new NoViableAltException("", 12, 0, input);
 
                 throw nvae;
             }
 
-            switch (alt11) {
+            switch (alt12) {
                 case 1 :
                     // InternalV1.g:821:3: ( (lv_OPENQUESTION_0_0= 'OpenQuestion' ) )
                     {
@@ -2017,18 +2033,18 @@ public class InternalV1Parser extends AbstractInternalAntlrParser {
             			newLeafNode(otherlv_0, grammarAccess.getReminderAccess().getReminderKeyword_0());
             		
             // InternalV1.g:888:3: ( (lv_date_1_0= RULE_DATE ) )+
-            int cnt12=0;
-            loop12:
+            int cnt13=0;
+            loop13:
             do {
-                int alt12=2;
-                int LA12_0 = input.LA(1);
+                int alt13=2;
+                int LA13_0 = input.LA(1);
 
-                if ( (LA12_0==RULE_DATE) ) {
-                    alt12=1;
+                if ( (LA13_0==RULE_DATE) ) {
+                    alt13=1;
                 }
 
 
-                switch (alt12) {
+                switch (alt13) {
             	case 1 :
             	    // InternalV1.g:889:4: (lv_date_1_0= RULE_DATE )
             	    {
@@ -2057,12 +2073,12 @@ public class InternalV1Parser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    if ( cnt12 >= 1 ) break loop12;
+            	    if ( cnt13 >= 1 ) break loop13;
                         EarlyExitException eee =
-                            new EarlyExitException(12, input);
+                            new EarlyExitException(13, input);
                         throw eee;
                 }
-                cnt12++;
+                cnt13++;
             } while (true);
 
             // InternalV1.g:906:3: ( (lv_mail_2_0= ruleMail ) )
@@ -2220,18 +2236,18 @@ public class InternalV1Parser extends AbstractInternalAntlrParser {
             			newLeafNode(otherlv_3, grammarAccess.getMailAccess().getToKeyword_3());
             		
             // InternalV1.g:974:3: ( (lv_destinataire_4_0= RULE_ADDRESSEMAIL ) )+
-            int cnt13=0;
-            loop13:
+            int cnt14=0;
+            loop14:
             do {
-                int alt13=2;
-                int LA13_0 = input.LA(1);
+                int alt14=2;
+                int LA14_0 = input.LA(1);
 
-                if ( (LA13_0==RULE_ADDRESSEMAIL) ) {
-                    alt13=1;
+                if ( (LA14_0==RULE_ADDRESSEMAIL) ) {
+                    alt14=1;
                 }
 
 
-                switch (alt13) {
+                switch (alt14) {
             	case 1 :
             	    // InternalV1.g:975:4: (lv_destinataire_4_0= RULE_ADDRESSEMAIL )
             	    {
@@ -2260,22 +2276,22 @@ public class InternalV1Parser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    if ( cnt13 >= 1 ) break loop13;
+            	    if ( cnt14 >= 1 ) break loop14;
                         EarlyExitException eee =
-                            new EarlyExitException(13, input);
+                            new EarlyExitException(14, input);
                         throw eee;
                 }
-                cnt13++;
+                cnt14++;
             } while (true);
 
             // InternalV1.g:992:3: (otherlv_5= 'Attachment:' ( (lv_pj_6_0= RULE_STRING ) ) )?
-            int alt14=2;
-            int LA14_0 = input.LA(1);
+            int alt15=2;
+            int LA15_0 = input.LA(1);
 
-            if ( (LA14_0==40) ) {
-                alt14=1;
+            if ( (LA15_0==40) ) {
+                alt15=1;
             }
-            switch (alt14) {
+            switch (alt15) {
                 case 1 :
                     // InternalV1.g:993:4: otherlv_5= 'Attachment:' ( (lv_pj_6_0= RULE_STRING ) )
                     {

@@ -37,7 +37,7 @@ Depot:
 QCM:
     LA 'QuestionType:' type=TypeQCM
     'TitleQuestion:' intitule=STRING
-    ('PossibleResponse:' responses+=STRING)* RA (suite=QCM)?
+    ('PossibleResponse:' (responses+=STRING)+)? RA (suite=QCM)?
 ;
 
 TypeQCM:

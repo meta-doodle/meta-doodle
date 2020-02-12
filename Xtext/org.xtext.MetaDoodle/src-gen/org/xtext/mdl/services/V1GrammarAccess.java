@@ -408,11 +408,11 @@ public class V1GrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cSuiteQCMParserRuleCall_7_0 = (RuleCall)cSuiteAssignment_7.eContents().get(0);
 		
 		//QCM:
-		//	LA 'QuestionType:' type=TypeQCM 'TitleQuestion:' intitule=STRING ('PossibleResponse:' responses+=STRING)* RA
+		//	LA 'QuestionType:' type=TypeQCM 'TitleQuestion:' intitule=STRING ('PossibleResponse:' responses+=STRING+)? RA
 		//	suite=QCM?;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//LA 'QuestionType:' type=TypeQCM 'TitleQuestion:' intitule=STRING ('PossibleResponse:' responses+=STRING)* RA suite=QCM?
+		//LA 'QuestionType:' type=TypeQCM 'TitleQuestion:' intitule=STRING ('PossibleResponse:' responses+=STRING+)? RA suite=QCM?
 		public Group getGroup() { return cGroup; }
 		
 		//LA
@@ -436,13 +436,13 @@ public class V1GrammarAccess extends AbstractGrammarElementFinder {
 		//STRING
 		public RuleCall getIntituleSTRINGTerminalRuleCall_4_0() { return cIntituleSTRINGTerminalRuleCall_4_0; }
 		
-		//('PossibleResponse:' responses+=STRING)*
+		//('PossibleResponse:' responses+=STRING+)?
 		public Group getGroup_5() { return cGroup_5; }
 		
 		//'PossibleResponse:'
 		public Keyword getPossibleResponseKeyword_5_0() { return cPossibleResponseKeyword_5_0; }
 		
-		//responses+=STRING
+		//responses+=STRING+
 		public Assignment getResponsesAssignment_5_1() { return cResponsesAssignment_5_1; }
 		
 		//STRING
@@ -750,7 +750,7 @@ public class V1GrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//QCM:
-	//	LA 'QuestionType:' type=TypeQCM 'TitleQuestion:' intitule=STRING ('PossibleResponse:' responses+=STRING)* RA
+	//	LA 'QuestionType:' type=TypeQCM 'TitleQuestion:' intitule=STRING ('PossibleResponse:' responses+=STRING+)? RA
 	//	suite=QCM?;
 	public QCMElements getQCMAccess() {
 		return pQCM;

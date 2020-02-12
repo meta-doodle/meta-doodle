@@ -774,8 +774,8 @@ ruleQCM returns [EObject current=null]
 							"org.eclipse.xtext.common.Terminals.STRING");
 					}
 				)
-			)
-		)*
+			)+
+		)?
 		this_RA_7=RULE_RA
 		{
 			newLeafNode(this_RA_7, grammarAccess.getQCMAccess().getRATerminalRuleCall_6());
