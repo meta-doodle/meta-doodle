@@ -1,6 +1,8 @@
 # Ignore plugin.xml_gen and feature.xml_gen files, when build Eclipse Plugins.
 *.xml_gen
 
+test-bin/
+
 # eclipse/xtext-lib
 /.m2/
 bin/
