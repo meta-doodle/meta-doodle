@@ -1,10 +1,11 @@
 $footer-height: 2.5rem;
 
-.footer{
+.footer-bottom{
     position: absolute;
     bottom: 0;
     width: 100%;
     height: $footer-height;
+    padding-top: 15px;
 }
 
 .page{
@@ -14,4 +15,5 @@ $footer-height: 2.5rem;
 
 .page-content{
     max-width: 100%;
+    padding-bottom: $footer-height;
 }
