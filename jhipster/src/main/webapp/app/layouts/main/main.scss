@@ -1,0 +1,17 @@
+$footer-height: 2.5rem;
+
+.footer{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: $footer-height;
+}
+
+.page{
+    position: relative;
+    min-height: 100vh;
+}
+
+.page-content{
+    max-width: 100%;
+}
