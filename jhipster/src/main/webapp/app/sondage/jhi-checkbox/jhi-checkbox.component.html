@@ -1,0 +1,9 @@
+<label for="">{{ this.title }}</label>
+
+<!--form class="" action="index.html" method="post"-->
+<ul>
+  <li class="custom-control custom-checkbox"" *ngFor="let item of possibleresponse; let i = index">
+    <input class="custom-control-input" type="checkbox" id="{{ item.id }}" name="checkbox" unchecked />
+    <label class="custom-control-label" for="{{ item.id }}">{{ item.label }}</label>
+  </li>
+<ul>

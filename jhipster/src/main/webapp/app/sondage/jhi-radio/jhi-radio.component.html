@@ -1,0 +1,11 @@
+<label for="">{{ this.title }}</label>
+
+<!--form class="" action="index.html" method="post"-->
+<form (ngSubmit)="onSubmit(f)" #f="ngForm">
+  <ul>
+    <li class="form-check" *ngFor="let item of possibleresponse; let i = index">
+      <input class="form-check-input" type="radio" id="{{ item.id }}" name="radio" unchecked/>
+      <label class="form-check-label" for="{{ item.id }}">{{ item.label }}</label>
+    </li>
+  <ul>
+</form>

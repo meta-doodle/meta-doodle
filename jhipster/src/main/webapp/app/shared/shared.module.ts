@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { MdlSharedLibsModule } from './shared-libs.module';
+
 import { AlertComponent } from './alert/alert.component';
 import { AlertErrorComponent } from './alert/alert-error.component';
 import { LoginModalComponent } from './login/login.component';
