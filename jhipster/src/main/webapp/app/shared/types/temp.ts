@@ -6,7 +6,7 @@
 
 export interface IQuestion {
     answerType: string,
-    comment: string,
+    title: string,
     restrictions: Array<IRestriction>
 }
 

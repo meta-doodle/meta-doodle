@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { IQuestion } from 'app/shared/types/temp';
 
 @Component({
   moduleId: module.id,
@@ -7,23 +8,12 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['jhi-radio.component.scss']
 })
 export class JhiRadioComponent implements OnInit {
-  num!: number;
-  type = '';
-  title!: string;
-  possibleresponse!: Object[];
 
   @Input()
-  question!: {
-    reponseType: string;
-    commentaire: string;
-    restrictions: Object[];
-  };
+  question!: IQuestion;
   constructor() { }
 
   ngOnInit(): void {
-    this.type = this.question.reponseType;
-    this.title = this.question.commentaire;
-    this.possibleresponse = this.question.restrictions;
   }
 
   nextQuestion(): void { }
