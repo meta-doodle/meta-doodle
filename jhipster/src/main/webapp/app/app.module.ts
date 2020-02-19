@@ -30,4 +30,4 @@ import { ErrorComponent } from './layouts/error/error.component';
   declarations: [MainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, FooterComponent],
   bootstrap: [MainComponent]
 })
-export class MdlAppModule {}
+export class MdlAppModule { }

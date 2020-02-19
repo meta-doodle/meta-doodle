@@ -10,15 +10,15 @@ export class JhiCheckboxComponent implements OnInit {
   num!: number;
   type = '';
   title!: string;
-  possibleresponse!: string[];
+  possibleresponse!: Object[];
 
   @Input()
   question!: {
     reponseType: string;
     commentaire: string;
-    restrictions: string[];
+    restrictions: Object[];
   };
-  constructor() {}
+  constructor() { }
 
   ngOnInit(): void {
     this.type = this.question.reponseType;

@@ -1,13 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  moduleId: module.id,
-  selector: 'jhi-sondage',
-  templateUrl: 'sondage.component.html',
-  styleUrls: ['sondage.component.scss']
+  selector: 'jhi-survey',
+  templateUrl: './surveyComp.component.html',
+  styleUrls: ['./surveyComp.component.scss']
 })
-export class SondageComponent implements OnInit {
-  constructor() {}
+export class SurveyComponent implements OnInit {
 
   questions = {
     '1': {
@@ -45,11 +43,13 @@ export class SondageComponent implements OnInit {
   title!: string;
   possibleresponse!: { label: string; id: string }[];
 
-  ngOnInit(): void {}
+  constructor() { }
+
+  ngOnInit(): void { }
 
   getCurrentQuestion(): any {
     this.index++;
-    //stocker answer
+    // stocker answer
     return this.questions[this.index];
   }
 

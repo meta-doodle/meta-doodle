@@ -24,6 +24,10 @@ const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
           path: 'account',
           loadChildren: () => import('./account/account.module').then(m => m.AccountModule)
         },
+        {
+          path: 'survey',
+          loadChildren: () => import('./survey/survey.module').then(m => m.SurveyModule)
+        },
         ...LAYOUT_ROUTES
       ],
       { enableTracing: DEBUG_INFO_ENABLED }
@@ -31,4 +35,4 @@ const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
   ],
   exports: [RouterModule]
 })
-export class MdlAppRoutingModule {}
+export class MdlAppRoutingModule { }
