@@ -1,13 +1,8 @@
-<div class="center">
-    <ul class="list-group" *ngIf="'CHECKBOX' === this.getType()">
-        <li class="list-group-item">
-            <jhi-checkbox [question]="this.getCurrentQuestion()"></jhi-checkbox>
-        </li>
-    </ul>
-    <ul class="list-group" *ngIf="'RADIO' === this.getType()">
-        <li class="list-group-item">
-            <jhi-radio [question]="this.getCurrentQuestion()"></jhi-radio>
-        </li>
-    </ul>
-    <button class="btn btn-primary" (click)="this.incrQuestionIndex()">Suivant</button>
+<div class="center survey-container">
+    <form [formGroup]="surveyForm" (ngSubmit)="submit()">
+        <div class="list-group">
+            <jhi-question *ngFor="let item of this.questions" [question]="item"></jhi-question>
+        </div>
+        <button class="btn btn-primary" (click)="this.submit()">Envoyer</button>
+    </form>
 </div>

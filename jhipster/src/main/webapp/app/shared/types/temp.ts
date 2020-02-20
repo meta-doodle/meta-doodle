@@ -7,6 +7,7 @@
 export interface IQuestion {
     answerType: string,
     title: string,
+    id: string,
     restrictions: Array<IRestriction>
 }
 

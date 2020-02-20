@@ -9,8 +9,7 @@ import { IQuestion } from 'app/shared/types/temp';
 })
 export class JhiRadioComponent implements OnInit {
 
-  @Input()
-  question!: IQuestion;
+  @Input() question!: IQuestion;
   constructor() { }
 
   ngOnInit(): void {

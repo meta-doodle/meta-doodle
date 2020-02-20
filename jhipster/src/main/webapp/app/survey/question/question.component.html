@@ -1,0 +1,10 @@
+<ul class="" *ngIf="'CHECKBOX' === this.question.answerType">
+    <li class="list-group-item">
+        <jhi-checkbox [question]="this.question"></jhi-checkbox>
+    </li>
+</ul>
+<ul class="" *ngIf="'RADIO' === this.question.answerType">
+    <li class="list-group-item">
+        <jhi-radio [question]="this.question"></jhi-radio>
+    </li>
+</ul>
