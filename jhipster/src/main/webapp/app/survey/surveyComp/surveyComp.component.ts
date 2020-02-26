@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IQuestion, IRestriction } from '../../shared/types/temp'
+import { IQuestion } from '../../shared/types/temp'
 import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
@@ -25,7 +25,7 @@ export class SurveyComponent implements OnInit {
     ]
   },
   {
-    answerType: 'CHECKBOX',
+    answerType: 'RADIO',
     title: 'Ils sont où les quignons à Kadoc ?',
     id: "quignons",
     restrictions: [
@@ -45,6 +45,7 @@ export class SurveyComponent implements OnInit {
   surveyForm: FormGroup
   formKeys: Array<string> = []
 
+
   constructor(private formBuilder: FormBuilder) {
     this.surveyForm = this.formBuilder.group({})
   }
@@ -53,45 +54,27 @@ export class SurveyComponent implements OnInit {
     this.initForm()
   }
 
-  initForm() {
-    let formGroup: Array<formEntry> = []
-    this.questions.forEach((question: IQuestion, index) => {
-      question.restrictions.forEach((rest: IRestriction, index) => {
-        var entry = { key: rest.id, value: "" }
-        formGroup.push(entry)
-        this.formKeys.push(rest.id)
-      })
+  initForm(): void {
+    const group = {}
+
+    this.questions.forEach((question: IQuestion) => {
+      group[question.id] = ""
     })
-    this.surveyForm = this.formBuilder.group(formGroup)
+
+    // to delete
+    group["drinkPreference"] = ""
+
+    this.surveyForm = this.formBuilder.group(group)
   }
-
-
-  /* getCurrentQuestion(): IQuestion {
-    return this.questions[this.index];
-  }
-
-  incrQuestionIndex(): void {
-    this.index++
-  }
-
-  getType(): string {
-    return this.questions[this.index].answerType;
-  } */
 
   submit(): void {
-    const formValue = this.surveyForm.value
-    // console.log(formValue)
-    const result: Array<formEntry> = []
-    this.formKeys.forEach((key, index) => {
-      var entry: formEntry = { key: key, value: formValue[key] }
-      result.push(entry)
-    })
-    // console.log(result)
+    const formValue = this.surveyForm.value;
+    /* debugger; */
   }
 }
 
 
-interface formEntry {
+interface FormEntry {
   key: string,
   value: string
 }

@@ -3,6 +3,13 @@
         <div class="list-group">
             <jhi-question *ngFor="let item of this.questions" [question]="item"></jhi-question>
         </div>
-        <button class="btn btn-primary" (click)="this.submit()">Envoyer</button>
+        <!-- To delete -->
+        <div class="form-group">
+            <label for="drinkPreference">Quelle boisson préférez-vous ?</label>
+            <input type="radio" value="pastaga" formControlName="drinkPreference"> Pastaga
+            <input type="radio" value="pasteque" formControlName="drinkPreference"> ET PAF LA PASTEQUE
+        </div>
+        <!--  -->
+        <button type="submit" class="btn btn-primary">Envoyer</button>
     </form>
 </div>
