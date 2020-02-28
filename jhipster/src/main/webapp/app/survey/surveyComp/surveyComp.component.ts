@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IQuestion } from '../../shared/types/temp'
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { SurveyService } from '../survey.service';
 
 @Component({
   selector: 'jhi-survey',
@@ -41,40 +41,13 @@ export class SurveyComponent implements OnInit {
   }
   ];
 
-  // index = 0;
-  surveyForm: FormGroup
-  formKeys: Array<string> = []
+  constructor(private surveyService: SurveyService) { }
 
-
-  constructor(private formBuilder: FormBuilder) {
-    this.surveyForm = this.formBuilder.group({})
-  }
-
-  ngOnInit(): void {
-    this.initForm()
-  }
-
-  initForm(): void {
-    const group = {}
-
-    this.questions.forEach((question: IQuestion) => {
-      group[question.id] = ""
-    })
-
-    // to delete
-    group["drinkPreference"] = ""
-
-    this.surveyForm = this.formBuilder.group(group)
-  }
+  ngOnInit(): void { }
 
   submit(): void {
-    const formValue = this.surveyForm.value;
-    /* debugger; */
+    /* const formValue = this.surveyForm.value; */
+    const result = this.surveyService.answers
+    debugger;
   }
-}
-
-
-interface FormEntry {
-  key: string,
-  value: string
 }

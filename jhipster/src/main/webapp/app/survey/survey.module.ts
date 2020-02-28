@@ -7,6 +7,7 @@ import { JhiRadioComponent } from './jhi-radio/jhi-radio.component'
 import { JhiCheckboxComponent } from './jhi-checkbox/jhi-checkbox.component'
 import { surveyRoute } from './survey.route';
 import { QuestionComponent } from './question/question.component';
+import { SurveyService } from './survey.service';
 
 @NgModule({
     imports: [MdlSharedModule, RouterModule.forChild(surveyRoute)],
@@ -15,6 +16,9 @@ import { QuestionComponent } from './question/question.component';
         JhiCheckboxComponent,
         JhiRadioComponent,
         QuestionComponent
+    ],
+    providers: [
+        SurveyService
     ]
 })
 export class SurveyModule { }
