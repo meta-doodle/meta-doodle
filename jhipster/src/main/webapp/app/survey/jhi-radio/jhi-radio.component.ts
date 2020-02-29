@@ -17,6 +17,7 @@ export class JhiRadioComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.surveyService.setKey(this.question.id, "")
   }
 
   onChange(value: string): void {

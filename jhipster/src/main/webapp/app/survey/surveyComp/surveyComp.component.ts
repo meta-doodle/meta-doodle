@@ -42,6 +42,12 @@ export class SurveyComponent implements OnInit {
         id: 'quignons-part'
       }
     ]
+  },
+  {
+    answerType: 'TEXTFIELD',
+    title: "Quel est la différence entre un hamburger ?",
+    id: "hamburger",
+    restrictions: []
   }
   ];
 

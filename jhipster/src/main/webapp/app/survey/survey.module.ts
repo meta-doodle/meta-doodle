@@ -8,6 +8,7 @@ import { JhiCheckboxComponent } from './jhi-checkbox/jhi-checkbox.component'
 import { surveyRoute } from './survey.route';
 import { QuestionComponent } from './question/question.component';
 import { SurveyService } from './survey.service';
+import { TextfieldComponent } from './textfield/textfield.component';
 
 @NgModule({
     imports: [MdlSharedModule, RouterModule.forChild(surveyRoute)],
@@ -15,7 +16,8 @@ import { SurveyService } from './survey.service';
         SurveyComponent,
         JhiCheckboxComponent,
         JhiRadioComponent,
-        QuestionComponent
+        QuestionComponent,
+        TextfieldComponent
     ],
     providers: [
         SurveyService

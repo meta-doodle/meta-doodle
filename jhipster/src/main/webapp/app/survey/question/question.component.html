@@ -1,10 +1,7 @@
-<ul class="" *ngIf="'RADIO' === this.question.answerType">
+<ul class="">
     <div class="list-group-item">
-        <jhi-radio [question]="this.question"></jhi-radio>
-    </div>
-</ul>
-<ul class="" *ngIf="'CHECKBOX' === this.question.answerType">
-    <div class="list-group-item">
-        <jhi-checkbox [question]="this.question"></jhi-checkbox>
+        <jhi-radio *ngIf="'RADIO' === this.question.answerType" [question]="this.question"></jhi-radio>
+        <jhi-checkbox *ngIf="'CHECKBOX' === this.question.answerType" [question]="this.question"></jhi-checkbox>
+        <jhi-textfield *ngIf="'TEXTFIELD' === this.question.answerType" [question]="this.question"></jhi-textfield>
     </div>
 </ul>
