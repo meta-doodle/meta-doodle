@@ -25,7 +25,7 @@ export class SurveyComponent implements OnInit {
     ]
   },
   {
-    answerType: 'RADIO',
+    answerType: 'CHECKBOX',
     title: 'Ils sont où les quignons à Kadoc ?',
     id: "quignons",
     restrictions: [
@@ -36,6 +36,10 @@ export class SurveyComponent implements OnInit {
       {
         label: 'Ils sont dans la poche',
         id: 'quignons-poche'
+      },
+      {
+        label: 'Bon allez on part ? Parce que Kadoc i\' doit suivre',
+        id: 'quignons-part'
       }
     ]
   }

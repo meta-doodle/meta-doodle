@@ -1,7 +1,7 @@
 export class SurveyService {
     answers: Object = {}
 
-    setKey(key: string, value: string): void {
+    setKey(key: string, value: string | Array<string>): void {
         this.answers[key] = value
     }
 }
