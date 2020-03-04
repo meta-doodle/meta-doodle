@@ -240,3 +240,11 @@ build
 *.iml
 
 !gradle/wrapper/*.jar
+
+# Xtext
+
+**/src-gen/
+**/xtend-gen/
+**/src/org/xtext/
+org.xtext.metadoodle/model/
+plugin.xml
