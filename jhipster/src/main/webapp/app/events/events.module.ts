@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { SidebarComponent } from './sidebar/sidebar.component';
 import { MdlSharedModule } from 'app/shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { eventsState } from './events.route';
@@ -10,7 +9,7 @@ import { EventListComponent } from './event-list/event-list.component';
 
 
 @NgModule({
-  declarations: [SidebarComponent, ManageComponent, EventItemComponent, EventListComponent],
+  declarations: [ManageComponent, EventItemComponent, EventListComponent],
   imports: [
     MdlSharedModule,
     RouterModule.forChild(eventsState)
