@@ -51,13 +51,14 @@ export class SurveyComponent implements OnInit {
   }
   ];
 
+  result = {}
+
   constructor(private surveyService: SurveyService) { }
 
   ngOnInit(): void { }
 
   submit(): void {
-    /* const formValue = this.surveyForm.value; */
-    const result = this.surveyService.answers
-    debugger;
+    this.result = this.surveyService.answers
+    /* debugger; */
   }
 }

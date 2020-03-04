@@ -1,8 +1,9 @@
 <div class="center survey-container">
-    <form [formGroup]="surveyForm" (ngSubmit)="submit()">
-        <div class="list-group">
-            <jhi-question *ngFor="let item of this.questions" [question]="item"></jhi-question>
-        </div>
-        <button type="submit" class="btn btn-primary" (click)="submit()">Envoyer</button>
-    </form>
+    <div class="list-group">
+        <jhi-question *ngFor="let item of this.questions" [question]="item"></jhi-question>
+    </div>
+    <label>{{this.result | json}} </label>
+</div>
+<div class="center">
+    <button class="btn btn-primary" (click)="submit()">Envoyer</button>
 </div>
