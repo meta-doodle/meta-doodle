@@ -1,9 +1,0 @@
-grammar org.xtext.mdl.Mdl with org.eclipse.xtext.common.Terminals
-
-generate mdl "http://www.xtext.org/mdl/Mdl"
-
-Model:
-	greetings+=Greeting*;
-	
-Greeting:
-	'Hello' name=ID '!';
