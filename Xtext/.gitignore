@@ -249,3 +249,4 @@ build
 !org.xtext.metadoodle.tests/src/org/xtext/
 org.xtext.metadoodle/model/
 plugin.xml
+plugin.xml_gen
