@@ -1,0 +1,9 @@
+grammar org.xtext.metadoodle.MDL with org.eclipse.xtext.common.Terminals
+
+generate mDL "http://www.xtext.org/metadoodle/MDL"
+
+Model:
+	greetings+=Greeting*;
+	
+Greeting:
+	'Hello' name=ID '!';
