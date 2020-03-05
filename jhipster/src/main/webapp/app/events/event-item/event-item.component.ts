@@ -10,6 +10,7 @@ export class EventItemComponent implements OnInit {
   @Input() event!: EventInterface;
   @Input() index!: number
   @Input() remove!: (index: number) => void
+  @Input() ownerStatus!: number // 1 if currentUser is owner, 0 otherwise, not boolean since it could be extended to more values
 
   constructor() { }
 
@@ -26,6 +27,14 @@ export class EventItemComponent implements OnInit {
 
   delete(): void {
     this.remove(this.index);
+  }
+
+  getOwnerStatusAsString(): string {
+    if (this.ownerStatus === 1) {
+      return "Organisateur"
+    } else {
+      return "Participant"
+    }
   }
 
 }
