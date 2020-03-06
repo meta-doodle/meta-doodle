@@ -121,7 +121,7 @@
                         </a>
                     </li>
                     <li *ngSwitchCase="false">
-                        <a class="dropdown-item" (click)="login()" id="login">
+                        <a class="dropdown-item" routerLink="login" routerLinkActive="router-link-active"  id="login">
                             <fa-icon icon="sign-in-alt" fixedWidth="true"></fa-icon>
                             <span>Sign in</span>
                         </a>
