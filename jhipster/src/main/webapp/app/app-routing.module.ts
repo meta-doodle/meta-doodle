@@ -32,6 +32,10 @@ const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
           path: 'events',
           loadChildren: () => import('./events/events.module').then(m => m.EventsModule)
         },
+        {
+          path: 'survey',
+          loadChildren: () => import('./survey/survey.module').then(m => m.SurveyModule)
+        },
         ...LAYOUT_ROUTES
       ],
       { enableTracing: DEBUG_INFO_ENABLED }
