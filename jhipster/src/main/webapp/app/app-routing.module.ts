@@ -28,6 +28,10 @@ const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
           path: 'login',
           loadChildren: () => import('./login/login.module').then(m => m.MdlLoginModule)
         },
+        {
+          path: 'events',
+          loadChildren: () => import('./events/events.module').then(m => m.EventsModule)
+        },
         ...LAYOUT_ROUTES
       ],
       { enableTracing: DEBUG_INFO_ENABLED }
@@ -35,4 +39,4 @@ const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
   ],
   exports: [RouterModule]
 })
-export class MdlAppRoutingModule {}
+export class MdlAppRoutingModule { }
