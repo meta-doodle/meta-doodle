@@ -42,7 +42,7 @@ Calendar:
 	'Calendar'
     LA 'StartingDate:' start=DATE
     'EndingDate:' end=DATE 
-    'Accuracy:' accuracy=STRING? RA
+    'Granularity:' granularity=INT RA
 ;
 
 FileUpload:
