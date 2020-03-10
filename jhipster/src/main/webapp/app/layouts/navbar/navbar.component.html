@@ -1,31 +1,24 @@
 <nav class="navbar navbar-dark navbar-expand-md bg-dark">
-    <a class="navbar-brand logo" routerLink="/" (click)="collapseNavbar()">
-        <span class="logo-img"></span>
-        <span class="navbar-title">Meta-Doodle</span> <span class="navbar-version">{{version}}</span>
-    </a>
-    <a class="navbar-toggler d-lg-none" href="javascript:void(0);" data-toggle="collapse"
-        data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
-        aria-label="Toggle navigation" (click)="toggleNavbar()">
-        <fa-icon icon="bars"></fa-icon>
-    </a>
+    <ul class="navbar-nav ml-auto">
+        <a class="nav-link" routerLink="/" (click)="collapseNavbar()">
+            <span>
+                <fa-icon icon="home"></fa-icon>
+                <span>Home</span>
+            </span>
+        </a>
+    </ul>
+
     <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed"
         [ngSwitch]="isAuthenticated()">
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-                <a class="nav-link" routerLink="/" (click)="collapseNavbar()">
-                    <span>
-                        <fa-icon icon="home"></fa-icon>
-                        <span>Home</span>
-                    </span>
-                </a>
-            </li>
+
             <li *ngSwitchCase="true" ngbDropdown class="nav-item dropdown pointer" display="dynamic"
                 routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="events-menu">
                     <span>
                         <fa-icon icon="list-alt"></fa-icon>
                         <span>
-                            ""Événements""
+                            Evenements
                         </span>
                     </span>
                 </a>
