@@ -1,20 +1,20 @@
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';
 
-.bot-footer{
-    padding-bottom: 1rem;
-    color: $navbar-dark-color;
-    width: 100%;
+.bot-footer {
+  padding-bottom: 1rem;
+  color: $navbar-dark-color;
+  width: 100%;
 }
 
-.main-container{
-    display: flex;
-    justify-content: space-between;
-    padding-left: 15px;
-    padding-right: 15px;
-    padding-top: 5px;
+.main-container {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 5px;
 }
 
-.link{
-    color: $navbar-dark-color;
+.link {
+  color: $navbar-dark-color;
 }

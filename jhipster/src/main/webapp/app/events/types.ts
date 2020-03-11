@@ -1,6 +1,6 @@
 interface EventInterface {
-    status: "accepted" | "invited"
-    title: string
-    owner: string
-    desc: string
+  status: 'accepted' | 'invited';
+  title: string;
+  owner: string;
+  desc: string;
 }

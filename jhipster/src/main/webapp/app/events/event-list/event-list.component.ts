@@ -9,9 +9,8 @@ import { AccountService } from 'app/core/auth/account.service';
   styleUrls: ['./event-list.component.scss']
 })
 export class EventListComponent implements OnInit {
-
-  @Input() data: Array<EventInterface> = []
-  currentUser!: User
+  @Input() data: Array<EventInterface> = [];
+  currentUser!: User;
 
   constructor(private accountService: AccountService, private userService: UserService) {
     this.remove = this.remove.bind(this);
@@ -35,10 +34,9 @@ export class EventListComponent implements OnInit {
 
   getStatus(index: number): number {
     if (this.data[index].owner === this.currentUser.login) {
-      return 1
+      return 1;
     } else {
-      return 0
+      return 0;
     }
   }
-
 }

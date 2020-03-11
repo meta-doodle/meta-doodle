@@ -9,6 +9,6 @@ import { HasAnyAuthorityDirective } from './auth/has-any-authority.directive';
   imports: [MdlSharedLibsModule],
   declarations: [AlertComponent, AlertErrorComponent, HasAnyAuthorityDirective],
   entryComponents: [],
-  exports: [MdlSharedLibsModule, AlertComponent, AlertErrorComponent,  HasAnyAuthorityDirective]
+  exports: [MdlSharedLibsModule, AlertComponent, AlertErrorComponent, HasAnyAuthorityDirective]
 })
 export class MdlSharedModule {}

@@ -10,7 +10,7 @@ import { AccountService } from 'app/core/auth/account.service';
   styleUrls: ['main.scss']
 })
 export class MainComponent implements OnInit {
-  constructor(private accountService: AccountService, private titleService: Title, private router: Router) { }
+  constructor(private accountService: AccountService, private titleService: Title, private router: Router) {}
 
   ngOnInit(): void {
     // try to log in automatically

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IQuestion } from '../../shared/types/temp'
+import { IQuestion } from '../../shared/types/temp';
 import { SurveyService } from '../survey.service';
 
 @Component({
@@ -8,57 +8,57 @@ import { SurveyService } from '../survey.service';
   styleUrls: ['./surveyComp.component.scss']
 })
 export class SurveyComponent implements OnInit {
-
-  questions: Array<IQuestion> = [{
-    answerType: 'RADIO',
-    title: 'La vie, dans son sens intemporel, universel et grandiloquent, a-t-elle une once de sens ?',
-    id: "vie",
-    restrictions: [
-      {
-        label: 'Café',
-        id: 'vie-cafe'
-      },
-      {
-        label: 'UwU',
-        id: 'vie-uwu'
-      }
-    ]
-  },
-  {
-    answerType: 'CHECKBOX',
-    title: 'Ils sont où les quignons à Kadoc ?',
-    id: "quignons",
-    restrictions: [
-      {
-        label: 'Ils sont bien cachés',
-        id: 'quignons-caches'
-      },
-      {
-        label: 'Ils sont dans la poche',
-        id: 'quignons-poche'
-      },
-      {
-        label: 'Bon allez on part ? Parce que Kadoc i\' doit suivre',
-        id: 'quignons-part'
-      }
-    ]
-  },
-  {
-    answerType: 'TEXTFIELD',
-    title: "Quel est la différence entre un hamburger ?",
-    id: "hamburger",
-    restrictions: []
-  }
+  questions: Array<IQuestion> = [
+    {
+      answerType: 'RADIO',
+      title: 'A La vie, dans son sens intemporel, universel et grandiloquent, a-t-elle une once de sens ?',
+      id: 'vie',
+      restrictions: [
+        {
+          label: 'Café',
+          id: 'vie-cafe'
+        },
+        {
+          label: 'UwU',
+          id: 'vie-uwu'
+        }
+      ]
+    },
+    {
+      answerType: 'CHECKBOX',
+      title: 'Ils sont où les quignons à Kadoc ?',
+      id: 'quignons',
+      restrictions: [
+        {
+          label: 'Ils sont bien cachés',
+          id: 'quignons-caches'
+        },
+        {
+          label: 'Ils sont dans la poche',
+          id: 'quignons-poche'
+        },
+        {
+          label: "Bon allez on part ? Parce que Kadoc i' doit suivre",
+          id: 'quignons-part'
+        }
+      ]
+    },
+    {
+      answerType: 'TEXTFIELD',
+      title: 'Quel est la différence entre un hamburger ?',
+      id: 'hamburger',
+      restrictions: []
+    }
   ];
 
-  result = {}
+  result = {};
 
-  constructor(private surveyService: SurveyService) { }
+  constructor(private surveyService: SurveyService) {}
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   submit(): void {
-    this.result = this.surveyService.answers
+    this.result = this.surveyService.answers;
     /* debugger; */
   }
 }

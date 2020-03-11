@@ -25,6 +25,10 @@ const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
           loadChildren: () => import('./account/account.module').then(m => m.AccountModule)
         },
         {
+          path: 'list-model',
+          loadChildren: () => import('./list-model/list-model.module').then(m => m.ListModelModule)
+        },
+        {
           path: 'login',
           loadChildren: () => import('./login/login.module').then(m => m.MdlLoginModule)
         },
@@ -43,4 +47,4 @@ const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
   ],
   exports: [RouterModule]
 })
-export class MdlAppRoutingModule { }
+export class MdlAppRoutingModule {}

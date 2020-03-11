@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, Renderer, ElementRef} from '@angular/core';
+import { Component, AfterViewInit, Renderer, ElementRef } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -9,7 +9,7 @@ import { LoginService } from 'app/core/login/login.service';
   templateUrl: './login.component.html'
 })
 export class LoginComponent implements AfterViewInit {
- // @ViewChild('username', { static: false })
+  // @ViewChild('username', { static: false })
   username?: ElementRef;
 
   authenticationError = false;
@@ -40,7 +40,6 @@ export class LoginComponent implements AfterViewInit {
       username: '',
       password: ''
     });
-
   }
 
   login(): void {
@@ -67,7 +66,6 @@ export class LoginComponent implements AfterViewInit {
   }
 
   register(): void {
-
     this.router.navigate(['/account/register']);
   }
 
@@ -75,4 +73,3 @@ export class LoginComponent implements AfterViewInit {
     this.router.navigate(['/account/reset', 'request']);
   }
 }
-

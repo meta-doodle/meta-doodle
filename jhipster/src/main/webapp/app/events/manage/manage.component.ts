@@ -5,35 +5,29 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './manage.component.html',
   styleUrls: ['./manage.component.scss']
 })
-
 export class ManageComponent implements OnInit {
-
   data = [
     {
-      status: "accepted",
+      status: 'accepted',
       title: "Rétablir l'équilibre dans la Force",
-      desc: "Temps il est, jeune Padawan.",
-      owner: "user"
+      desc: 'Temps il est, jeune Padawan.',
+      owner: 'user'
     },
     {
-      status: "accepted",
-      title: "Question pour un Champion",
-      desc: "Ah oui oui oui !",
-      owner: "admin"
+      status: 'accepted',
+      title: 'Question pour un Champion',
+      desc: 'Ah oui oui oui !',
+      owner: 'admin'
     },
     {
-      status: "invited",
-      title: "Cueillette de champignons",
+      status: 'invited',
+      title: 'Cueillette de champignons',
       desc: "Le saviez-tu, les champignons c'est vachement bon, viendez les jeunes, on va se régaler",
-      owner: "user"
+      owner: 'user'
     }
-  ]
+  ];
 
-  constructor() {
-  }
+  constructor() {}
 
-  ngOnInit(): void {
-
-  }
-
+  ngOnInit(): void {}
 }

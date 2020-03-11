@@ -6,13 +6,8 @@ import { ManageComponent } from './manage/manage.component';
 import { EventItemComponent } from './event-item/event-item.component';
 import { EventListComponent } from './event-list/event-list.component';
 
-
-
 @NgModule({
   declarations: [ManageComponent, EventItemComponent, EventListComponent],
-  imports: [
-    MdlSharedModule,
-    RouterModule.forChild(eventsState)
-  ]
+  imports: [MdlSharedModule, RouterModule.forChild(eventsState)]
 })
-export class EventsModule { }
+export class EventsModule {}
