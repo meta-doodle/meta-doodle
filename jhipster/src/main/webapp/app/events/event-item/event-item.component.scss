@@ -1,0 +1,45 @@
+$container_decal: 15px;
+
+.main {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: 'space-evenly';
+  background-color: #cccccc;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.container {
+  padding: 0 $container_decal;
+  margin: $container_decal 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.middle_container {
+  flex-grow: 3;
+}
+
+.left_container {
+  border-right: 1px solid grey;
+  width: 25%;
+  font-weight: bold;
+}
+
+.right_container {
+  border-left: 1px solid grey;
+  width: 15%;
+}
+
+.manage_button {
+  width: 100%;
+  border-radius: 5px;
+  margin-bottom: 2px;
+}
+
+.detail_button {
+  background-color: #3356f9;
+  border-color: #3356f9;
+}

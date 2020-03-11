@@ -7,8 +7,14 @@
 import { IRestriction, IDateRestriction } from './options';
 
 export interface IQuestion {
-    answerType: string,
-    title: string,
-    id: string,
-    restrictions: Array<IRestriction> | IDateRestriction
+  answerType: string,
+  title: string,
+  id: string,
+  restrictions: Array<IRestriction> | IDateRestriction
+}
+
+export interface IModel {
+  id: number;
+  title: string;
+  description: string;
 }

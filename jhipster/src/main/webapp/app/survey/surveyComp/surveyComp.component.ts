@@ -60,14 +60,14 @@ export class SurveyComponent implements OnInit {
   }
   ];
 
-  result = {}
+  result = {};
 
   constructor(private surveyService: SurveyService) { }
 
   ngOnInit(): void { }
 
   submit(): void {
-    this.result = this.surveyService.answers
+    this.result = this.surveyService.answers;
     /* debugger; */
   }
 }
