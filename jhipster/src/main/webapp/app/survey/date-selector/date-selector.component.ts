@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { instanceOfIDateRestriction } from 'app/shared/types/temp';
+import { instanceOfIDateRestriction } from 'app/shared/types/options';
 import { SurveyService } from '../survey.service';
-import { IQuestion } from 'app/shared/types/question_temp';
+import { IQuestion } from 'app/shared/types/question';
 
 @Component({
   selector: 'jhi-date-selector',

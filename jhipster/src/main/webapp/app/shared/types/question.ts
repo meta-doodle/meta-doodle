@@ -4,7 +4,7 @@
     format, use another file.
 */
 
-import { IRestriction, IDateRestriction } from './temp';
+import { IRestriction, IDateRestriction } from './options';
 
 export interface IQuestion {
     answerType: string,

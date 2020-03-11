@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { SurveyService } from '../survey.service';
-import { IQuestion } from 'app/shared/types/question_temp';
+import { IQuestion } from 'app/shared/types/question';
 
 @Component({
   selector: 'jhi-textfield',
