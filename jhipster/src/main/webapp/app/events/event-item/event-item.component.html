@@ -10,7 +10,7 @@
         <p>{{ getOwnerStatusAsString() }} </p>
     </div>
     <div class="right_container container">
-        <button class="btn btn-sm btn-success manage_button detail_button" (click)="details()">Détails</button>
+        <button *ngIf="event.status == 'accepted'" class="btn btn-sm btn-success manage_button detail_button" [routerLink]="['/survey']" routerLinkActive="router-link-active" >Demarer</button>
         <button *ngIf="event.status == 'invited'" class="btn btn-sm btn-success manage_button"
             (click)="join()">Rejoindre</button>
         <button class="btn btn-sm btn-danger manage_button" (click)="delete()">Supprimer</button>
