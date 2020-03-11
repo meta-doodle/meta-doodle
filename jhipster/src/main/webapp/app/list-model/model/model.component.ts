@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { IModel } from 'app/shared/types/temp';
+import { IModel } from 'app/shared/types/question';
 
 @Component({
   moduleId: module.id,
@@ -14,7 +14,7 @@ export class ModelComponent implements OnInit {
   title: string | undefined;
   description: string | undefined;
 
-  constructor() {}
+  constructor() { }
 
   ngOnInit(): void {
     this.id = this.model.id;
@@ -22,5 +22,5 @@ export class ModelComponent implements OnInit {
     this.description = this.model.description;
   }
 
-  create(): void {}
+  create(): void { }
 }
