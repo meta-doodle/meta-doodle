@@ -4,14 +4,16 @@
     format, use another file.
 */
 
-export interface IQuestion {
-    answerType: string,
-    title: string,
-    id: string,
-    restrictions: Array<IRestriction>
-}
-
 export interface IRestriction {
     label: string,
-    id: string
+    id: string,
+}
+
+export interface IDateRestriction {
+    dateBegin: string,
+    dateEnd: string
+}
+
+export function instanceOfIDateRestriction(object: any): object is IDateRestriction {
+    return "dateBegin" in object;
 }

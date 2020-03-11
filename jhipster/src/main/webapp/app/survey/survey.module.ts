@@ -9,6 +9,7 @@ import { surveyRoute } from './survey.route';
 import { QuestionComponent } from './question/question.component';
 import { SurveyService } from './survey.service';
 import { TextfieldComponent } from './textfield/textfield.component';
+import { DateSelectorComponent } from './date-selector/date-selector.component';
 
 @NgModule({
     imports: [MdlSharedModule, RouterModule.forChild(surveyRoute)],
@@ -17,7 +18,8 @@ import { TextfieldComponent } from './textfield/textfield.component';
         JhiCheckboxComponent,
         JhiRadioComponent,
         QuestionComponent,
-        TextfieldComponent
+        TextfieldComponent,
+        DateSelectorComponent
     ],
     providers: [
         SurveyService

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { IQuestion } from '../../shared/types/temp'
 import { SurveyService } from '../survey.service';
+import { IQuestion } from 'app/shared/types/question_temp';
 
 @Component({
   selector: 'jhi-survey',
@@ -48,6 +48,15 @@ export class SurveyComponent implements OnInit {
     title: "Quel est la différence entre un hamburger ?",
     id: "hamburger",
     restrictions: []
+  },
+  {
+    answerType: "DATE",
+    title: "Si la mémoire est à la tête ce que le passé, peut-on y accéder à six ?",
+    id: "memoire",
+    restrictions: {
+      dateBegin: "2020-03-09",
+      dateEnd: "2020-05-15"
+    }
   }
   ];
 

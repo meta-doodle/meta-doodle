@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { IQuestion } from 'app/shared/types/temp';
 import { SurveyService } from '../survey.service';
+import { IQuestion } from 'app/shared/types/question_temp';
 
 @Component({
   moduleId: module.id,
