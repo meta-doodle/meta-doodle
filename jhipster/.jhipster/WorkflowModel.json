@@ -1,0 +1,52 @@
+{
+    "name": "WorkflowModel",
+    "fields": [
+        {
+            "fieldName": "title",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "minlength",
+                "maxlength"
+            ],
+            "fieldValidateRulesMinlength": 3,
+            "fieldValidateRulesMaxlength": 25
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "body",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "workflowInstance",
+            "otherEntityRelationshipName": "wfModel",
+            "relationshipName": "wfsinstance"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "mdlUser",
+            "otherEntityRelationshipName": "workflows",
+            "relationshipName": "author",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20200316035424",
+    "entityTableName": "workflow_model",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": "*"
+}

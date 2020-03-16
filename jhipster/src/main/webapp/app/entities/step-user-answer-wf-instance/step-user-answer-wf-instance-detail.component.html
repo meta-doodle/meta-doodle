@@ -1,0 +1,41 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="stepUserAnswerWfInstance">
+            <h2><span>Step User Answer Wf Instance</span> {{stepUserAnswerWfInstance.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Step</span></dt>
+                <dd>
+                    <div *ngIf="stepUserAnswerWfInstance.stepId">
+                        <a [routerLink]="['/step', stepUserAnswerWfInstance.stepId, 'view']">{{stepUserAnswerWfInstance.stepId}}</a>
+                    </div>
+                </dd>
+                <dt><span>Mdl User</span></dt>
+                <dd>
+                    <div *ngIf="stepUserAnswerWfInstance.mdlUserId">
+                        <a [routerLink]="['/mdl-user', stepUserAnswerWfInstance.mdlUserId, 'view']">{{stepUserAnswerWfInstance.mdlUserId}}</a>
+                    </div>
+                </dd>
+                <dt><span>Workflow Instance</span></dt>
+                <dd>
+                    <div *ngIf="stepUserAnswerWfInstance.workflowInstanceId">
+                        <a [routerLink]="['/workflow-instance', stepUserAnswerWfInstance.workflowInstanceId, 'view']">{{stepUserAnswerWfInstance.workflowInstanceId}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/step-user-answer-wf-instance', stepUserAnswerWfInstance.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

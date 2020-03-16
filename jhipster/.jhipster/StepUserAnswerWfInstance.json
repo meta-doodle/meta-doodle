@@ -1,0 +1,44 @@
+{
+    "name": "StepUserAnswerWfInstance",
+    "fields": [],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "step",
+            "otherEntityRelationshipName": "stepUserAnswer",
+            "relationshipName": "step",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "answer",
+            "otherEntityRelationshipName": "stepUserAnswer",
+            "relationshipName": "answers"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "mdlUser",
+            "otherEntityRelationshipName": "stepUserAnswers",
+            "relationshipName": "mdlUser",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "workflowInstance",
+            "otherEntityRelationshipName": "stepUserAnswers",
+            "relationshipName": "workflowInstance",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20200316035429",
+    "entityTableName": "step_user_answer_wf_instance",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": "*"
+}
