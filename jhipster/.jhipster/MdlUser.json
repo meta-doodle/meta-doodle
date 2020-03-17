@@ -14,7 +14,7 @@
             "relationshipType": "one-to-many",
             "otherEntityName": "workflowModel",
             "otherEntityRelationshipName": "author",
-            "relationshipName": "workflows"
+            "relationshipName": "createdWfModel"
         },
         {
             "relationshipType": "one-to-many",
@@ -26,13 +26,13 @@
             "relationshipType": "one-to-many",
             "otherEntityName": "workflowInstance",
             "otherEntityRelationshipName": "creator",
-            "relationshipName": "workflowInstance"
+            "relationshipName": "createdWfInstance"
         },
         {
             "relationshipType": "many-to-many",
             "otherEntityName": "workflowInstance",
             "otherEntityRelationshipName": "guests",
-            "relationshipName": "participants",
+            "relationshipName": "memberWfInstance",
             "otherEntityField": "id",
             "ownerSide": false
         }

@@ -5,7 +5,7 @@ export interface IWorkflowModel {
   title?: string;
   description?: string;
   body?: string;
-  wfsinstances?: IWorkflowInstance[];
+  workflowInstances?: IWorkflowInstance[];
   authorId?: number;
 }
 
@@ -15,7 +15,7 @@ export class WorkflowModel implements IWorkflowModel {
     public title?: string,
     public description?: string,
     public body?: string,
-    public wfsinstances?: IWorkflowInstance[],
+    public workflowInstances?: IWorkflowInstance[],
     public authorId?: number
   ) {}
 }

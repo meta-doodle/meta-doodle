@@ -60,6 +60,13 @@ public class CacheConfiguration {
             createCache(cm, org.jhipster.mdl.domain.Answer.class.getName());
             createCache(cm, org.jhipster.mdl.domain.StepUserAnswerWfInstance.class.getName());
             createCache(cm, org.jhipster.mdl.domain.StepUserAnswerWfInstance.class.getName() + ".answers");
+            createCache(cm, org.jhipster.mdl.domain.WorkflowModel.class.getName() + ".workflowInstances");
+            createCache(cm, org.jhipster.mdl.domain.MdlUser.class.getName() + ".wfModelCreateds");
+            createCache(cm, org.jhipster.mdl.domain.MdlUser.class.getName() + ".wfInstanceCreateds");
+            createCache(cm, org.jhipster.mdl.domain.MdlUser.class.getName() + ".wfInstanceParticipateds");
+            createCache(cm, org.jhipster.mdl.domain.MdlUser.class.getName() + ".createdWfModels");
+            createCache(cm, org.jhipster.mdl.domain.MdlUser.class.getName() + ".createdWfInstances");
+            createCache(cm, org.jhipster.mdl.domain.MdlUser.class.getName() + ".memberWfInstances");
             // jhipster-needle-ehcache-add-entry
         };
     }

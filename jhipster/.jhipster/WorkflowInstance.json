@@ -17,7 +17,7 @@
         {
             "relationshipType": "many-to-many",
             "otherEntityName": "mdlUser",
-            "otherEntityRelationshipName": "participants",
+            "otherEntityRelationshipName": "memberWfInstance",
             "relationshipName": "guests",
             "otherEntityField": "id",
             "ownerSide": true
@@ -25,14 +25,14 @@
         {
             "relationshipType": "many-to-one",
             "otherEntityName": "workflowModel",
-            "otherEntityRelationshipName": "wfsinstance",
+            "otherEntityRelationshipName": "workflowInstance",
             "relationshipName": "wfModel",
             "otherEntityField": "id"
         },
         {
             "relationshipType": "many-to-one",
             "otherEntityName": "mdlUser",
-            "otherEntityRelationshipName": "workflowInstance",
+            "otherEntityRelationshipName": "createdWfInstance",
             "relationshipName": "creator",
             "otherEntityField": "id"
         }

@@ -39,10 +39,10 @@ public class WorkflowModel implements Serializable {
 
     @OneToMany(mappedBy = "wfModel")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<WorkflowInstance> wfsinstances = new HashSet<>();
+    private Set<WorkflowInstance> workflowInstances = new HashSet<>();
 
     @ManyToOne
-    @JsonIgnoreProperties("workflows")
+    @JsonIgnoreProperties("createdWfModels")
     private MdlUser author;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
@@ -93,29 +93,29 @@ public class WorkflowModel implements Serializable {
         this.body = body;
     }
 
-    public Set<WorkflowInstance> getWfsinstances() {
-        return wfsinstances;
+    public Set<WorkflowInstance> getWorkflowInstances() {
+        return workflowInstances;
     }
 
-    public WorkflowModel wfsinstances(Set<WorkflowInstance> workflowInstances) {
-        this.wfsinstances = workflowInstances;
+    public WorkflowModel workflowInstances(Set<WorkflowInstance> workflowInstances) {
+        this.workflowInstances = workflowInstances;
         return this;
     }
 
-    public WorkflowModel addWfsinstance(WorkflowInstance workflowInstance) {
-        this.wfsinstances.add(workflowInstance);
+    public WorkflowModel addWorkflowInstance(WorkflowInstance workflowInstance) {
+        this.workflowInstances.add(workflowInstance);
         workflowInstance.setWfModel(this);
         return this;
     }
 
-    public WorkflowModel removeWfsinstance(WorkflowInstance workflowInstance) {
-        this.wfsinstances.remove(workflowInstance);
+    public WorkflowModel removeWorkflowInstance(WorkflowInstance workflowInstance) {
+        this.workflowInstances.remove(workflowInstance);
         workflowInstance.setWfModel(null);
         return this;
     }
 
-    public void setWfsinstances(Set<WorkflowInstance> workflowInstances) {
-        this.wfsinstances = workflowInstances;
+    public void setWorkflowInstances(Set<WorkflowInstance> workflowInstances) {
+        this.workflowInstances = workflowInstances;
     }
 
     public MdlUser getAuthor() {

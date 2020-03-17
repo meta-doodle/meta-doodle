@@ -5,19 +5,19 @@ import { IWorkflowInstance } from 'app/shared/model/workflow-instance.model';
 export interface IMdlUser {
   id?: number;
   userId?: number;
-  workflows?: IWorkflowModel[];
+  createdWfModels?: IWorkflowModel[];
   stepUserAnswers?: IStepUserAnswerWfInstance[];
-  workflowInstances?: IWorkflowInstance[];
-  participants?: IWorkflowInstance[];
+  createdWfInstances?: IWorkflowInstance[];
+  memberWfInstances?: IWorkflowInstance[];
 }
 
 export class MdlUser implements IMdlUser {
   constructor(
     public id?: number,
     public userId?: number,
-    public workflows?: IWorkflowModel[],
+    public createdWfModels?: IWorkflowModel[],
     public stepUserAnswers?: IStepUserAnswerWfInstance[],
-    public workflowInstances?: IWorkflowInstance[],
-    public participants?: IWorkflowInstance[]
+    public createdWfInstances?: IWorkflowInstance[],
+    public memberWfInstances?: IWorkflowInstance[]
   ) {}
 }

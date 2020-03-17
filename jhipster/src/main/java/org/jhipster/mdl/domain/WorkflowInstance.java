@@ -40,11 +40,11 @@ public class WorkflowInstance implements Serializable {
     private Set<MdlUser> guests = new HashSet<>();
 
     @ManyToOne
-    @JsonIgnoreProperties("wfsinstances")
+    @JsonIgnoreProperties("workflowInstances")
     private WorkflowModel wfModel;
 
     @ManyToOne
-    @JsonIgnoreProperties("workflowInstances")
+    @JsonIgnoreProperties("createdWfInstances")
     private MdlUser creator;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
@@ -117,13 +117,13 @@ public class WorkflowInstance implements Serializable {
 
     public WorkflowInstance addGuests(MdlUser mdlUser) {
         this.guests.add(mdlUser);
-        mdlUser.getParticipants().add(this);
+        mdlUser.getMemberWfInstances().add(this);
         return this;
     }
 
     public WorkflowInstance removeGuests(MdlUser mdlUser) {
         this.guests.remove(mdlUser);
-        mdlUser.getParticipants().remove(this);
+        mdlUser.getMemberWfInstances().remove(this);
         return this;
     }
 

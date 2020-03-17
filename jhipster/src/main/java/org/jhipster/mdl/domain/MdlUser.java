@@ -30,7 +30,7 @@ public class MdlUser implements Serializable {
 
     @OneToMany(mappedBy = "author")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<WorkflowModel> workflows = new HashSet<>();
+    private Set<WorkflowModel> createdWfModels = new HashSet<>();
 
     @OneToMany(mappedBy = "mdlUser")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -38,12 +38,12 @@ public class MdlUser implements Serializable {
 
     @OneToMany(mappedBy = "creator")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<WorkflowInstance> workflowInstances = new HashSet<>();
+    private Set<WorkflowInstance> createdWfInstances = new HashSet<>();
 
     @ManyToMany(mappedBy = "guests")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JsonIgnore
-    private Set<WorkflowInstance> participants = new HashSet<>();
+    private Set<WorkflowInstance> memberWfInstances = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -67,29 +67,29 @@ public class MdlUser implements Serializable {
         this.user = user;
     }
 
-    public Set<WorkflowModel> getWorkflows() {
-        return workflows;
+    public Set<WorkflowModel> getCreatedWfModels() {
+        return createdWfModels;
     }
 
-    public MdlUser workflows(Set<WorkflowModel> workflowModels) {
-        this.workflows = workflowModels;
+    public MdlUser createdWfModels(Set<WorkflowModel> workflowModels) {
+        this.createdWfModels = workflowModels;
         return this;
     }
 
-    public MdlUser addWorkflows(WorkflowModel workflowModel) {
-        this.workflows.add(workflowModel);
+    public MdlUser addCreatedWfModel(WorkflowModel workflowModel) {
+        this.createdWfModels.add(workflowModel);
         workflowModel.setAuthor(this);
         return this;
     }
 
-    public MdlUser removeWorkflows(WorkflowModel workflowModel) {
-        this.workflows.remove(workflowModel);
+    public MdlUser removeCreatedWfModel(WorkflowModel workflowModel) {
+        this.createdWfModels.remove(workflowModel);
         workflowModel.setAuthor(null);
         return this;
     }
 
-    public void setWorkflows(Set<WorkflowModel> workflowModels) {
-        this.workflows = workflowModels;
+    public void setCreatedWfModels(Set<WorkflowModel> workflowModels) {
+        this.createdWfModels = workflowModels;
     }
 
     public Set<StepUserAnswerWfInstance> getStepUserAnswers() {
@@ -117,54 +117,54 @@ public class MdlUser implements Serializable {
         this.stepUserAnswers = stepUserAnswerWfInstances;
     }
 
-    public Set<WorkflowInstance> getWorkflowInstances() {
-        return workflowInstances;
+    public Set<WorkflowInstance> getCreatedWfInstances() {
+        return createdWfInstances;
     }
 
-    public MdlUser workflowInstances(Set<WorkflowInstance> workflowInstances) {
-        this.workflowInstances = workflowInstances;
+    public MdlUser createdWfInstances(Set<WorkflowInstance> workflowInstances) {
+        this.createdWfInstances = workflowInstances;
         return this;
     }
 
-    public MdlUser addWorkflowInstance(WorkflowInstance workflowInstance) {
-        this.workflowInstances.add(workflowInstance);
+    public MdlUser addCreatedWfInstance(WorkflowInstance workflowInstance) {
+        this.createdWfInstances.add(workflowInstance);
         workflowInstance.setCreator(this);
         return this;
     }
 
-    public MdlUser removeWorkflowInstance(WorkflowInstance workflowInstance) {
-        this.workflowInstances.remove(workflowInstance);
+    public MdlUser removeCreatedWfInstance(WorkflowInstance workflowInstance) {
+        this.createdWfInstances.remove(workflowInstance);
         workflowInstance.setCreator(null);
         return this;
     }
 
-    public void setWorkflowInstances(Set<WorkflowInstance> workflowInstances) {
-        this.workflowInstances = workflowInstances;
+    public void setCreatedWfInstances(Set<WorkflowInstance> workflowInstances) {
+        this.createdWfInstances = workflowInstances;
     }
 
-    public Set<WorkflowInstance> getParticipants() {
-        return participants;
+    public Set<WorkflowInstance> getMemberWfInstances() {
+        return memberWfInstances;
     }
 
-    public MdlUser participants(Set<WorkflowInstance> workflowInstances) {
-        this.participants = workflowInstances;
+    public MdlUser memberWfInstances(Set<WorkflowInstance> workflowInstances) {
+        this.memberWfInstances = workflowInstances;
         return this;
     }
 
-    public MdlUser addParticipants(WorkflowInstance workflowInstance) {
-        this.participants.add(workflowInstance);
+    public MdlUser addMemberWfInstance(WorkflowInstance workflowInstance) {
+        this.memberWfInstances.add(workflowInstance);
         workflowInstance.getGuests().add(this);
         return this;
     }
 
-    public MdlUser removeParticipants(WorkflowInstance workflowInstance) {
-        this.participants.remove(workflowInstance);
+    public MdlUser removeMemberWfInstance(WorkflowInstance workflowInstance) {
+        this.memberWfInstances.remove(workflowInstance);
         workflowInstance.getGuests().remove(this);
         return this;
     }
 
-    public void setParticipants(Set<WorkflowInstance> workflowInstances) {
-        this.participants = workflowInstances;
+    public void setMemberWfInstances(Set<WorkflowInstance> workflowInstances) {
+        this.memberWfInstances = workflowInstances;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

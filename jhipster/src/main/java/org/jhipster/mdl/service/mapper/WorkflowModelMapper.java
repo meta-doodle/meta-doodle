@@ -14,8 +14,8 @@ public interface WorkflowModelMapper extends EntityMapper<WorkflowModelDTO, Work
     @Mapping(source = "author.id", target = "authorId")
     WorkflowModelDTO toDto(WorkflowModel workflowModel);
 
-    @Mapping(target = "wfsinstances", ignore = true)
-    @Mapping(target = "removeWfsinstance", ignore = true)
+    @Mapping(target = "workflowInstances", ignore = true)
+    @Mapping(target = "removeWorkflowInstance", ignore = true)
     @Mapping(source = "authorId", target = "author")
     WorkflowModel toEntity(WorkflowModelDTO workflowModelDTO);
 

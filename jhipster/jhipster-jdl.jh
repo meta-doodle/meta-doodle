@@ -35,9 +35,9 @@ relationship OneToOne {
 
 relationship OneToMany {
 
-  WorkflowModel{wfsinstance} to WorkflowInstance{wfModel}
+  WorkflowModel to WorkflowInstance{wfModel}
   
-  MdlUser{workflows} to WorkflowModel{author}
+  MdlUser{createdWfModel} to WorkflowModel{author}
   
   StepUserAnswerWfInstance{answers} to Answer{stepUserAnswer}
   
@@ -47,7 +47,7 @@ relationship OneToMany {
 
   WorkflowInstance{steps} to Step{wfInstance}
   
-  MdlUser{WorkflowInstance} to WorkflowInstance{creator}  
+  MdlUser{createdWfInstance} to WorkflowInstance{creator}  
 
 }
 
@@ -55,7 +55,7 @@ relationship ManyToMany {
 
   // un MDLUser a une liste d'instances de workflow
   // Une instance de workflow a une liste de "guests"
-	   WorkflowInstance{guests} to MdlUser{participants} 
+	   WorkflowInstance{guests} to MdlUser{memberWfInstance} 
 
 }
 

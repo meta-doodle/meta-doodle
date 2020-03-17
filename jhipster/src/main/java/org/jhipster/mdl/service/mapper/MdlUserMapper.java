@@ -15,14 +15,14 @@ public interface MdlUserMapper extends EntityMapper<MdlUserDTO, MdlUser> {
     MdlUserDTO toDto(MdlUser mdlUser);
 
     @Mapping(source = "userId", target = "user")
-    @Mapping(target = "workflows", ignore = true)
-    @Mapping(target = "removeWorkflows", ignore = true)
+    @Mapping(target = "createdWfModels", ignore = true)
+    @Mapping(target = "removeCreatedWfModel", ignore = true)
     @Mapping(target = "stepUserAnswers", ignore = true)
     @Mapping(target = "removeStepUserAnswers", ignore = true)
-    @Mapping(target = "workflowInstances", ignore = true)
-    @Mapping(target = "removeWorkflowInstance", ignore = true)
-    @Mapping(target = "participants", ignore = true)
-    @Mapping(target = "removeParticipants", ignore = true)
+    @Mapping(target = "createdWfInstances", ignore = true)
+    @Mapping(target = "removeCreatedWfInstance", ignore = true)
+    @Mapping(target = "memberWfInstances", ignore = true)
+    @Mapping(target = "removeMemberWfInstance", ignore = true)
     MdlUser toEntity(MdlUserDTO mdlUserDTO);
 
     default MdlUser fromId(Long id) {
