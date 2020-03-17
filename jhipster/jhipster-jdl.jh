@@ -28,7 +28,7 @@ entity StepUserAnswerWfInstance {
 
 relationship OneToOne {
 
-	StepUserAnswerWfInstance{step} to Step{stepUserAnswer}
+    StepUserAnswerWfInstance{step} to Step{stepUserAnswer}
     
     MdlUser{user} to User{juser} 
 }
@@ -42,6 +42,7 @@ relationship OneToMany {
   StepUserAnswerWfInstance{answers} to Answer{stepUserAnswer}
   
   MdlUser{stepUserAnswers} to StepUserAnswerWfInstance{mdlUser}  
+
   WorkflowInstance{stepUserAnswers} to StepUserAnswerWfInstance{workflowInstance}
 
   WorkflowInstance{steps} to Step{wfInstance}
