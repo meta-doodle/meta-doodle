@@ -1,0 +1,80 @@
+grammar org.xtext.metadoodle.MDL with org.eclipse.xtext.common.Terminals
+
+generate mDL "http://www.xtext.org/metadoodle/MDL"
+
+// Parsing
+Workflow:
+	name=ID
+	Desc=STRING
+	(steps+=Step)+
+;
+
+Step :
+    LA 'StepName:' name=ID
+    'Comment:' comment=STRING
+    obj=UserInput
+    synchro=Synchro
+    (LP reminders=Reminder RP)? RA
+;
+
+UserInput :
+    Survey | Calendar | FileUpload
+;
+
+Survey:
+	'Survey'
+	LA (questions+=Question)+ RA
+;
+
+Question:
+	'QuestionTitle:' name=ID
+    'QuestionType:' type=AnswerType
+    ('PossibleAnswers:' (responses+=STRING)+)?
+;
+
+AnswerType:
+    OPENQUESTION='OpenQuestion' |
+    CHECKBOX='CheckBox' |
+    RADIOBUTTON='RadioButton'
+;
+
+Calendar:
+	'Calendar'
+    LA 'StartingDate:' start=DATE
+    'EndingDate:' end=DATE 
+    'Granularity:' granularity=INT RA
+;
+
+FileUpload:
+	'FileUpload'
+    LA (mimeTypes+=STRING)+ RA
+;
+
+Synchro:
+	'Synchro'
+    endDate=DATE
+    waitOtherUsers=BOOLEAN
+    // If we have a certain percentage of answer
+    percentageCompletionUse=BOOLEAN
+    percentageCompletion=INT
+;
+
+Reminder:
+    'Reminder'
+    (dateToSend+=DATE)+
+    object=STRING
+    body=STRING
+;
+
+// Lexing
+// TODO Ajouter un verificateur.
+terminal DATE:
+    ('0'..'2')('0'..'9')'/'('0'..'1')('0'..'9')'/'(('2'..'9')('0'..'9'))?('0'..'9')('0'..'9')
+;
+
+terminal BOOLEAN: 'true' | 'false';
+
+terminal RP: ')' ;
+terminal LP: '(' ;
+terminal RA: '}' ;
+terminal LA: '{' ;

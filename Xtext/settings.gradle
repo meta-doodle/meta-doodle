@@ -1,0 +1,3 @@
+include 'org.xtext.metadoodle'
+include 'org.xtext.metadoodle.ide'
+include 'org.xtext.metadoodle.tests'
