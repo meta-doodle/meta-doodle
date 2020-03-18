@@ -8,5 +8,12 @@
     <label for="description">
       Description :
     </label>
-      <input type="text" id="description" class="form-control" name="description" ngModel>
+      <textarea type="textarea" id="description" class="form-control" name="description" ngModel>
+</div>
+<div class="form-group">
+    <input type="file" id="file" class="form-control">
+</div>
+
+<div >
+    <button type="submit" class="btn btn-primary" (click)="lire()">Creer</button>
 </div>
