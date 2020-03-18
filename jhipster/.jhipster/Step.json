@@ -18,6 +18,10 @@
             "fieldValidateRules": [
                 "required"
             ]
+        },
+        {
+            "fieldName": "nextStep",
+            "fieldType": "Long"
         }
     ],
     "relationships": [
