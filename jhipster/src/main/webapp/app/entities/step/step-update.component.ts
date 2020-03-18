@@ -27,6 +27,7 @@ export class StepUpdateComponent implements OnInit {
     mandatory: [],
     answered: [null, [Validators.required]],
     deadline: [null, [Validators.required]],
+    nextStep: [],
     wfInstanceId: []
   });
 
@@ -58,6 +59,7 @@ export class StepUpdateComponent implements OnInit {
       mandatory: step.mandatory,
       answered: step.answered,
       deadline: step.deadline,
+      nextStep: step.nextStep,
       wfInstanceId: step.wfInstanceId
     });
   }
@@ -83,6 +85,7 @@ export class StepUpdateComponent implements OnInit {
       mandatory: this.editForm.get(['mandatory'])!.value,
       answered: this.editForm.get(['answered'])!.value,
       deadline: this.editForm.get(['deadline'])!.value,
+      nextStep: this.editForm.get(['nextStep'])!.value,
       wfInstanceId: this.editForm.get(['wfInstanceId'])!.value
     };
   }
