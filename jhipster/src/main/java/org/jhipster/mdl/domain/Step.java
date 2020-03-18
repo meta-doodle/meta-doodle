@@ -36,9 +36,6 @@ public class Step implements Serializable {
     @Column(name = "deadline", nullable = false)
     private LocalDate deadline;
 
-    @Column(name = "next_step")
-    private Long nextStep;
-
     @OneToOne(mappedBy = "step")
     @JsonIgnore
     private StepUserAnswerWfInstance stepUserAnswer;
@@ -95,19 +92,6 @@ public class Step implements Serializable {
         this.deadline = deadline;
     }
 
-    public Long getNextStep() {
-        return nextStep;
-    }
-
-    public Step nextStep(Long nextStep) {
-        this.nextStep = nextStep;
-        return this;
-    }
-
-    public void setNextStep(Long nextStep) {
-        this.nextStep = nextStep;
-    }
-
     public StepUserAnswerWfInstance getStepUserAnswer() {
         return stepUserAnswer;
     }
@@ -158,7 +142,6 @@ public class Step implements Serializable {
             ", mandatory=" + getMandatory() +
             ", answered=" + getAnswered() +
             ", deadline='" + getDeadline() + "'" +
-            ", nextStep=" + getNextStep() +
             "}";
     }
 }

@@ -15,7 +15,6 @@ entity Step {
 	mandatory Integer 
 	answered Integer required
 	deadline LocalDate required
-	nextStep Long
 }
 
 entity Answer {

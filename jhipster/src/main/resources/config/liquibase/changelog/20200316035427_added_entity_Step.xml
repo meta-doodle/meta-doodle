@@ -24,9 +24,6 @@
             <column name="deadline" type="date">
                 <constraints nullable="false" />
             </column>
-            <column name="next_step" type="bigint">
-                <constraints nullable="true" />
-            </column>
             <column name="wf_instance_id" type="bigint">
                 <constraints nullable="true" />
             </column>
@@ -56,7 +53,6 @@
             <column name="mandatory" type="numeric"/>
             <column name="answered" type="numeric"/>
             <column name="deadline" type="date"/>
-            <column name="next_step" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>
     </changeSet>

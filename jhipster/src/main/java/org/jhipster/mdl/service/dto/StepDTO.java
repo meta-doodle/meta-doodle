@@ -19,8 +19,6 @@ public class StepDTO implements Serializable {
     @NotNull
     private LocalDate deadline;
 
-    private Long nextStep;
-
 
     private Long wfInstanceId;
 
@@ -54,14 +52,6 @@ public class StepDTO implements Serializable {
 
     public void setDeadline(LocalDate deadline) {
         this.deadline = deadline;
-    }
-
-    public Long getNextStep() {
-        return nextStep;
-    }
-
-    public void setNextStep(Long nextStep) {
-        this.nextStep = nextStep;
     }
 
     public Long getWfInstanceId() {
@@ -100,7 +90,6 @@ public class StepDTO implements Serializable {
             ", mandatory=" + getMandatory() +
             ", answered=" + getAnswered() +
             ", deadline='" + getDeadline() + "'" +
-            ", nextStep=" + getNextStep() +
             ", wfInstanceId=" + getWfInstanceId() +
             "}";
     }
