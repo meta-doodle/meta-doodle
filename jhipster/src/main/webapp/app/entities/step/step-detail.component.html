@@ -1,0 +1,41 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="step">
+            <h2><span>Step</span> {{step.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Mandatory</span></dt>
+                <dd>
+                    <span>{{step.mandatory}}</span>
+                </dd>
+                <dt><span>Answered</span></dt>
+                <dd>
+                    <span>{{step.answered}}</span>
+                </dd>
+                <dt><span>Deadline</span></dt>
+                <dd>
+                    <span>{{step.deadline}}</span>
+                </dd>
+                <dt><span>Wf Instance</span></dt>
+                <dd>
+                    <div *ngIf="step.wfInstanceId">
+                        <a [routerLink]="['/workflow-instance', step.wfInstanceId, 'view']">{{step.wfInstanceId}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/step', step.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

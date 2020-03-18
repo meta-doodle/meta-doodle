@@ -1,0 +1,41 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="workflowInstance">
+            <h2><span>Workflow Instance</span> {{workflowInstance.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Guests</span></dt>
+                <dd>
+                    <span *ngFor="let guests of workflowInstance.guests; let last = last">
+                        <a [routerLink]="['/mdl-user', guests?.id, 'view' ]">{{guests.id}}</a>{{last ? '' : ', '}}
+                    </span>
+                </dd>
+                <dt><span>Wf Model</span></dt>
+                <dd>
+                    <div *ngIf="workflowInstance.wfModelId">
+                        <a [routerLink]="['/workflow-model', workflowInstance.wfModelId, 'view']">{{workflowInstance.wfModelId}}</a>
+                    </div>
+                </dd>
+                <dt><span>Creator</span></dt>
+                <dd>
+                    <div *ngIf="workflowInstance.creatorId">
+                        <a [routerLink]="['/mdl-user', workflowInstance.creatorId, 'view']">{{workflowInstance.creatorId}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/workflow-instance', workflowInstance.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
