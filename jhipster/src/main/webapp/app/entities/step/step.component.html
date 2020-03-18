@@ -22,6 +22,7 @@
             <th scope="col" ><span>Mandatory</span></th>
             <th scope="col" ><span>Answered</span></th>
             <th scope="col" ><span>Deadline</span></th>
+            <th scope="col" ><span>Next Step</span></th>
             <th scope="col" ><span>Wf Instance</span></th>
             <th scope="col"></th>
             </tr>
@@ -32,6 +33,7 @@
                 <td>{{step.mandatory}}</td>
                 <td>{{step.answered}}</td>
                 <td>{{step.deadline | date:'mediumDate'}}</td>
+                <td>{{step.nextStep}}</td>
                 <td>
                     <div *ngIf="step.wfInstanceId">
                         <a [routerLink]="['/workflow-instance', step.wfInstanceId , 'view' ]" >{{step.wfInstanceId}}</a>

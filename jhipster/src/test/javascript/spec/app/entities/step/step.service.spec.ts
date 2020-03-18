@@ -24,7 +24,7 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new Step(0, 0, 0, currentDate);
+      elemDefault = new Step(0, 0, 0, currentDate, 0);
     });
 
     describe('Service methods', () => {
@@ -73,7 +73,8 @@ describe('Service Tests', () => {
           {
             mandatory: 1,
             answered: 1,
-            deadline: currentDate.format(DATE_FORMAT)
+            deadline: currentDate.format(DATE_FORMAT),
+            nextStep: 1
           },
           elemDefault
         );
@@ -98,7 +99,8 @@ describe('Service Tests', () => {
           {
             mandatory: 1,
             answered: 1,
-            deadline: currentDate.format(DATE_FORMAT)
+            deadline: currentDate.format(DATE_FORMAT),
+            nextStep: 1
           },
           elemDefault
         );

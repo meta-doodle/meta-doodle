@@ -47,6 +47,9 @@ public class StepResourceIT {
     private static final LocalDate DEFAULT_DEADLINE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_DEADLINE = LocalDate.now(ZoneId.systemDefault());
 
+    private static final Long DEFAULT_NEXT_STEP = 1L;
+    private static final Long UPDATED_NEXT_STEP = 2L;
+
     @Autowired
     private StepRepository stepRepository;
 
@@ -97,7 +100,8 @@ public class StepResourceIT {
         Step step = new Step()
             .mandatory(DEFAULT_MANDATORY)
             .answered(DEFAULT_ANSWERED)
-            .deadline(DEFAULT_DEADLINE);
+            .deadline(DEFAULT_DEADLINE)
+            .nextStep(DEFAULT_NEXT_STEP);
         return step;
     }
     /**
@@ -110,7 +114,8 @@ public class StepResourceIT {
         Step step = new Step()
             .mandatory(UPDATED_MANDATORY)
             .answered(UPDATED_ANSWERED)
-            .deadline(UPDATED_DEADLINE);
+            .deadline(UPDATED_DEADLINE)
+            .nextStep(UPDATED_NEXT_STEP);
         return step;
     }
 
@@ -138,6 +143,7 @@ public class StepResourceIT {
         assertThat(testStep.getMandatory()).isEqualTo(DEFAULT_MANDATORY);
         assertThat(testStep.getAnswered()).isEqualTo(DEFAULT_ANSWERED);
         assertThat(testStep.getDeadline()).isEqualTo(DEFAULT_DEADLINE);
+        assertThat(testStep.getNextStep()).isEqualTo(DEFAULT_NEXT_STEP);
     }
 
     @Test
@@ -212,7 +218,8 @@ public class StepResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(step.getId().intValue())))
             .andExpect(jsonPath("$.[*].mandatory").value(hasItem(DEFAULT_MANDATORY)))
             .andExpect(jsonPath("$.[*].answered").value(hasItem(DEFAULT_ANSWERED)))
-            .andExpect(jsonPath("$.[*].deadline").value(hasItem(DEFAULT_DEADLINE.toString())));
+            .andExpect(jsonPath("$.[*].deadline").value(hasItem(DEFAULT_DEADLINE.toString())))
+            .andExpect(jsonPath("$.[*].nextStep").value(hasItem(DEFAULT_NEXT_STEP.intValue())));
     }
     
     @Test
@@ -228,7 +235,8 @@ public class StepResourceIT {
             .andExpect(jsonPath("$.id").value(step.getId().intValue()))
             .andExpect(jsonPath("$.mandatory").value(DEFAULT_MANDATORY))
             .andExpect(jsonPath("$.answered").value(DEFAULT_ANSWERED))
-            .andExpect(jsonPath("$.deadline").value(DEFAULT_DEADLINE.toString()));
+            .andExpect(jsonPath("$.deadline").value(DEFAULT_DEADLINE.toString()))
+            .andExpect(jsonPath("$.nextStep").value(DEFAULT_NEXT_STEP.intValue()));
     }
 
     @Test
@@ -254,7 +262,8 @@ public class StepResourceIT {
         updatedStep
             .mandatory(UPDATED_MANDATORY)
             .answered(UPDATED_ANSWERED)
-            .deadline(UPDATED_DEADLINE);
+            .deadline(UPDATED_DEADLINE)
+            .nextStep(UPDATED_NEXT_STEP);
         StepDTO stepDTO = stepMapper.toDto(updatedStep);
 
         restStepMockMvc.perform(put("/api/steps")
@@ -269,6 +278,7 @@ public class StepResourceIT {
         assertThat(testStep.getMandatory()).isEqualTo(UPDATED_MANDATORY);
         assertThat(testStep.getAnswered()).isEqualTo(UPDATED_ANSWERED);
         assertThat(testStep.getDeadline()).isEqualTo(UPDATED_DEADLINE);
+        assertThat(testStep.getNextStep()).isEqualTo(UPDATED_NEXT_STEP);
     }
 
     @Test
