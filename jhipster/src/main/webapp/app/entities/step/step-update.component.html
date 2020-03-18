@@ -1,0 +1,71 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-step-heading">Create or edit a Step</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
+                        readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_mandatory">Mandatory</label>
+                    <input type="number" class="form-control" name="mandatory" id="field_mandatory"
+                           formControlName="mandatory"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_answered">Answered</label>
+                    <input type="number" class="form-control" name="answered" id="field_answered"
+                           formControlName="answered"/>
+                    <div *ngIf="editForm.get('answered')!.invalid && (editForm.get('answered')!.dirty || editForm.get('answered')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('answered')?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('answered')?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_deadline">Deadline</label>
+                    <div class="input-group">
+                        <input id="field_deadline" type="text" class="form-control" name="deadline" ngbDatepicker  #deadlineDp="ngbDatepicker" formControlName="deadline"/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="deadlineDp.toggle()"><fa-icon [icon]="'calendar-alt'"></fa-icon></button>
+                        </span>
+                    </div>
+                    <div *ngIf="editForm.get('deadline')!.invalid && (editForm.get('deadline')!.dirty || editForm.get('deadline')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('deadline')?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_nextStep">Next Step</label>
+                    <input type="number" class="form-control" name="nextStep" id="field_nextStep"
+                           formControlName="nextStep"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_wfInstance">Wf Instance</label>
+                    <select class="form-control" id="field_wfInstance" name="wfInstance" formControlName="wfInstanceId">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="workflowInstanceOption.id" *ngFor="let workflowInstanceOption of workflowinstances; trackBy: trackById">{{workflowInstanceOption.id}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

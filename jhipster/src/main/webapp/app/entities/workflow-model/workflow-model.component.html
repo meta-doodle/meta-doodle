@@ -1,0 +1,65 @@
+<div>
+    <h2 id="page-heading">
+        <span>Workflow Models</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-workflow-model" [routerLink]="['/workflow-model/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span >
+            Create a new Workflow Model
+            </span>
+        </button>
+    </h2>
+    <jhi-alert-error></jhi-alert-error>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="alert alert-warning" *ngIf="workflowModels?.length === 0">
+        <span>No workflowModels found</span>
+    </div>
+    <div class="table-responsive" *ngIf="workflowModels?.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+            <tr>
+            <th scope="col" ><span>ID</span></th>
+            <th scope="col" ><span>Title</span></th>
+            <th scope="col" ><span>Description</span></th>
+            <th scope="col" ><span>Body</span></th>
+            <th scope="col" ><span>Author</span></th>
+            <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let workflowModel of workflowModels ;trackBy: trackId">
+                <td><a [routerLink]="['/workflow-model', workflowModel.id, 'view' ]">{{workflowModel.id}}</a></td>
+                <td>{{workflowModel.title}}</td>
+                <td>{{workflowModel.description}}</td>
+                <td>{{workflowModel.body}}</td>
+                <td>
+                    <div *ngIf="workflowModel.authorId">
+                        <a [routerLink]="['/mdl-user', workflowModel.authorId , 'view' ]" >{{workflowModel.authorId}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button type="submit"
+                                [routerLink]="['/workflow-model', workflowModel.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/workflow-model', workflowModel.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit" (click)="delete(workflowModel)"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
