@@ -1,4 +1,7 @@
-
+/**
+ * Cette classe gère l'étape d'une instance de workflow.
+ *
+ */
 public interface Step {
 	/**
 	 * Cette méthode retourne le numéro de l'étape en cours.
@@ -13,11 +16,20 @@ public interface Step {
 	public String getComment();
 	
 	/**
-	 * 
+	 * Donne l'action correspondant à l'étape.
 	 * @return
 	 */
 	public UserInput getUserInput();
 	
+	/**
+	 * cette méthode retourne true s'il y a un rappel.
+	 * @return
+	 */
+	public boolean hasReminder();
 	
-	
+	/**
+	 * Retourne l'object Reminder qui s'occupe des rappels.
+	 * @return
+	 */
+	public Reminder getReminder();
 }
