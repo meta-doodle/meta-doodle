@@ -60,5 +60,8 @@ export class SurveyComponent implements OnInit {
   submit(): void {
     this.result = this.surveyService.answers;
     /* debugger; */
+
+    this.result = this.surveyService.answers
+
   }
 }
