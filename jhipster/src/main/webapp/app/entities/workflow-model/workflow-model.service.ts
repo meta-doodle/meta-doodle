@@ -12,6 +12,7 @@ type EntityArrayResponseType = HttpResponse<IWorkflowModel[]>;
 @Injectable({ providedIn: 'root' })
 export class WorkflowModelService {
   public resourceUrl = SERVER_API_URL + 'api/workflow-models';
+  public url ='list';
 
   constructor(protected http: HttpClient) {}
 
@@ -25,6 +26,10 @@ export class WorkflowModelService {
 
   find(id: number): Observable<EntityResponseType> {
     return this.http.get<IWorkflowModel>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  }
+
+  findAll(): Observable<EntityResponseType>{
+    return this.http.get<IWorkflowModel>(`${this.resourceUrl}`, { observe: 'response' });
   }
 
   query(req?: any): Observable<EntityArrayResponseType> {

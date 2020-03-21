@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { WorkflowModelService } from '../entities/workflow-model/workflow-model.service';
+
 
 @Component({
   moduleId: module.id,
@@ -25,7 +27,19 @@ export class ListModelComponent implements OnInit {
     }
   ];
 
-  constructor() {}
+  modelsType: any;
 
-  ngOnInit(): void {}
+  constructor(private service: WorkflowModelService) {}
+
+  loadAll(): void {
+    this.service.findAll().subscribe(data => {
+      this.modelsType = data.body ? data.body : [];
+    });
+  }
+
+  ngOnInit(): void {
+    this.loadAll();
+
+  }
+
 }

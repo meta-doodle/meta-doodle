@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { IModel } from 'app/shared/types/temp';
+import { IWorkflowModel } from 'app/shared/model/workflow-model.model';
 
 @Component({
   moduleId: module.id,
@@ -8,7 +9,7 @@ import { IModel } from 'app/shared/types/temp';
   styleUrls: ['model.component.scss']
 })
 export class ModelComponent implements OnInit {
-  @Input() model!: IModel;
+  @Input() model!: IWorkflowModel;
 
   id: number | undefined;
   title: string | undefined;
