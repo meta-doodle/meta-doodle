@@ -9,9 +9,8 @@
         <p>{{ this.description}}</p>
     </div>
     <div class="right_container container">
-      <a class="navlink" routerLink="/list-model/instantiate" >
+      <a class="navlink" [routerLink]="['/list-model/instantiate',id]">
        <span>create</span>
-
    </a>
     </div>
 </div>
