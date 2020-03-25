@@ -45,28 +45,6 @@ public class CacheConfiguration {
             createCache(cm, org.jhipster.mdl.domain.User.class.getName());
             createCache(cm, org.jhipster.mdl.domain.Authority.class.getName());
             createCache(cm, org.jhipster.mdl.domain.User.class.getName() + ".authorities");
-            createCache(cm, org.jhipster.mdl.domain.WorkflowModel.class.getName());
-            createCache(cm, org.jhipster.mdl.domain.WorkflowModel.class.getName() + ".wfsinstances");
-            createCache(cm, org.jhipster.mdl.domain.WorkflowInstance.class.getName());
-            createCache(cm, org.jhipster.mdl.domain.WorkflowInstance.class.getName() + ".stepUserAnswers");
-            createCache(cm, org.jhipster.mdl.domain.WorkflowInstance.class.getName() + ".steps");
-            createCache(cm, org.jhipster.mdl.domain.WorkflowInstance.class.getName() + ".guests");
-            createCache(cm, org.jhipster.mdl.domain.MdlUser.class.getName());
-            createCache(cm, org.jhipster.mdl.domain.MdlUser.class.getName() + ".workflows");
-            createCache(cm, org.jhipster.mdl.domain.MdlUser.class.getName() + ".stepUserAnswers");
-            createCache(cm, org.jhipster.mdl.domain.MdlUser.class.getName() + ".workflowInstances");
-            createCache(cm, org.jhipster.mdl.domain.MdlUser.class.getName() + ".participants");
-            createCache(cm, org.jhipster.mdl.domain.Step.class.getName());
-            createCache(cm, org.jhipster.mdl.domain.Answer.class.getName());
-            createCache(cm, org.jhipster.mdl.domain.StepUserAnswerWfInstance.class.getName());
-            createCache(cm, org.jhipster.mdl.domain.StepUserAnswerWfInstance.class.getName() + ".answers");
-            createCache(cm, org.jhipster.mdl.domain.WorkflowModel.class.getName() + ".workflowInstances");
-            createCache(cm, org.jhipster.mdl.domain.MdlUser.class.getName() + ".wfModelCreateds");
-            createCache(cm, org.jhipster.mdl.domain.MdlUser.class.getName() + ".wfInstanceCreateds");
-            createCache(cm, org.jhipster.mdl.domain.MdlUser.class.getName() + ".wfInstanceParticipateds");
-            createCache(cm, org.jhipster.mdl.domain.MdlUser.class.getName() + ".createdWfModels");
-            createCache(cm, org.jhipster.mdl.domain.MdlUser.class.getName() + ".createdWfInstances");
-            createCache(cm, org.jhipster.mdl.domain.MdlUser.class.getName() + ".memberWfInstances");
             // jhipster-needle-ehcache-add-entry
         };
     }

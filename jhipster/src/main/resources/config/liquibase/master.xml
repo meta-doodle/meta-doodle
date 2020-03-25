@@ -14,18 +14,6 @@
     <property name="uuidType" value="uuid" dbms="h2, postgresql"/>
 
     <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20200316035424_added_entity_WorkflowModel.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20200316035425_added_entity_WorkflowInstance.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20200316035426_added_entity_MdlUser.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20200316035427_added_entity_Step.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20200316035428_added_entity_Answer.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20200316035429_added_entity_StepUserAnswerWfInstance.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
-    <include file="config/liquibase/changelog/20200316035424_added_entity_constraints_WorkflowModel.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20200316035425_added_entity_constraints_WorkflowInstance.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20200316035426_added_entity_constraints_MdlUser.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20200316035427_added_entity_constraints_Step.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20200316035428_added_entity_constraints_Answer.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20200316035429_added_entity_constraints_StepUserAnswerWfInstance.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>
