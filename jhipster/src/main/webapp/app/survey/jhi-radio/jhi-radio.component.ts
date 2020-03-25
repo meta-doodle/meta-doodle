@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { IQuestion } from 'app/shared/types/temp';
 import { SurveyService } from '../survey.service';
+import { IQuestion } from 'app/shared/types/question';
 
 @Component({
   moduleId: module.id,
@@ -9,19 +9,15 @@ import { SurveyService } from '../survey.service';
   styleUrls: ['jhi-radio.component.scss']
 })
 export class JhiRadioComponent implements OnInit {
-
   @Input() question!: IQuestion;
 
-  constructor(private surveyService: SurveyService) {
-
-  }
+  constructor(private surveyService: SurveyService) {}
 
   ngOnInit(): void {
-    this.surveyService.setKey(this.question.id, "")
+    this.surveyService.setKey(this.question.id, '');
   }
 
   onChange(value: string): void {
-    this.surveyService.setKey(this.question.id, value)
+    this.surveyService.setKey(this.question.id, value);
   }
-
 }

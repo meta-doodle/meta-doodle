@@ -4,19 +4,17 @@
     format, use another file.
 */
 
+import { IRestriction, IDateRestriction } from './options';
+
 export interface IQuestion {
   answerType: string;
   title: string;
   id: string;
-  restrictions: Array<IRestriction>;
+  restrictions: Array<IRestriction> | IDateRestriction;
 }
 
 export interface IModel {
   id: number;
   title: string;
   description: string;
-}
-export interface IRestriction {
-  label: string;
-  id: string;
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { IQuestion } from 'app/shared/types/temp';
+import { IQuestion } from 'app/shared/types/question';
 
 @Component({
   selector: 'jhi-question',
@@ -7,12 +7,9 @@ import { IQuestion } from 'app/shared/types/temp';
   styleUrls: ['./question.component.scss']
 })
 export class QuestionComponent implements OnInit {
+  @Input() question!: IQuestion;
 
-  @Input() question!: IQuestion
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

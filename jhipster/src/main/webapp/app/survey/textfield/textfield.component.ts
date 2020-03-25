@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { IQuestion } from 'app/shared/types/temp';
 import { SurveyService } from '../survey.service';
+import { IQuestion } from 'app/shared/types/question';
 
 @Component({
   selector: 'jhi-textfield',
@@ -8,17 +8,15 @@ import { SurveyService } from '../survey.service';
   styleUrls: ['./textfield.component.scss']
 })
 export class TextfieldComponent implements OnInit {
+  @Input() question!: IQuestion;
 
-  @Input() question!: IQuestion
-
-  constructor(private surveyService: SurveyService) { }
+  constructor(private surveyService: SurveyService) {}
 
   ngOnInit(): void {
-    this.surveyService.setKey(this.question.id, "")
+    this.surveyService.setKey(this.question.id, '');
   }
 
   onChange(value: string): void {
-    this.surveyService.setKey(this.question.id, value)
+    this.surveyService.setKey(this.question.id, value);
   }
-
 }

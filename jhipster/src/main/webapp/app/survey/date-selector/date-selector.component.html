@@ -1,0 +1,6 @@
+<p>{{ this.question.title }}</p>
+
+<div class="custom-control ">
+    <input type="date" name="birtdate" placeholder="select date" min="{{ dateBegin() }}" max="{{ dateEnd() }}"
+        (change)="onChange($event.target.value)">
+</div>

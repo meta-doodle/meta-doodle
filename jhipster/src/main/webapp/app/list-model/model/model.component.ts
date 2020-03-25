@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { IModel } from 'app/shared/types/temp';
+import { IModel } from 'app/shared/types/question';
 import { IWorkflowModel } from 'app/shared/model/workflow-model.model';
 
 @Component({
