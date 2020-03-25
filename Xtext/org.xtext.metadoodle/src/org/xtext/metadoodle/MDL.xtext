@@ -10,20 +10,20 @@ Workflow:
 ;
 
 WorkflowStep :
-    LA 'StepName:' name=ID
+    '{' 'StepName:' name=ID
     'Comment:' comment=STRING
-    (userImputs+=UserInput)+
+    userInteraction+=UserInteraction
     synchro=Synchro
-    (LP reminders=Reminder RP)? RA
+    ('(' reminders=MailReminder ')')? '}'
 ;
 
-UserInput :
+UserInteraction :
     Survey | Calendar | FileUpload
 ;
 
 Survey:
 	'Survey'
-	LA (questions+=Question)+ RA
+	'{' (questions+=Question)+ '}'
 ;
 
 Question:
@@ -40,14 +40,14 @@ AnswerType:
 
 Calendar:
 	'Calendar'
-    LA 'StartingDate:' start=DATE
+    '{' 'StartingDate:' start=DATE
     'EndingDate:' end=DATE 
-    'Accuracy:' accuracy=STRING? RA
+    ('Accuracy:' accuracy=STRING)? '}'
 ;
 
 FileUpload:
 	'FileUpload'
-    LA (mimeTypes+=STRING)+ RA
+    '{' (mimeTypes+=STRING)+ '}'
 ;
 
 Synchro:
@@ -59,8 +59,8 @@ Synchro:
     percentageCompletion=INT
 ;
 
-Reminder:
-    'Reminder'
+MailReminder:
+    'MailReminder'
     (dateToSend+=DATE)+
     object=STRING
     body=STRING
@@ -72,8 +72,3 @@ terminal DATE:
 ;
 
 terminal BOOLEAN: 'true' | 'false';
-
-terminal RP: ')' ;
-terminal LP: '(' ;
-terminal RA: '}' ;
-terminal LA: '{' ;
