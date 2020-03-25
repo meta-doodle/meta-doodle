@@ -3,9 +3,15 @@
  */
 package org.xtext.metadoodle;
 
+import org.eclipse.xtext.conversion.IValueConverterService;
+import org.xtext.metadoodle.validation.ValueConverterImp;
 
 /**
  * Use this class to register components to be used at runtime / without the Equinox extension registry.
  */
 public class MDLRuntimeModule extends AbstractMDLRuntimeModule {
+	
+    public Class<? extends IValueConverterService> bindIValueConverterService() {
+        return ValueConverterImp.class;
+    }
 }

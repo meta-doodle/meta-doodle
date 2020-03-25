@@ -6,13 +6,13 @@ generate mDL "http://www.xtext.org/metadoodle/MDL"
 Workflow:
 	name=ID
 	Desc=STRING
-	(steps+=Step)+
+	(steps+=WorkflowStep)+
 ;
 
-Step :
+WorkflowStep :
     LA 'StepName:' name=ID
     'Comment:' comment=STRING
-    obj=UserInput
+    (userImputs+=UserInput)+
     synchro=Synchro
     (LP reminders=Reminder RP)? RA
 ;
@@ -42,7 +42,7 @@ Calendar:
 	'Calendar'
     LA 'StartingDate:' start=DATE
     'EndingDate:' end=DATE 
-    'Granularity:' granularity=INT RA
+    'Accuracy:' accuracy=STRING? RA
 ;
 
 FileUpload:
@@ -67,9 +67,8 @@ Reminder:
 ;
 
 // Lexing
-// TODO Ajouter un verificateur.
 terminal DATE:
-    ('0'..'2')('0'..'9')'/'('0'..'1')('0'..'9')'/'(('2'..'9')('0'..'9'))?('0'..'9')('0'..'9')
+    ('0'..'3')('0'..'9')'/'('0'..'1')('0'..'9')'/'(('2'..'9')('0'..'9'))?('0'..'9')('0'..'9')
 ;
 
 terminal BOOLEAN: 'true' | 'false';
