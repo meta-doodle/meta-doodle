@@ -113,4 +113,10 @@ public class MdlUserResource {
         mdlUserService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
     }
+    
+    @GetMapping("/mdl-users/convert/{login}")
+    public ResponseEntity<MdlUserDTO> transformJhipsterToMdlUser(@PathVariable String login){
+    	log.debug("REST request to transform JhipsterUser to MdlUser : {}", login);
+    	return ResponseEntity.noContent().build();
+    }
 }
