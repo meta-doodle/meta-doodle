@@ -113,4 +113,22 @@ public class AnswerResource {
         answerService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
     }
+    
+    @PostMapping("/send-answer")
+    public ResponseEntity<AnswerDTO> sendNewAnswer(@RequestBody AnswerDTO answerDTO) throws URISyntaxException {
+        log.debug("REST request to save Answer : {}", answerDTO);
+        if (answerDTO.getId() != null) {
+            throw new BadRequestAlertException("A new answer cannot already have an ID", ENTITY_NAME, "idexists");
+        }
+        if (answerDTO.getUserId() == null) {
+            throw new BadRequestAlertException("A new send answer has to have an UserID", ENTITY_NAME, "nouserid");
+        }
+        if (answerDTO.getWorkflowInstanceId() == null) {
+            throw new BadRequestAlertException("A new send answer has to have an WorkflowInstanceID", ENTITY_NAME, "nowfiid");
+        }
+        AnswerDTO result = answerService.save(answerDTO);
+        return ResponseEntity.created(new URI("/api/answers/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
+            .body(result);
+    }
 }
