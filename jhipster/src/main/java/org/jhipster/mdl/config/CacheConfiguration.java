@@ -45,6 +45,19 @@ public class CacheConfiguration {
             createCache(cm, org.jhipster.mdl.domain.User.class.getName());
             createCache(cm, org.jhipster.mdl.domain.Authority.class.getName());
             createCache(cm, org.jhipster.mdl.domain.User.class.getName() + ".authorities");
+            createCache(cm, org.jhipster.mdl.domain.MdlUser.class.getName());
+            createCache(cm, org.jhipster.mdl.domain.MdlUser.class.getName() + ".creatorWfInstances");
+            createCache(cm, org.jhipster.mdl.domain.MdlUser.class.getName() + ".workflows");
+            createCache(cm, org.jhipster.mdl.domain.MdlUser.class.getName() + ".workflowInstances");
+            createCache(cm, org.jhipster.mdl.domain.WorkflowModel.class.getName());
+            createCache(cm, org.jhipster.mdl.domain.WorkflowInstance.class.getName());
+            createCache(cm, org.jhipster.mdl.domain.WorkflowInstance.class.getName() + ".answers");
+            createCache(cm, org.jhipster.mdl.domain.WorkflowInstance.class.getName() + ".guests");
+            createCache(cm, org.jhipster.mdl.domain.WorkflowInstanceState.class.getName());
+            createCache(cm, org.jhipster.mdl.domain.WorkflowInstanceState.class.getName() + ".steps");
+            createCache(cm, org.jhipster.mdl.domain.CurrentStep.class.getName());
+            createCache(cm, org.jhipster.mdl.domain.CurrentStep.class.getName() + ".users");
+            createCache(cm, org.jhipster.mdl.domain.Answer.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

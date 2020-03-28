@@ -1,0 +1,89 @@
+entity MdlUser {
+}
+
+entity WorkflowModel {
+	title String required minlength(3) maxlength(25)
+    description String
+    body String required
+}
+
+entity WorkflowInstance {
+}
+
+entity WorkflowInstanceState{
+}
+
+entity CurrentStep {
+	stepIdent Integer
+    numberOfAnswer Integer
+}
+
+
+enum AvailableTypes {
+  String,
+  File,
+  Date
+}
+
+entity Answer {
+    stepIdent Integer
+    questionIdent Integer
+    type AvailableTypes
+    answer String
+}
+/*
+entity DateAnswer {
+	answerID Integer
+    answer LocalDate
+}
+
+entity StringAnswer {
+	answerID Integer
+    answer LocalDate
+}
+
+entity FileAnswer {
+	answerID Integer
+    answer LocalDate
+}
+
+*/
+
+relationship OneToOne {
+    MdlUser{user} to User{juser} 
+    WorkflowInstance{state} to WorkflowInstanceState{workflowInstance}
+}
+
+relationship OneToMany {
+
+  MdlUser{creatorWfInstances} to WorkflowInstance{creator}  
+  MdlUser{workflows} to WorkflowModel{creator} 
+
+  CurrentStep{users} to MdlUser
+  
+  WorkflowInstanceState{steps} to CurrentStep
+
+  WorkflowInstance{answers} to Answer
+
+}
+
+relationship ManyToOne {
+
+WorkflowInstance{wfModel} to WorkflowModel
+
+Answer{user} to MdlUser
+
+
+}
+
+relationship ManyToMany {
+
+  // un MDLUser a une liste d'instances de workflow
+  // Une instance de workflow a une liste de "guests"
+	   WorkflowInstance{guests} to MdlUser{workflowInstances}
+}
+
+
+
+dto * with mapstruct
+service * with serviceImpl

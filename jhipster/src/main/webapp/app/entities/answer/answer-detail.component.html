@@ -1,0 +1,54 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="answer">
+            <h2><span>Answer</span> {{ answer.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span>Step Ident</span></dt>
+                <dd>
+                    <span>{{ answer.stepIdent }}</span>
+                </dd>
+                <dt><span>Question Ident</span></dt>
+                <dd>
+                    <span>{{ answer.questionIdent }}</span>
+                </dd>
+                <dt><span>Type</span></dt>
+                <dd>
+                    <span>{{ answer.type }}</span>
+                </dd>
+                <dt><span>Answer</span></dt>
+                <dd>
+                    <span>{{ answer.answer }}</span>
+                </dd>
+                <dt><span>User</span></dt>
+                <dd>
+                    <div *ngIf="answer.userId">
+                        <a [routerLink]="['/mdl-user', answer.userId, 'view']">{{ answer.userId }}</a>
+                    </div>
+                </dd>
+                <dt><span>Workflow Instance</span></dt>
+                <dd>
+                    <div *ngIf="answer.workflowInstanceId">
+                        <a [routerLink]="['/workflow-instance', answer.workflowInstanceId, 'view']">{{ answer.workflowInstanceId }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/answer', answer.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,51 @@
+{
+    "name": "MdlUser",
+    "fields": [],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "user",
+            "otherEntityRelationshipName": "juser",
+            "relationshipName": "user",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "workflowInstance",
+            "otherEntityRelationshipName": "creator",
+            "relationshipName": "creatorWfInstances"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "workflowModel",
+            "otherEntityRelationshipName": "creator",
+            "relationshipName": "workflows"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "currentStep",
+            "otherEntityRelationshipName": "users",
+            "relationshipName": "currentStep",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "workflowInstance",
+            "otherEntityRelationshipName": "guests",
+            "relationshipName": "workflowInstances",
+            "otherEntityField": "id",
+            "ownerSide": false
+        }
+    ],
+    "changelogDate": "20200328105900",
+    "entityTableName": "mdl_user",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": "*"
+}

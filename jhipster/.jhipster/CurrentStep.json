@@ -1,0 +1,38 @@
+{
+    "name": "CurrentStep",
+    "fields": [
+        {
+            "fieldName": "stepIdent",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "numberOfAnswer",
+            "fieldType": "Integer"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "mdlUser",
+            "otherEntityRelationshipName": "currentStep",
+            "relationshipName": "users"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "workflowInstanceState",
+            "otherEntityRelationshipName": "steps",
+            "relationshipName": "workflowInstanceState",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20200328110300",
+    "entityTableName": "current_step",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": "*"
+}

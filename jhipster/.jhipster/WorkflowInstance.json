@@ -1,0 +1,52 @@
+{
+    "name": "WorkflowInstance",
+    "fields": [],
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "workflowInstanceState",
+            "otherEntityRelationshipName": "workflowInstance",
+            "relationshipName": "state",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "answer",
+            "otherEntityRelationshipName": "workflowInstance",
+            "relationshipName": "answers"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "workflowModel",
+            "otherEntityRelationshipName": "workflowInstance",
+            "relationshipName": "wfModel",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "mdlUser",
+            "otherEntityRelationshipName": "workflowInstances",
+            "relationshipName": "guests",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "mdlUser",
+            "otherEntityRelationshipName": "creatorWfInstances",
+            "relationshipName": "creator",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20200328110100",
+    "entityTableName": "workflow_instance",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": "*"
+}
