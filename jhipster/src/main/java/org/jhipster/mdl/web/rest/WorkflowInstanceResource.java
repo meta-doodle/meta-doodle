@@ -2,6 +2,7 @@ package org.jhipster.mdl.web.rest;
 
 import org.jhipster.mdl.service.WorkflowInstanceService;
 import org.jhipster.mdl.web.rest.errors.BadRequestAlertException;
+import org.jhipster.mdl.workflow.to_transfert_data.WorkflowStepData;
 import org.jhipster.mdl.service.dto.WorkflowInstanceDTO;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -113,5 +114,11 @@ public class WorkflowInstanceResource {
         log.debug("REST request to delete WorkflowInstance : {}", id);
         workflowInstanceService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
+    }
+    
+    @GetMapping("/workflow-instances-view/{login}/{idWFI}")
+    public ResponseEntity<WorkflowStepData> getWorkflowStepData(@PathVariable String login, @PathVariable Long idWFI) {
+    	log.debug("REST request to get WorkflowStepData : {}", login, idWFI);
+    	return ResponseEntity.noContent().build();
     }
 }
