@@ -1,3 +1,4 @@
+package InterpreterInterfaceReturn;
 
 public interface Interpreter {
 	/**
@@ -10,5 +11,5 @@ public interface Interpreter {
 	 * 			Peut ne pas avoir d'utilitée.
 	 * @return L'étape en cours à afficher.
 	 */
-	public Step getStep(String wf, int curStepID, float responseRate);
+	public WorkflowStep getStep(String wf, int curStepID, float responseRate);
 }

@@ -1,11 +1,14 @@
+package InterpreterInterfaceReturn;
 
-public interface Reminder {
+import java.util.Optional;
+
+public interface MailReminder {
 	
 	/**
 	 * Retourne la prochaine date pour envoyer les mails de rappelle.
 	 * @return La date.
 	 */
-	public String getNextDateToSend();
+	public Optional<String> getNextDateToSend();
 	
 	/**
 	 * Cette methode retourne l'object des mails à envoyer.
