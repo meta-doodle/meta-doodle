@@ -39,4 +39,6 @@ public interface MdlUserService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+    
+    Optional<MdlUserDTO> convert(String login);
 }

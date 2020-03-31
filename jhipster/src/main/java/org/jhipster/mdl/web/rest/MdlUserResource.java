@@ -117,6 +117,7 @@ public class MdlUserResource {
     @GetMapping("/mdl-users/convert/{login}")
     public ResponseEntity<MdlUserDTO> transformJhipsterToMdlUser(@PathVariable String login){
     	log.debug("REST request to transform JhipsterUser to MdlUser : {}", login);
-    	return ResponseEntity.noContent().build();
+        Optional<MdlUserDTO> mdlUserDTO = mdlUserService.convert(login);
+        return ResponseUtil.wrapOrNotFound(mdlUserDTO);
     }
 }

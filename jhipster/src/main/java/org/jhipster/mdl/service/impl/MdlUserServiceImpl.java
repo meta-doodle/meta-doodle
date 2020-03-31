@@ -86,4 +86,16 @@ public class MdlUserServiceImpl implements MdlUserService {
         log.debug("Request to delete MdlUser : {}", id);
         mdlUserRepository.deleteById(id);
     }
+    
+    @Override
+	public Optional<MdlUserDTO> convert(String login) {
+		List<MdlUser> mdlUsers = mdlUserRepository.findAll();
+		for (MdlUser mdlUser : mdlUsers) {
+			if(mdlUser.getUser().getLogin().equalsIgnoreCase(login)) {
+				MdlUserDTO mdlUserDTO = mdlUserMapper.toDto(mdlUser);
+				return Optional.of(mdlUserDTO);
+			}
+		}
+		return Optional.empty();
+	}
 }
