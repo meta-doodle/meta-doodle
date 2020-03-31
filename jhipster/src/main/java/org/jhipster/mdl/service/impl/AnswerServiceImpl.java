@@ -62,6 +62,7 @@ public class AnswerServiceImpl implements AnswerService {
             .collect(Collectors.toCollection(LinkedList::new));
     }
 
+
     /**
      * Get one answer by id.
      *

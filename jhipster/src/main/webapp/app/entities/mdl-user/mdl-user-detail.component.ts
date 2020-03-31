@@ -13,7 +13,9 @@ export class MdlUserDetailComponent implements OnInit {
   constructor(protected activatedRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.activatedRoute.data.subscribe(({ mdlUser }) => (this.mdlUser = mdlUser));
+    this.activatedRoute.data.subscribe(({ mdlUser }) => {
+      this.mdlUser = mdlUser;
+    });
   }
 
   previousState(): void {

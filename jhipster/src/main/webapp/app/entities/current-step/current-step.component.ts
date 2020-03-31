@@ -23,7 +23,9 @@ export class CurrentStepComponent implements OnInit, OnDestroy {
   ) {}
 
   loadAll(): void {
-    this.currentStepService.query().subscribe((res: HttpResponse<ICurrentStep[]>) => (this.currentSteps = res.body || []));
+    this.currentStepService.query().subscribe((res: HttpResponse<ICurrentStep[]>) => {
+      this.currentSteps = res.body ? res.body : [];
+    });
   }
 
   ngOnInit(): void {

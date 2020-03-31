@@ -1,5 +1,4 @@
 package org.jhipster.mdl.domain;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -26,10 +25,10 @@ public class Answer implements Serializable {
     private Long id;
 
     @Column(name = "step_ident")
-    private Integer stepIdent;
+    private String stepIdent;
 
     @Column(name = "question_ident")
-    private Integer questionIdent;
+    private String questionIdent;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
@@ -55,29 +54,29 @@ public class Answer implements Serializable {
         this.id = id;
     }
 
-    public Integer getStepIdent() {
+    public String getStepIdent() {
         return stepIdent;
     }
 
-    public Answer stepIdent(Integer stepIdent) {
+    public Answer stepIdent(String stepIdent) {
         this.stepIdent = stepIdent;
         return this;
     }
 
-    public void setStepIdent(Integer stepIdent) {
+    public void setStepIdent(String stepIdent) {
         this.stepIdent = stepIdent;
     }
 
-    public Integer getQuestionIdent() {
+    public String getQuestionIdent() {
         return questionIdent;
     }
 
-    public Answer questionIdent(Integer questionIdent) {
+    public Answer questionIdent(String questionIdent) {
         this.questionIdent = questionIdent;
         return this;
     }
 
-    public void setQuestionIdent(Integer questionIdent) {
+    public void setQuestionIdent(String questionIdent) {
         this.questionIdent = questionIdent;
     }
 
@@ -154,8 +153,8 @@ public class Answer implements Serializable {
     public String toString() {
         return "Answer{" +
             "id=" + getId() +
-            ", stepIdent=" + getStepIdent() +
-            ", questionIdent=" + getQuestionIdent() +
+            ", stepIdent='" + getStepIdent() + "'" +
+            ", questionIdent='" + getQuestionIdent() + "'" +
             ", type='" + getType() + "'" +
             ", answer='" + getAnswer() + "'" +
             "}";

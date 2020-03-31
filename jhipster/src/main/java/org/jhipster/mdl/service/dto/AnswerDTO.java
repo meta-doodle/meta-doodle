@@ -1,5 +1,4 @@
 package org.jhipster.mdl.service.dto;
-
 import java.io.Serializable;
 import java.util.Objects;
 import org.jhipster.mdl.domain.enumeration.AvailableTypes;
@@ -11,9 +10,9 @@ public class AnswerDTO implements Serializable {
 
     private Long id;
 
-    private Integer stepIdent;
+    private String stepIdent;
 
-    private Integer questionIdent;
+    private String questionIdent;
 
     private AvailableTypes type;
 
@@ -32,19 +31,19 @@ public class AnswerDTO implements Serializable {
         this.id = id;
     }
 
-    public Integer getStepIdent() {
+    public String getStepIdent() {
         return stepIdent;
     }
 
-    public void setStepIdent(Integer stepIdent) {
+    public void setStepIdent(String stepIdent) {
         this.stepIdent = stepIdent;
     }
 
-    public Integer getQuestionIdent() {
+    public String getQuestionIdent() {
         return questionIdent;
     }
 
-    public void setQuestionIdent(Integer questionIdent) {
+    public void setQuestionIdent(String questionIdent) {
         this.questionIdent = questionIdent;
     }
 
@@ -105,8 +104,8 @@ public class AnswerDTO implements Serializable {
     public String toString() {
         return "AnswerDTO{" +
             "id=" + getId() +
-            ", stepIdent=" + getStepIdent() +
-            ", questionIdent=" + getQuestionIdent() +
+            ", stepIdent='" + getStepIdent() + "'" +
+            ", questionIdent='" + getQuestionIdent() + "'" +
             ", type='" + getType() + "'" +
             ", answer='" + getAnswer() + "'" +
             ", userId=" + getUserId() +

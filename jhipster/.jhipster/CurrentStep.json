@@ -3,7 +3,7 @@
     "fields": [
         {
             "fieldName": "stepIdent",
-            "fieldType": "Integer"
+            "fieldType": "String"
         },
         {
             "fieldName": "numberOfAnswer",
@@ -12,10 +12,12 @@
     ],
     "relationships": [
         {
-            "relationshipType": "one-to-many",
+            "relationshipType": "many-to-many",
             "otherEntityName": "mdlUser",
-            "otherEntityRelationshipName": "currentStep",
-            "relationshipName": "users"
+            "otherEntityRelationshipName": "steps",
+            "relationshipName": "users",
+            "otherEntityField": "id",
+            "ownerSide": true
         },
         {
             "relationshipType": "many-to-one",

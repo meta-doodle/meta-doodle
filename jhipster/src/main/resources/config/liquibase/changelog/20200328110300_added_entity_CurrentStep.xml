@@ -15,7 +15,7 @@
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="step_ident" type="integer">
+            <column name="step_ident" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="number_of_answer" type="integer">
@@ -30,6 +30,17 @@
 
     <changeSet id="20200328110300-1-relations" author="jhipster">
 
+        <createTable tableName="current_step_users">
+            <column name="users_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="current_step_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="current_step_id, users_id" tableName="current_step_users"/>
+        
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 
@@ -47,7 +58,7 @@
                   separator=";"
                   tableName="current_step">
             <column name="id" type="numeric"/>
-            <column name="step_ident" type="numeric"/>
+            <column name="step_ident" type="string"/>
             <column name="number_of_answer" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>

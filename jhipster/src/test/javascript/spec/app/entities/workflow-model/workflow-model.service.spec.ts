@@ -1,5 +1,6 @@
 import { TestBed, getTestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { take, map } from 'rxjs/operators';
 import { WorkflowModelService } from 'app/entities/workflow-model/workflow-model.service';
 import { IWorkflowModel, WorkflowModel } from 'app/shared/model/workflow-model.model';
 
@@ -10,7 +11,6 @@ describe('Service Tests', () => {
     let httpMock: HttpTestingController;
     let elemDefault: IWorkflowModel;
     let expectedResult: IWorkflowModel | IWorkflowModel[] | boolean | null;
-
     beforeEach(() => {
       TestBed.configureTestingModule({
         imports: [HttpClientTestingModule]
@@ -26,8 +26,10 @@ describe('Service Tests', () => {
     describe('Service methods', () => {
       it('should find an element', () => {
         const returnedFromService = Object.assign({}, elemDefault);
-
-        service.find(123).subscribe(resp => (expectedResult = resp.body));
+        service
+          .find(123)
+          .pipe(take(1))
+          .subscribe(resp => (expectedResult = resp.body));
 
         const req = httpMock.expectOne({ method: 'GET' });
         req.flush(returnedFromService);
@@ -41,11 +43,11 @@ describe('Service Tests', () => {
           },
           elemDefault
         );
-
         const expected = Object.assign({}, returnedFromService);
-
-        service.create(new WorkflowModel()).subscribe(resp => (expectedResult = resp.body));
-
+        service
+          .create(new WorkflowModel())
+          .pipe(take(1))
+          .subscribe(resp => (expectedResult = resp.body));
         const req = httpMock.expectOne({ method: 'POST' });
         req.flush(returnedFromService);
         expect(expectedResult).toMatchObject(expected);
@@ -62,9 +64,10 @@ describe('Service Tests', () => {
         );
 
         const expected = Object.assign({}, returnedFromService);
-
-        service.update(expected).subscribe(resp => (expectedResult = resp.body));
-
+        service
+          .update(expected)
+          .pipe(take(1))
+          .subscribe(resp => (expectedResult = resp.body));
         const req = httpMock.expectOne({ method: 'PUT' });
         req.flush(returnedFromService);
         expect(expectedResult).toMatchObject(expected);
@@ -79,11 +82,14 @@ describe('Service Tests', () => {
           },
           elemDefault
         );
-
         const expected = Object.assign({}, returnedFromService);
-
-        service.query().subscribe(resp => (expectedResult = resp.body));
-
+        service
+          .query()
+          .pipe(
+            take(1),
+            map(resp => resp.body)
+          )
+          .subscribe(body => (expectedResult = body));
         const req = httpMock.expectOne({ method: 'GET' });
         req.flush([returnedFromService]);
         httpMock.verify();

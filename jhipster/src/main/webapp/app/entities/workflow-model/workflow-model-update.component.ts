@@ -4,6 +4,7 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { IWorkflowModel, WorkflowModel } from 'app/shared/model/workflow-model.model';
 import { WorkflowModelService } from './workflow-model.service';
@@ -16,6 +17,7 @@ import { MdlUserService } from 'app/entities/mdl-user/mdl-user.service';
 })
 export class WorkflowModelUpdateComponent implements OnInit {
   isSaving = false;
+
   mdlusers: IMdlUser[] = [];
 
   editForm = this.fb.group({
@@ -37,7 +39,14 @@ export class WorkflowModelUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ workflowModel }) => {
       this.updateForm(workflowModel);
 
-      this.mdlUserService.query().subscribe((res: HttpResponse<IMdlUser[]>) => (this.mdlusers = res.body || []));
+      this.mdlUserService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IMdlUser[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IMdlUser[]) => (this.mdlusers = resBody));
     });
   }
 

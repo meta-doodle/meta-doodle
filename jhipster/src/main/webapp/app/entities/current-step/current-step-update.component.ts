@@ -4,11 +4,16 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { ICurrentStep, CurrentStep } from 'app/shared/model/current-step.model';
 import { CurrentStepService } from './current-step.service';
+import { IMdlUser } from 'app/shared/model/mdl-user.model';
+import { MdlUserService } from 'app/entities/mdl-user/mdl-user.service';
 import { IWorkflowInstanceState } from 'app/shared/model/workflow-instance-state.model';
 import { WorkflowInstanceStateService } from 'app/entities/workflow-instance-state/workflow-instance-state.service';
+
+type SelectableEntity = IMdlUser | IWorkflowInstanceState;
 
 @Component({
   selector: 'jhi-current-step-update',
@@ -16,17 +21,22 @@ import { WorkflowInstanceStateService } from 'app/entities/workflow-instance-sta
 })
 export class CurrentStepUpdateComponent implements OnInit {
   isSaving = false;
+
+  mdlusers: IMdlUser[] = [];
+
   workflowinstancestates: IWorkflowInstanceState[] = [];
 
   editForm = this.fb.group({
     id: [],
     stepIdent: [],
     numberOfAnswer: [],
+    users: [],
     workflowInstanceStateId: []
   });
 
   constructor(
     protected currentStepService: CurrentStepService,
+    protected mdlUserService: MdlUserService,
     protected workflowInstanceStateService: WorkflowInstanceStateService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
@@ -36,9 +46,23 @@ export class CurrentStepUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ currentStep }) => {
       this.updateForm(currentStep);
 
+      this.mdlUserService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IMdlUser[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IMdlUser[]) => (this.mdlusers = resBody));
+
       this.workflowInstanceStateService
         .query()
-        .subscribe((res: HttpResponse<IWorkflowInstanceState[]>) => (this.workflowinstancestates = res.body || []));
+        .pipe(
+          map((res: HttpResponse<IWorkflowInstanceState[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IWorkflowInstanceState[]) => (this.workflowinstancestates = resBody));
     });
   }
 
@@ -47,6 +71,7 @@ export class CurrentStepUpdateComponent implements OnInit {
       id: currentStep.id,
       stepIdent: currentStep.stepIdent,
       numberOfAnswer: currentStep.numberOfAnswer,
+      users: currentStep.users,
       workflowInstanceStateId: currentStep.workflowInstanceStateId
     });
   }
@@ -71,6 +96,7 @@ export class CurrentStepUpdateComponent implements OnInit {
       id: this.editForm.get(['id'])!.value,
       stepIdent: this.editForm.get(['stepIdent'])!.value,
       numberOfAnswer: this.editForm.get(['numberOfAnswer'])!.value,
+      users: this.editForm.get(['users'])!.value,
       workflowInstanceStateId: this.editForm.get(['workflowInstanceStateId'])!.value
     };
   }
@@ -91,7 +117,18 @@ export class CurrentStepUpdateComponent implements OnInit {
     this.isSaving = false;
   }
 
-  trackById(index: number, item: IWorkflowInstanceState): any {
+  trackById(index: number, item: SelectableEntity): any {
     return item.id;
+  }
+
+  getSelected(selectedVals: IMdlUser[], option: IMdlUser): IMdlUser {
+    if (selectedVals) {
+      for (let i = 0; i < selectedVals.length; i++) {
+        if (option.id === selectedVals[i].id) {
+          return selectedVals[i];
+        }
+      }
+    }
+    return option;
   }
 }

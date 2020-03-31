@@ -37,11 +37,11 @@ import org.jhipster.mdl.domain.enumeration.AvailableTypes;
 @SpringBootTest(classes = MdlApp.class)
 public class AnswerResourceIT {
 
-    private static final Integer DEFAULT_STEP_IDENT = 1;
-    private static final Integer UPDATED_STEP_IDENT = 2;
+    private static final String DEFAULT_STEP_IDENT = "AAAAAAAAAA";
+    private static final String UPDATED_STEP_IDENT = "BBBBBBBBBB";
 
-    private static final Integer DEFAULT_QUESTION_IDENT = 1;
-    private static final Integer UPDATED_QUESTION_IDENT = 2;
+    private static final String DEFAULT_QUESTION_IDENT = "AAAAAAAAAA";
+    private static final String UPDATED_QUESTION_IDENT = "BBBBBBBBBB";
 
     private static final AvailableTypes DEFAULT_TYPE = AvailableTypes.String;
     private static final AvailableTypes UPDATED_TYPE = AvailableTypes.File;
@@ -131,7 +131,7 @@ public class AnswerResourceIT {
         // Create the Answer
         AnswerDTO answerDTO = answerMapper.toDto(answer);
         restAnswerMockMvc.perform(post("/api/answers")
-            .contentType(TestUtil.APPLICATION_JSON)
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(answerDTO)))
             .andExpect(status().isCreated());
 
@@ -156,7 +156,7 @@ public class AnswerResourceIT {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restAnswerMockMvc.perform(post("/api/answers")
-            .contentType(TestUtil.APPLICATION_JSON)
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(answerDTO)))
             .andExpect(status().isBadRequest());
 
@@ -175,7 +175,7 @@ public class AnswerResourceIT {
         // Get all the answerList
         restAnswerMockMvc.perform(get("/api/answers?sort=id,desc"))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(answer.getId().intValue())))
             .andExpect(jsonPath("$.[*].stepIdent").value(hasItem(DEFAULT_STEP_IDENT)))
             .andExpect(jsonPath("$.[*].questionIdent").value(hasItem(DEFAULT_QUESTION_IDENT)))
@@ -192,7 +192,7 @@ public class AnswerResourceIT {
         // Get the answer
         restAnswerMockMvc.perform(get("/api/answers/{id}", answer.getId()))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(answer.getId().intValue()))
             .andExpect(jsonPath("$.stepIdent").value(DEFAULT_STEP_IDENT))
             .andExpect(jsonPath("$.questionIdent").value(DEFAULT_QUESTION_IDENT))
@@ -228,7 +228,7 @@ public class AnswerResourceIT {
         AnswerDTO answerDTO = answerMapper.toDto(updatedAnswer);
 
         restAnswerMockMvc.perform(put("/api/answers")
-            .contentType(TestUtil.APPLICATION_JSON)
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(answerDTO)))
             .andExpect(status().isOk());
 
@@ -252,7 +252,7 @@ public class AnswerResourceIT {
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restAnswerMockMvc.perform(put("/api/answers")
-            .contentType(TestUtil.APPLICATION_JSON)
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(answerDTO)))
             .andExpect(status().isBadRequest());
 
@@ -271,7 +271,7 @@ public class AnswerResourceIT {
 
         // Delete the answer
         restAnswerMockMvc.perform(delete("/api/answers/{id}", answer.getId())
-            .accept(TestUtil.APPLICATION_JSON))
+            .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item

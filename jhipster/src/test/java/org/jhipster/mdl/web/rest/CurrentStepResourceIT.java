@@ -10,9 +10,12 @@ import org.jhipster.mdl.web.rest.errors.ExceptionTranslator;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -22,11 +25,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.jhipster.mdl.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -36,8 +41,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = MdlApp.class)
 public class CurrentStepResourceIT {
 
-    private static final Integer DEFAULT_STEP_IDENT = 1;
-    private static final Integer UPDATED_STEP_IDENT = 2;
+    private static final String DEFAULT_STEP_IDENT = "AAAAAAAAAA";
+    private static final String UPDATED_STEP_IDENT = "BBBBBBBBBB";
 
     private static final Integer DEFAULT_NUMBER_OF_ANSWER = 1;
     private static final Integer UPDATED_NUMBER_OF_ANSWER = 2;
@@ -45,8 +50,14 @@ public class CurrentStepResourceIT {
     @Autowired
     private CurrentStepRepository currentStepRepository;
 
+    @Mock
+    private CurrentStepRepository currentStepRepositoryMock;
+
     @Autowired
     private CurrentStepMapper currentStepMapper;
+
+    @Mock
+    private CurrentStepService currentStepServiceMock;
 
     @Autowired
     private CurrentStepService currentStepService;
@@ -120,7 +131,7 @@ public class CurrentStepResourceIT {
         // Create the CurrentStep
         CurrentStepDTO currentStepDTO = currentStepMapper.toDto(currentStep);
         restCurrentStepMockMvc.perform(post("/api/current-steps")
-            .contentType(TestUtil.APPLICATION_JSON)
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(currentStepDTO)))
             .andExpect(status().isCreated());
 
@@ -143,7 +154,7 @@ public class CurrentStepResourceIT {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restCurrentStepMockMvc.perform(post("/api/current-steps")
-            .contentType(TestUtil.APPLICATION_JSON)
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(currentStepDTO)))
             .andExpect(status().isBadRequest());
 
@@ -162,12 +173,45 @@ public class CurrentStepResourceIT {
         // Get all the currentStepList
         restCurrentStepMockMvc.perform(get("/api/current-steps?sort=id,desc"))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(currentStep.getId().intValue())))
             .andExpect(jsonPath("$.[*].stepIdent").value(hasItem(DEFAULT_STEP_IDENT)))
             .andExpect(jsonPath("$.[*].numberOfAnswer").value(hasItem(DEFAULT_NUMBER_OF_ANSWER)));
     }
     
+    @SuppressWarnings({"unchecked"})
+    public void getAllCurrentStepsWithEagerRelationshipsIsEnabled() throws Exception {
+        CurrentStepResource currentStepResource = new CurrentStepResource(currentStepServiceMock);
+        when(currentStepServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        MockMvc restCurrentStepMockMvc = MockMvcBuilders.standaloneSetup(currentStepResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restCurrentStepMockMvc.perform(get("/api/current-steps?eagerload=true"))
+        .andExpect(status().isOk());
+
+        verify(currentStepServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({"unchecked"})
+    public void getAllCurrentStepsWithEagerRelationshipsIsNotEnabled() throws Exception {
+        CurrentStepResource currentStepResource = new CurrentStepResource(currentStepServiceMock);
+            when(currentStepServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+            MockMvc restCurrentStepMockMvc = MockMvcBuilders.standaloneSetup(currentStepResource)
+            .setCustomArgumentResolvers(pageableArgumentResolver)
+            .setControllerAdvice(exceptionTranslator)
+            .setConversionService(createFormattingConversionService())
+            .setMessageConverters(jacksonMessageConverter).build();
+
+        restCurrentStepMockMvc.perform(get("/api/current-steps?eagerload=true"))
+        .andExpect(status().isOk());
+
+            verify(currentStepServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
     @Test
     @Transactional
     public void getCurrentStep() throws Exception {
@@ -177,7 +221,7 @@ public class CurrentStepResourceIT {
         // Get the currentStep
         restCurrentStepMockMvc.perform(get("/api/current-steps/{id}", currentStep.getId()))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(currentStep.getId().intValue()))
             .andExpect(jsonPath("$.stepIdent").value(DEFAULT_STEP_IDENT))
             .andExpect(jsonPath("$.numberOfAnswer").value(DEFAULT_NUMBER_OF_ANSWER));
@@ -209,7 +253,7 @@ public class CurrentStepResourceIT {
         CurrentStepDTO currentStepDTO = currentStepMapper.toDto(updatedCurrentStep);
 
         restCurrentStepMockMvc.perform(put("/api/current-steps")
-            .contentType(TestUtil.APPLICATION_JSON)
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(currentStepDTO)))
             .andExpect(status().isOk());
 
@@ -231,7 +275,7 @@ public class CurrentStepResourceIT {
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restCurrentStepMockMvc.perform(put("/api/current-steps")
-            .contentType(TestUtil.APPLICATION_JSON)
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(currentStepDTO)))
             .andExpect(status().isBadRequest());
 
@@ -250,7 +294,7 @@ public class CurrentStepResourceIT {
 
         // Delete the currentStep
         restCurrentStepMockMvc.perform(delete("/api/current-steps/{id}", currentStep.getId())
-            .accept(TestUtil.APPLICATION_JSON))
+            .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item

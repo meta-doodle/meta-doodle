@@ -8,6 +8,8 @@ import org.jhipster.mdl.service.mapper.CurrentStepMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,10 +59,20 @@ public class CurrentStepServiceImpl implements CurrentStepService {
     @Transactional(readOnly = true)
     public List<CurrentStepDTO> findAll() {
         log.debug("Request to get all CurrentSteps");
-        return currentStepRepository.findAll().stream()
+        return currentStepRepository.findAllWithEagerRelationships().stream()
             .map(currentStepMapper::toDto)
             .collect(Collectors.toCollection(LinkedList::new));
     }
+
+    /**
+     * Get all the currentSteps with eager load of many-to-many relationships.
+     *
+     * @return the list of entities.
+     */
+    public Page<CurrentStepDTO> findAllWithEagerRelationships(Pageable pageable) {
+        return currentStepRepository.findAllWithEagerRelationships(pageable).map(currentStepMapper::toDto);
+    }
+    
 
     /**
      * Get one currentStep by id.
@@ -72,7 +84,7 @@ public class CurrentStepServiceImpl implements CurrentStepService {
     @Transactional(readOnly = true)
     public Optional<CurrentStepDTO> findOne(Long id) {
         log.debug("Request to get CurrentStep : {}", id);
-        return currentStepRepository.findById(id)
+        return currentStepRepository.findOneWithEagerRelationships(id)
             .map(currentStepMapper::toDto);
     }
 

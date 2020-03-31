@@ -23,7 +23,9 @@ export class WorkflowModelComponent implements OnInit, OnDestroy {
   ) {}
 
   loadAll(): void {
-    this.workflowModelService.query().subscribe((res: HttpResponse<IWorkflowModel[]>) => (this.workflowModels = res.body || []));
+    this.workflowModelService.query().subscribe((res: HttpResponse<IWorkflowModel[]>) => {
+      this.workflowModels = res.body ? res.body : [];
+    });
   }
 
   ngOnInit(): void {

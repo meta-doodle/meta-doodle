@@ -3,11 +3,11 @@
     "fields": [
         {
             "fieldName": "stepIdent",
-            "fieldType": "Integer"
+            "fieldType": "String"
         },
         {
             "fieldName": "questionIdent",
-            "fieldType": "Integer"
+            "fieldType": "String"
         },
         {
             "fieldName": "type",

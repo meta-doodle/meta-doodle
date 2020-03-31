@@ -13,7 +13,9 @@ export class CurrentStepDetailComponent implements OnInit {
   constructor(protected activatedRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.activatedRoute.data.subscribe(({ currentStep }) => (this.currentStep = currentStep));
+    this.activatedRoute.data.subscribe(({ currentStep }) => {
+      this.currentStep = currentStep;
+    });
   }
 
   previousState(): void {

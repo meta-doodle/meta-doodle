@@ -17,7 +17,7 @@ export class CurrentStepDeleteDialogComponent {
     protected eventManager: JhiEventManager
   ) {}
 
-  cancel(): void {
+  clear(): void {
     this.activeModal.dismiss();
   }
 

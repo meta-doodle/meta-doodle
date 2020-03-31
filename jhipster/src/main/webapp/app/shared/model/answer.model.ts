@@ -2,8 +2,8 @@ import { AvailableTypes } from 'app/shared/model/enumerations/available-types.mo
 
 export interface IAnswer {
   id?: number;
-  stepIdent?: number;
-  questionIdent?: number;
+  stepIdent?: string;
+  questionIdent?: string;
   type?: AvailableTypes;
   answer?: string;
   userId?: number;
@@ -13,8 +13,8 @@ export interface IAnswer {
 export class Answer implements IAnswer {
   constructor(
     public id?: number,
-    public stepIdent?: number,
-    public questionIdent?: number,
+    public stepIdent?: string,
+    public questionIdent?: string,
     public type?: AvailableTypes,
     public answer?: string,
     public userId?: number,

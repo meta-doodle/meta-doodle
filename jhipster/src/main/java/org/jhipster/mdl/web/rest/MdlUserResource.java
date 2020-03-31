@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -80,6 +81,7 @@ public class MdlUserResource {
     /**
      * {@code GET  /mdl-users} : get all the mdlUsers.
      *
+
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of mdlUsers in body.
      */
     @GetMapping("/mdl-users")
@@ -112,12 +114,5 @@ public class MdlUserResource {
         log.debug("REST request to delete MdlUser : {}", id);
         mdlUserService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
-    }
-    
-    @GetMapping("/mdl-users/convert/{login}")
-    public ResponseEntity<MdlUserDTO> transformJhipsterToMdlUser(@PathVariable String login){
-    	log.debug("REST request to transform JhipsterUser to MdlUser : {}", login);
-        Optional<MdlUserDTO> mdlUserDTO = mdlUserService.convert(login);
-        return ResponseUtil.wrapOrNotFound(mdlUserDTO);
     }
 }

@@ -1,35 +1,26 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="mdlUser">
-            <h2><span>Mdl User</span> {{ mdlUser.id }}</h2>
-
+            <h2><span>Mdl User</span> {{mdlUser.id}}</h2>
             <hr>
-
             <jhi-alert-error></jhi-alert-error>
-
             <dl class="row-md jh-entity-details">
                 <dt><span>User</span></dt>
                 <dd>
-                    {{ mdlUser.userId }}
-                </dd>
-                <dt><span>Current Step</span></dt>
-                <dd>
-                    <div *ngIf="mdlUser.currentStepId">
-                        <a [routerLink]="['/current-step', mdlUser.currentStepId, 'view']">{{ mdlUser.currentStepId }}</a>
-                    </div>
+                    {{mdlUser.userId}}
                 </dd>
             </dl>
 
             <button type="submit"
                     (click)="previousState()"
                     class="btn btn-info">
-                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
             </button>
 
             <button type="button"
                     [routerLink]="['/mdl-user', mdlUser.id, 'edit']"
                     class="btn btn-primary">
-                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
             </button>
         </div>
     </div>

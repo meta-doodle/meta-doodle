@@ -14,7 +14,7 @@ entity WorkflowInstanceState{
 }
 
 entity CurrentStep {
-	stepIdent Integer
+	stepIdent String
     numberOfAnswer Integer
 }
 
@@ -26,28 +26,12 @@ enum AvailableTypes {
 }
 
 entity Answer {
-    stepIdent Integer
-    questionIdent Integer
+    stepIdent String
+    questionIdent String
     type AvailableTypes
     answer String
 }
-/*
-entity DateAnswer {
-	answerID Integer
-    answer LocalDate
-}
 
-entity StringAnswer {
-	answerID Integer
-    answer LocalDate
-}
-
-entity FileAnswer {
-	answerID Integer
-    answer LocalDate
-}
-
-*/
 
 relationship OneToOne {
     MdlUser{user} to User{juser} 
@@ -58,8 +42,6 @@ relationship OneToMany {
 
   MdlUser{creatorWfInstances} to WorkflowInstance{creator}  
   MdlUser{workflows} to WorkflowModel{creator} 
-
-  CurrentStep{users} to MdlUser
   
   WorkflowInstanceState{steps} to CurrentStep
 
@@ -77,6 +59,8 @@ Answer{user} to MdlUser
 }
 
 relationship ManyToMany {
+
+	CurrentStep{users} to MdlUser{steps}
 
   // un MDLUser a une liste d'instances de workflow
   // Une instance de workflow a une liste de "guests"

@@ -25,6 +25,7 @@ public interface MdlUserService {
      */
     List<MdlUserDTO> findAll();
 
+
     /**
      * Get the "id" mdlUser.
      *
@@ -39,6 +40,4 @@ public interface MdlUserService {
      * @param id the id of the entity.
      */
     void delete(Long id);
-    
-    Optional<MdlUserDTO> convert(String login);
 }

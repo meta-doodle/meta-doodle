@@ -19,7 +19,9 @@ export class MdlUserComponent implements OnInit, OnDestroy {
   constructor(protected mdlUserService: MdlUserService, protected eventManager: JhiEventManager, protected modalService: NgbModal) {}
 
   loadAll(): void {
-    this.mdlUserService.query().subscribe((res: HttpResponse<IMdlUser[]>) => (this.mdlUsers = res.body || []));
+    this.mdlUserService.query().subscribe((res: HttpResponse<IMdlUser[]>) => {
+      this.mdlUsers = res.body ? res.body : [];
+    });
   }
 
   ngOnInit(): void {

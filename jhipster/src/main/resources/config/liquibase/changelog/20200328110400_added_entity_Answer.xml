@@ -15,10 +15,10 @@
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="step_ident" type="integer">
+            <column name="step_ident" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="question_ident" type="integer">
+            <column name="question_ident" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="type" type="varchar(255)">
@@ -56,8 +56,8 @@
                   separator=";"
                   tableName="answer">
             <column name="id" type="numeric"/>
-            <column name="step_ident" type="numeric"/>
-            <column name="question_ident" type="numeric"/>
+            <column name="step_ident" type="string"/>
+            <column name="question_ident" type="string"/>
             <column name="type" type="string"/>
             <column name="answer" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->

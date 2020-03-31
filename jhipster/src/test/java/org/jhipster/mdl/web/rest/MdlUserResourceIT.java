@@ -110,7 +110,7 @@ public class MdlUserResourceIT {
         // Create the MdlUser
         MdlUserDTO mdlUserDTO = mdlUserMapper.toDto(mdlUser);
         restMdlUserMockMvc.perform(post("/api/mdl-users")
-            .contentType(TestUtil.APPLICATION_JSON)
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(mdlUserDTO)))
             .andExpect(status().isCreated());
 
@@ -131,7 +131,7 @@ public class MdlUserResourceIT {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restMdlUserMockMvc.perform(post("/api/mdl-users")
-            .contentType(TestUtil.APPLICATION_JSON)
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(mdlUserDTO)))
             .andExpect(status().isBadRequest());
 
@@ -150,7 +150,7 @@ public class MdlUserResourceIT {
         // Get all the mdlUserList
         restMdlUserMockMvc.perform(get("/api/mdl-users?sort=id,desc"))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(mdlUser.getId().intValue())));
     }
     
@@ -163,7 +163,7 @@ public class MdlUserResourceIT {
         // Get the mdlUser
         restMdlUserMockMvc.perform(get("/api/mdl-users/{id}", mdlUser.getId()))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(mdlUser.getId().intValue()));
     }
 
@@ -190,7 +190,7 @@ public class MdlUserResourceIT {
         MdlUserDTO mdlUserDTO = mdlUserMapper.toDto(updatedMdlUser);
 
         restMdlUserMockMvc.perform(put("/api/mdl-users")
-            .contentType(TestUtil.APPLICATION_JSON)
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(mdlUserDTO)))
             .andExpect(status().isOk());
 
@@ -210,7 +210,7 @@ public class MdlUserResourceIT {
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restMdlUserMockMvc.perform(put("/api/mdl-users")
-            .contentType(TestUtil.APPLICATION_JSON)
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(mdlUserDTO)))
             .andExpect(status().isBadRequest());
 
@@ -229,7 +229,7 @@ public class MdlUserResourceIT {
 
         // Delete the mdlUser
         restMdlUserMockMvc.perform(delete("/api/mdl-users/{id}", mdlUser.getId())
-            .accept(TestUtil.APPLICATION_JSON))
+            .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item

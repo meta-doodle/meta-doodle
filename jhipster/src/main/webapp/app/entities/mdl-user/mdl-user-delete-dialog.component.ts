@@ -13,7 +13,7 @@ export class MdlUserDeleteDialogComponent {
 
   constructor(protected mdlUserService: MdlUserService, public activeModal: NgbActiveModal, protected eventManager: JhiEventManager) {}
 
-  cancel(): void {
+  clear(): void {
     this.activeModal.dismiss();
   }
 

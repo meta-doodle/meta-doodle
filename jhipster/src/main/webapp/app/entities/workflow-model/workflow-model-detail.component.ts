@@ -13,7 +13,9 @@ export class WorkflowModelDetailComponent implements OnInit {
   constructor(protected activatedRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.activatedRoute.data.subscribe(({ workflowModel }) => (this.workflowModel = workflowModel));
+    this.activatedRoute.data.subscribe(({ workflowModel }) => {
+      this.workflowModel = workflowModel;
+    });
   }
 
   previousState(): void {

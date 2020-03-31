@@ -4,6 +4,7 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { IAnswer, Answer } from 'app/shared/model/answer.model';
 import { AnswerService } from './answer.service';
@@ -20,7 +21,9 @@ type SelectableEntity = IMdlUser | IWorkflowInstance;
 })
 export class AnswerUpdateComponent implements OnInit {
   isSaving = false;
+
   mdlusers: IMdlUser[] = [];
+
   workflowinstances: IWorkflowInstance[] = [];
 
   editForm = this.fb.group({
@@ -45,9 +48,23 @@ export class AnswerUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ answer }) => {
       this.updateForm(answer);
 
-      this.mdlUserService.query().subscribe((res: HttpResponse<IMdlUser[]>) => (this.mdlusers = res.body || []));
+      this.mdlUserService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IMdlUser[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IMdlUser[]) => (this.mdlusers = resBody));
 
-      this.workflowInstanceService.query().subscribe((res: HttpResponse<IWorkflowInstance[]>) => (this.workflowinstances = res.body || []));
+      this.workflowInstanceService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IWorkflowInstance[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IWorkflowInstance[]) => (this.workflowinstances = resBody));
     });
   }
 

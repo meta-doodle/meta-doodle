@@ -16,7 +16,8 @@ describe('Component Tests', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
         imports: [MdlTestModule],
-        declarations: [WorkflowModelComponent]
+        declarations: [WorkflowModelComponent],
+        providers: []
       })
         .overrideTemplate(WorkflowModelComponent, '')
         .compileComponents();

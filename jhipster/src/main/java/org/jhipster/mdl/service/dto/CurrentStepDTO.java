@@ -1,6 +1,7 @@
 package org.jhipster.mdl.service.dto;
-
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -10,10 +11,12 @@ public class CurrentStepDTO implements Serializable {
 
     private Long id;
 
-    private Integer stepIdent;
+    private String stepIdent;
 
     private Integer numberOfAnswer;
 
+
+    private Set<MdlUserDTO> users = new HashSet<>();
 
     private Long workflowInstanceStateId;
 
@@ -25,11 +28,11 @@ public class CurrentStepDTO implements Serializable {
         this.id = id;
     }
 
-    public Integer getStepIdent() {
+    public String getStepIdent() {
         return stepIdent;
     }
 
-    public void setStepIdent(Integer stepIdent) {
+    public void setStepIdent(String stepIdent) {
         this.stepIdent = stepIdent;
     }
 
@@ -39,6 +42,14 @@ public class CurrentStepDTO implements Serializable {
 
     public void setNumberOfAnswer(Integer numberOfAnswer) {
         this.numberOfAnswer = numberOfAnswer;
+    }
+
+    public Set<MdlUserDTO> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<MdlUserDTO> mdlUsers) {
+        this.users = mdlUsers;
     }
 
     public Long getWorkflowInstanceStateId() {
@@ -74,7 +85,7 @@ public class CurrentStepDTO implements Serializable {
     public String toString() {
         return "CurrentStepDTO{" +
             "id=" + getId() +
-            ", stepIdent=" + getStepIdent() +
+            ", stepIdent='" + getStepIdent() + "'" +
             ", numberOfAnswer=" + getNumberOfAnswer() +
             ", workflowInstanceStateId=" + getWorkflowInstanceStateId() +
             "}";

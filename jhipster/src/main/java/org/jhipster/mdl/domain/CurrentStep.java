@@ -1,5 +1,4 @@
 package org.jhipster.mdl.domain;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -26,13 +25,16 @@ public class CurrentStep implements Serializable {
     private Long id;
 
     @Column(name = "step_ident")
-    private Integer stepIdent;
+    private String stepIdent;
 
     @Column(name = "number_of_answer")
     private Integer numberOfAnswer;
 
-    @OneToMany(mappedBy = "currentStep")
+    @ManyToMany
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JoinTable(name = "current_step_users",
+               joinColumns = @JoinColumn(name = "current_step_id", referencedColumnName = "id"),
+               inverseJoinColumns = @JoinColumn(name = "users_id", referencedColumnName = "id"))
     private Set<MdlUser> users = new HashSet<>();
 
     @ManyToOne
@@ -48,16 +50,16 @@ public class CurrentStep implements Serializable {
         this.id = id;
     }
 
-    public Integer getStepIdent() {
+    public String getStepIdent() {
         return stepIdent;
     }
 
-    public CurrentStep stepIdent(Integer stepIdent) {
+    public CurrentStep stepIdent(String stepIdent) {
         this.stepIdent = stepIdent;
         return this;
     }
 
-    public void setStepIdent(Integer stepIdent) {
+    public void setStepIdent(String stepIdent) {
         this.stepIdent = stepIdent;
     }
 
@@ -85,13 +87,13 @@ public class CurrentStep implements Serializable {
 
     public CurrentStep addUsers(MdlUser mdlUser) {
         this.users.add(mdlUser);
-        mdlUser.setCurrentStep(this);
+        mdlUser.getSteps().add(this);
         return this;
     }
 
     public CurrentStep removeUsers(MdlUser mdlUser) {
         this.users.remove(mdlUser);
-        mdlUser.setCurrentStep(null);
+        mdlUser.getSteps().remove(this);
         return this;
     }
 
@@ -133,7 +135,7 @@ public class CurrentStep implements Serializable {
     public String toString() {
         return "CurrentStep{" +
             "id=" + getId() +
-            ", stepIdent=" + getStepIdent() +
+            ", stepIdent='" + getStepIdent() + "'" +
             ", numberOfAnswer=" + getNumberOfAnswer() +
             "}";
     }

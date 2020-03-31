@@ -16,7 +16,8 @@ describe('Component Tests', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
         imports: [MdlTestModule],
-        declarations: [CurrentStepComponent]
+        declarations: [CurrentStepComponent],
+        providers: []
       })
         .overrideTemplate(CurrentStepComponent, '')
         .compileComponents();

@@ -125,7 +125,7 @@ public class WorkflowModelResourceIT {
         // Create the WorkflowModel
         WorkflowModelDTO workflowModelDTO = workflowModelMapper.toDto(workflowModel);
         restWorkflowModelMockMvc.perform(post("/api/workflow-models")
-            .contentType(TestUtil.APPLICATION_JSON)
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(workflowModelDTO)))
             .andExpect(status().isCreated());
 
@@ -149,7 +149,7 @@ public class WorkflowModelResourceIT {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restWorkflowModelMockMvc.perform(post("/api/workflow-models")
-            .contentType(TestUtil.APPLICATION_JSON)
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(workflowModelDTO)))
             .andExpect(status().isBadRequest());
 
@@ -170,7 +170,7 @@ public class WorkflowModelResourceIT {
         WorkflowModelDTO workflowModelDTO = workflowModelMapper.toDto(workflowModel);
 
         restWorkflowModelMockMvc.perform(post("/api/workflow-models")
-            .contentType(TestUtil.APPLICATION_JSON)
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(workflowModelDTO)))
             .andExpect(status().isBadRequest());
 
@@ -189,7 +189,7 @@ public class WorkflowModelResourceIT {
         WorkflowModelDTO workflowModelDTO = workflowModelMapper.toDto(workflowModel);
 
         restWorkflowModelMockMvc.perform(post("/api/workflow-models")
-            .contentType(TestUtil.APPLICATION_JSON)
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(workflowModelDTO)))
             .andExpect(status().isBadRequest());
 
@@ -206,7 +206,7 @@ public class WorkflowModelResourceIT {
         // Get all the workflowModelList
         restWorkflowModelMockMvc.perform(get("/api/workflow-models?sort=id,desc"))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(workflowModel.getId().intValue())))
             .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE)))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
@@ -222,7 +222,7 @@ public class WorkflowModelResourceIT {
         // Get the workflowModel
         restWorkflowModelMockMvc.perform(get("/api/workflow-models/{id}", workflowModel.getId()))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(workflowModel.getId().intValue()))
             .andExpect(jsonPath("$.title").value(DEFAULT_TITLE))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
@@ -256,7 +256,7 @@ public class WorkflowModelResourceIT {
         WorkflowModelDTO workflowModelDTO = workflowModelMapper.toDto(updatedWorkflowModel);
 
         restWorkflowModelMockMvc.perform(put("/api/workflow-models")
-            .contentType(TestUtil.APPLICATION_JSON)
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(workflowModelDTO)))
             .andExpect(status().isOk());
 
@@ -279,7 +279,7 @@ public class WorkflowModelResourceIT {
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restWorkflowModelMockMvc.perform(put("/api/workflow-models")
-            .contentType(TestUtil.APPLICATION_JSON)
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(workflowModelDTO)))
             .andExpect(status().isBadRequest());
 
@@ -298,7 +298,7 @@ public class WorkflowModelResourceIT {
 
         // Delete the workflowModel
         restWorkflowModelMockMvc.perform(delete("/api/workflow-models/{id}", workflowModel.getId())
-            .accept(TestUtil.APPLICATION_JSON))
+            .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -80,6 +81,7 @@ public class AnswerResource {
     /**
      * {@code GET  /answers} : get all the answers.
      *
+
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of answers in body.
      */
     @GetMapping("/answers")
@@ -112,23 +114,5 @@ public class AnswerResource {
         log.debug("REST request to delete Answer : {}", id);
         answerService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
-    }
-    
-    @PostMapping("/send-answer")
-    public ResponseEntity<AnswerDTO> sendNewAnswer(@RequestBody AnswerDTO answerDTO) throws URISyntaxException {
-        log.debug("REST request to save Answer : {}", answerDTO);
-        if (answerDTO.getId() != null) {
-            throw new BadRequestAlertException("A new answer cannot already have an ID", ENTITY_NAME, "idexists");
-        }
-        if (answerDTO.getUserId() == null) {
-            throw new BadRequestAlertException("A new send answer has to have an UserID", ENTITY_NAME, "nouserid");
-        }
-        if (answerDTO.getWorkflowInstanceId() == null) {
-            throw new BadRequestAlertException("A new send answer has to have an WorkflowInstanceID", ENTITY_NAME, "nowfiid");
-        }
-        AnswerDTO result = answerService.save(answerDTO);
-        return ResponseEntity.created(new URI("/api/answers/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
-            .body(result);
     }
 }

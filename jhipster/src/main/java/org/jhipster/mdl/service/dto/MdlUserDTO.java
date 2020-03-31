@@ -1,5 +1,4 @@
 package org.jhipster.mdl.service.dto;
-
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -12,8 +11,6 @@ public class MdlUserDTO implements Serializable {
 
 
     private Long userId;
-
-    private Long currentStepId;
 
     public Long getId() {
         return id;
@@ -29,14 +26,6 @@ public class MdlUserDTO implements Serializable {
 
     public void setUserId(Long userId) {
         this.userId = userId;
-    }
-
-    public Long getCurrentStepId() {
-        return currentStepId;
-    }
-
-    public void setCurrentStepId(Long currentStepId) {
-        this.currentStepId = currentStepId;
     }
 
     @Override
@@ -65,7 +54,6 @@ public class MdlUserDTO implements Serializable {
         return "MdlUserDTO{" +
             "id=" + getId() +
             ", userId=" + getUserId() +
-            ", currentStepId=" + getCurrentStepId() +
             "}";
     }
 }

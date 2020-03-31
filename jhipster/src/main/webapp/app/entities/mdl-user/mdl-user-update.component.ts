@@ -4,15 +4,12 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { IMdlUser, MdlUser } from 'app/shared/model/mdl-user.model';
 import { MdlUserService } from './mdl-user.service';
 import { IUser } from 'app/core/user/user.model';
 import { UserService } from 'app/core/user/user.service';
-import { ICurrentStep } from 'app/shared/model/current-step.model';
-import { CurrentStepService } from 'app/entities/current-step/current-step.service';
-
-type SelectableEntity = IUser | ICurrentStep;
 
 @Component({
   selector: 'jhi-mdl-user-update',
@@ -20,19 +17,17 @@ type SelectableEntity = IUser | ICurrentStep;
 })
 export class MdlUserUpdateComponent implements OnInit {
   isSaving = false;
+
   users: IUser[] = [];
-  currentsteps: ICurrentStep[] = [];
 
   editForm = this.fb.group({
     id: [],
-    userId: [],
-    currentStepId: []
+    userId: []
   });
 
   constructor(
     protected mdlUserService: MdlUserService,
     protected userService: UserService,
-    protected currentStepService: CurrentStepService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -41,17 +36,21 @@ export class MdlUserUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ mdlUser }) => {
       this.updateForm(mdlUser);
 
-      this.userService.query().subscribe((res: HttpResponse<IUser[]>) => (this.users = res.body || []));
-
-      this.currentStepService.query().subscribe((res: HttpResponse<ICurrentStep[]>) => (this.currentsteps = res.body || []));
+      this.userService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IUser[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IUser[]) => (this.users = resBody));
     });
   }
 
   updateForm(mdlUser: IMdlUser): void {
     this.editForm.patchValue({
       id: mdlUser.id,
-      userId: mdlUser.userId,
-      currentStepId: mdlUser.currentStepId
+      userId: mdlUser.userId
     });
   }
 
@@ -73,8 +72,7 @@ export class MdlUserUpdateComponent implements OnInit {
     return {
       ...new MdlUser(),
       id: this.editForm.get(['id'])!.value,
-      userId: this.editForm.get(['userId'])!.value,
-      currentStepId: this.editForm.get(['currentStepId'])!.value
+      userId: this.editForm.get(['userId'])!.value
     };
   }
 
@@ -94,7 +92,7 @@ export class MdlUserUpdateComponent implements OnInit {
     this.isSaving = false;
   }
 
-  trackById(index: number, item: SelectableEntity): any {
+  trackById(index: number, item: IUser): any {
     return item.id;
   }
 }

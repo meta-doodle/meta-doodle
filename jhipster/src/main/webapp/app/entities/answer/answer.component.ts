@@ -19,7 +19,9 @@ export class AnswerComponent implements OnInit, OnDestroy {
   constructor(protected answerService: AnswerService, protected eventManager: JhiEventManager, protected modalService: NgbModal) {}
 
   loadAll(): void {
-    this.answerService.query().subscribe((res: HttpResponse<IAnswer[]>) => (this.answers = res.body || []));
+    this.answerService.query().subscribe((res: HttpResponse<IAnswer[]>) => {
+      this.answers = res.body ? res.body : [];
+    });
   }
 
   ngOnInit(): void {

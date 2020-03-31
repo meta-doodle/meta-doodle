@@ -13,7 +13,9 @@ export class AnswerDetailComponent implements OnInit {
   constructor(protected activatedRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.activatedRoute.data.subscribe(({ answer }) => (this.answer = answer));
+    this.activatedRoute.data.subscribe(({ answer }) => {
+      this.answer = answer;
+    });
   }
 
   previousState(): void {

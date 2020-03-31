@@ -1,7 +1,5 @@
 package org.jhipster.mdl.domain;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -38,9 +36,10 @@ public class MdlUser implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<WorkflowModel> workflows = new HashSet<>();
 
-    @ManyToOne
-    @JsonIgnoreProperties("users")
-    private CurrentStep currentStep;
+    @ManyToMany(mappedBy = "users")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JsonIgnore
+    private Set<CurrentStep> steps = new HashSet<>();
 
     @ManyToMany(mappedBy = "guests")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -119,17 +118,29 @@ public class MdlUser implements Serializable {
         this.workflows = workflowModels;
     }
 
-    public CurrentStep getCurrentStep() {
-        return currentStep;
+    public Set<CurrentStep> getSteps() {
+        return steps;
     }
 
-    public MdlUser currentStep(CurrentStep currentStep) {
-        this.currentStep = currentStep;
+    public MdlUser steps(Set<CurrentStep> currentSteps) {
+        this.steps = currentSteps;
         return this;
     }
 
-    public void setCurrentStep(CurrentStep currentStep) {
-        this.currentStep = currentStep;
+    public MdlUser addSteps(CurrentStep currentStep) {
+        this.steps.add(currentStep);
+        currentStep.getUsers().add(this);
+        return this;
+    }
+
+    public MdlUser removeSteps(CurrentStep currentStep) {
+        this.steps.remove(currentStep);
+        currentStep.getUsers().remove(this);
+        return this;
+    }
+
+    public void setSteps(Set<CurrentStep> currentSteps) {
+        this.steps = currentSteps;
     }
 
     public Set<WorkflowInstance> getWorkflowInstances() {
