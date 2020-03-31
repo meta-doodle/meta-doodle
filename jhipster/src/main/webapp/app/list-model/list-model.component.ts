@@ -33,6 +33,7 @@ export class ListModelComponent implements OnInit {
   loadAll(): void {
     this.service.findAll().subscribe(data => {
       this.modelsType = data.body ? data.body : [];
+      console.log(this.modelsType);
     });
   }
 
