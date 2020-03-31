@@ -2,6 +2,7 @@ package org.jhipster.mdl.service.impl;
 
 import org.jhipster.mdl.service.MdlUserService;
 import org.jhipster.mdl.domain.MdlUser;
+import org.jhipster.mdl.domain.User;
 import org.jhipster.mdl.repository.MdlUserRepository;
 import org.jhipster.mdl.service.dto.MdlUserDTO;
 import org.jhipster.mdl.service.mapper.MdlUserMapper;
@@ -92,7 +93,8 @@ public class MdlUserServiceImpl implements MdlUserService {
 	public Optional<MdlUserDTO> convert(String login) {
 		List<MdlUser> mdlUsers = mdlUserRepository.findAll();
 		for (MdlUser mdlUser : mdlUsers) {
-			if(mdlUser.getUser().getLogin().equalsIgnoreCase(login)) {
+			User user = mdlUser.getUser();
+			if(user != null && user.getLogin().equalsIgnoreCase(login)) {
 				MdlUserDTO mdlUserDTO = mdlUserMapper.toDto(mdlUser);
 				return Optional.of(mdlUserDTO);
 			}
