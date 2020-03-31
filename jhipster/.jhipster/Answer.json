@@ -1,0 +1,48 @@
+{
+    "name": "Answer",
+    "fields": [
+        {
+            "fieldName": "stepIdent",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "questionIdent",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "type",
+            "fieldType": "AvailableTypes",
+            "fieldValues": "String,File,Date"
+        },
+        {
+            "fieldName": "answer",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "mdlUser",
+            "otherEntityRelationshipName": "answer",
+            "relationshipName": "user",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "workflowInstance",
+            "otherEntityRelationshipName": "answers",
+            "relationshipName": "workflowInstance",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20200328110400",
+    "entityTableName": "answer",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": "*"
+}
