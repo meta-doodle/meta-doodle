@@ -1,9 +1,7 @@
-package InterpreterInterfaceReturn;
+package org.xtext.metadoodle.interpreter;
 
 import java.util.List;
 import java.util.Optional;
-
-import InterpreterObjectReturn.UserInteraction;
 
 /**
  * Cette classe gère l'étape d'une instance de workflow.

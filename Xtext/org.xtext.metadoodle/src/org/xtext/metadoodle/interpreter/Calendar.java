@@ -1,6 +1,4 @@
-package InterpreterObjectReturn;
-
-import InterpreterInterfaceReturn.ID;
+package org.xtext.metadoodle.interpreter;
 
 public class Calendar extends UserInteraction {
 

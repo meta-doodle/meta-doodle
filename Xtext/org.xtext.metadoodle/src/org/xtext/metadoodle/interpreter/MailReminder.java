@@ -1,4 +1,4 @@
-package InterpreterInterfaceReturn;
+package org.xtext.metadoodle.interpreter;
 
 import java.util.Optional;
 

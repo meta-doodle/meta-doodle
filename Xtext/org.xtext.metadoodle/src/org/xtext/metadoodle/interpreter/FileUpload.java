@@ -1,8 +1,6 @@
-package InterpreterObjectReturn;
+package org.xtext.metadoodle.interpreter;
 
 import java.util.List;
-
-import InterpreterInterfaceReturn.ID;
 
 public class FileUpload extends UserInteraction {
 	

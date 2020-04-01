@@ -1,9 +1,7 @@
-package InterpreterObjectReturn;
+package org.xtext.metadoodle.interpreter;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import InterpreterInterfaceReturn.ID;
 
 public class Form extends UserInteraction{
 
