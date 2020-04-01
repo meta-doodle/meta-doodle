@@ -1,6 +1,7 @@
 package org.jhipster.mdl.service;
 
 import org.jhipster.mdl.service.dto.AnswerDTO;
+import org.jhipster.mdl.workflow.to_transfert_data.WorkflowStepData;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,4 +41,6 @@ public interface AnswerService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+	Optional<WorkflowStepData> sendNewAnswer(AnswerDTO answerDTO);
 }

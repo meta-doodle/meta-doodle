@@ -91,14 +91,6 @@ public class MdlUserServiceImpl implements MdlUserService {
     
     @Override
 	public Optional<MdlUserDTO> convert(String login) {
-		List<MdlUser> mdlUsers = mdlUserRepository.findAll();
-		for (MdlUser mdlUser : mdlUsers) {
-			User user = mdlUser.getUser();
-			if(user != null && user.getLogin().equalsIgnoreCase(login)) {
-				MdlUserDTO mdlUserDTO = mdlUserMapper.toDto(mdlUser);
-				return Optional.of(mdlUserDTO);
-			}
-		}
-		return Optional.empty();
+		return Optional.of(new MdlUserDTO());
 	}
 }

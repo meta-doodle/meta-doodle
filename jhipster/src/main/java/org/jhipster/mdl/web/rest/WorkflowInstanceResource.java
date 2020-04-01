@@ -119,6 +119,7 @@ public class WorkflowInstanceResource {
     @GetMapping("/workflow-instances-view/{login}/{idWFI}")
     public ResponseEntity<WorkflowStepData> getWorkflowStepData(@PathVariable String login, @PathVariable Long idWFI) {
     	log.debug("REST request to get WorkflowStepData : {}", login, idWFI);
-    	return ResponseEntity.noContent().build();
+    	Optional<WorkflowStepData> data = workflowInstanceService.getWorkflowStep(login, idWFI);
+    	return ResponseUtil.wrapOrNotFound(data);
     }
 }
