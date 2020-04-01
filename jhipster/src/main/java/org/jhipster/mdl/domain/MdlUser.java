@@ -25,7 +25,6 @@ public class MdlUser implements Serializable {
     private Long id;
 
     @OneToOne
-    @MapsId
     @JoinColumn(unique = true)
     private User user;
 
