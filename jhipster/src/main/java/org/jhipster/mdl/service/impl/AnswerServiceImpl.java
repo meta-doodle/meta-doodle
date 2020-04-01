@@ -2,6 +2,13 @@ package org.jhipster.mdl.service.impl;
 
 import org.jhipster.mdl.service.AnswerService;
 import org.jhipster.mdl.domain.Answer;
+import org.jhipster.mdl.domain.CurrentStep;
+import org.jhipster.mdl.domain.MdlUser;
+import org.jhipster.mdl.domain.WorkflowInstance;
+import org.jhipster.mdl.domain.WorkflowInstanceState;
+import org.jhipster.mdl.fakeInterpreter.FakeInterpreter;
+import org.jhipster.mdl.fakeInterpreter.FakeReturnExec;
+import org.jhipster.mdl.fakeInterpreter.FakeState;
 import org.jhipster.mdl.repository.AnswerRepository;
 import org.jhipster.mdl.repository.CurrentStepRepository;
 import org.jhipster.mdl.repository.WorkflowInstanceRepository;
@@ -17,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -98,7 +106,50 @@ public class AnswerServiceImpl implements AnswerService {
 	@Override
 	public Optional<WorkflowStepData> sendNewAnswer(AnswerDTO answerDTO) {
 		log.debug("Request to send new Answer : {}", answerDTO);
-		return Optional.of(new WorkflowStepData());
+		Answer answer = answerMapper.toEntity(answerDTO);
+		answer = answerRepository.save(answer);
+
+		Optional<WorkflowInstance> optWFI = workflowInstanceRepository.findById(answerDTO.getWorkflowInstanceId());
+		if (optWFI.isPresent()) {
+			log.debug("WorkflowInstance found !");
+			WorkflowInstance wfi = optWFI.get();
+			Optional<CurrentStep> optStep = wfi.getState().findCurrentStepContainingMdlUser(answer.getUser());
+
+			if (optStep.isPresent()) {
+				log.debug("CurrentStep found !");
+				CurrentStep currentStep = optStep.get();
+				WorkflowStepData workflowStepData = doExec(wfi.getState(), currentStep, answer.getUser());
+
+				return Optional.of(workflowStepData);
+			} else {
+				log.debug("CurrentStep not found : {}", wfi, answer.getUser());
+			}
+		} else {
+			log.debug("WorkflowInstance doesn't exist with id : {}", answerDTO.getWorkflowInstanceId());
+		}
+
+		return Optional.empty();
 	}
 
+	private WorkflowStepData doExec(WorkflowInstanceState workflowInstanceState, CurrentStep currentStep,
+			MdlUser mdlUser) {
+		try {
+			int ident = Integer.parseInt(currentStep.getStepIdent());
+			FakeReturnExec ret = FakeInterpreter.INTERPRETER.exec("", new FakeState(ident, 0, 0));
+
+			if (!currentStep.getStepIdent().equals(ret.nextStep + "")) {
+				currentStep.removeUsers(mdlUser);
+				CurrentStep newCurrentStep = workflowInstanceState.putMdlUserInRightCurrentStep(mdlUser,
+						ret.nextStep + "");
+				if (!currentStep.equals(newCurrentStep)) {
+					currentStepRepository.saveAndFlush(newCurrentStep);
+				}
+			}
+
+			return ret.stepData;
+
+		} catch (NumberFormatException e) {
+			return new WorkflowStepData();
+		}
+	}
 }

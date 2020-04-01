@@ -8,6 +8,7 @@ import javax.persistence.*;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -80,6 +81,29 @@ public class WorkflowInstanceState implements Serializable {
         this.workflowInstance = workflowInstance;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
+    
+    public Optional<CurrentStep> findCurrentStepContainingMdlUser(MdlUser mdlUser){
+    	for (CurrentStep currentStep : steps) {
+			if(currentStep.getUsers().contains(mdlUser)) {
+				return Optional.of(currentStep);
+			}
+		}
+    	return Optional.empty();
+    }
+    
+    public CurrentStep putMdlUserInRightCurrentStep(MdlUser mdlUser, String nextStep) {
+    	for (CurrentStep currentStep : steps) {
+			if(currentStep.getStepIdent().equals(nextStep)) {
+				currentStep.addUsers(mdlUser);
+				return currentStep;
+			}
+		}
+    	CurrentStep newCurrentStep = new CurrentStep();
+    	newCurrentStep.setStepIdent(nextStep);
+    	newCurrentStep.addUsers(mdlUser);
+    	addSteps(newCurrentStep);
+    	return newCurrentStep;
+    }
 
     @Override
     public boolean equals(Object o) {

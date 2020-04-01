@@ -1,7 +1,13 @@
 package org.jhipster.mdl.service.impl;
 
 import org.jhipster.mdl.service.WorkflowInstanceService;
+import org.jhipster.mdl.domain.CurrentStep;
+import org.jhipster.mdl.domain.MdlUser;
+import org.jhipster.mdl.domain.User;
 import org.jhipster.mdl.domain.WorkflowInstance;
+import org.jhipster.mdl.fakeInterpreter.FakeInterpreter;
+import org.jhipster.mdl.fakeInterpreter.FakeReturnExec;
+import org.jhipster.mdl.fakeInterpreter.FakeState;
 import org.jhipster.mdl.repository.WorkflowInstanceRepository;
 import org.jhipster.mdl.service.dto.WorkflowInstanceDTO;
 import org.jhipster.mdl.service.mapper.WorkflowInstanceMapper;
@@ -17,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -101,7 +108,31 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
 	@Override
 	public Optional<WorkflowStepData> getWorkflowStep(String login, Long wfiID) {
 		log.debug("Request wf step : {}", login, wfiID);
-		return Optional.of(new WorkflowStepData());
+		if (wfiID != null) {
+			Optional<WorkflowInstance> optWFI = workflowInstanceRepository.findById(wfiID);
+			if (optWFI.isPresent()) {
+				WorkflowInstance wfi = optWFI.get();
+				Optional<MdlUser> mdlUser = wfi.findMdlUserByLogin(login);
+				if (mdlUser.isPresent()) {
+					Optional<CurrentStep> currentStep = wfi.getState().findCurrentStepContainingMdlUser(mdlUser.get());
+					if(currentStep.isPresent()) {
+						CurrentStep step = currentStep.get();
+						log.debug("CurrentStep found with value : {}", step.getStepIdent());
+						FakeReturnExec ret = FakeInterpreter.INTERPRETER.exec(wfi.getWfModel().getBody(), new FakeState(Integer.parseInt(step.getStepIdent()), wfi.getGuests().size(), 0));
+						return Optional.of(ret.stepData);
+					} else {
+						log.debug("No CurrentStep found with {}", mdlUser.get());
+					}
+				} else {
+					log.debug("MdlUser {} not found in WorkflowInstance guests", login);
+				}
+			} else {
+				log.debug("WorkflowInstance not found in BDD with id : {}", wfiID);
+			}
+		} else {
+			log.debug("wfiID is null");
+		}
+		return Optional.empty();
 	}
 
 }
