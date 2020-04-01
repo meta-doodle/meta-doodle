@@ -1,0 +1,1 @@
+nomDuWF "desc" {StepName:Etape_1 Comment: "Le commentaire" Survey {QuestionTitle: Q1 QuestionType: CheckBox PossibleAnswers: "rep_1" "rep_2"} Synchro 01/01/20 false false 0 }

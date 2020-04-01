@@ -18,14 +18,16 @@ public class InterpreterImpl implements Interpreter{
 	
 	@Override
 	public WorkflowStep getStep(String wf, WorkflowExecutionState wes) {
-		Resource r = resSet.getResource(URI.createURI(wf), true);
-		
+		Resource r = resSet.getResource(URI.createURI("wfInstance.mdl"), true);
+
+		System.out.println("ok");
 		try {
 			r.load(null);
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
 		
+		System.out.println("ok");
 		// TODO : créer le workflowStep.
 		
 		return null;
@@ -33,8 +35,10 @@ public class InterpreterImpl implements Interpreter{
 	
 	public static void main(String args[]) {
 		Interpreter i = new InterpreterImpl();
-		// TODO pour les testes
-		//WorkflowStep ws = getStep()
+		
+		String wfInstance = "nomDuWF \"desc\" {StepName:Etape_1 Comment:\"Le commentaire\" Survey {QuestionTitle: Q1 QuestionType: CheckBox PossibleAnswers: \"rep_1\" \"rep_2\"} Synchro 01/01/20 false false 0 }";
+		
+		WorkflowStep ws = i.getStep(wfInstance, null);
 	}
 
 }
