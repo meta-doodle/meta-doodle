@@ -34,7 +34,7 @@ entity Answer {
 
 
 relationship OneToOne {
-    MdlUser{user} to User{juser} 
+    MdlUser{user} to User{juser} with jpaDerivedIdentifier
     WorkflowInstance{state} to WorkflowInstanceState{workflowInstance}
 }
 
