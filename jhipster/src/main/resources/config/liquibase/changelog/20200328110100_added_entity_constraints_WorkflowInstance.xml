@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <!--
+        Added the constraints for entity WorkflowInstance.
+    -->
+    <changeSet id="20200328110100-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="state_id"
+                                 baseTableName="workflow_instance"
+                                 constraintName="fk_workflow_instance_state_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="workflow_instance_state"/>
+
+        <addForeignKeyConstraint baseColumnNames="wf_model_id"
+                                 baseTableName="workflow_instance"
+                                 constraintName="fk_workflow_instance_wf_model_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="workflow_model"/>
+
+        <addForeignKeyConstraint baseColumnNames="workflow_instance_id"
+                                 baseTableName="workflow_instance_guests"
+                                 constraintName="fk_workflow_instance_guests_workflow_instance_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="workflow_instance"/>
+
+        <addForeignKeyConstraint baseColumnNames="guests_id"
+                                 baseTableName="workflow_instance_guests"
+                                 constraintName="fk_workflow_instance_guests_guests_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="mdl_user"/>
+        
+        <addForeignKeyConstraint baseColumnNames="creator_id"
+                                 baseTableName="workflow_instance"
+                                 constraintName="fk_workflow_instance_creator_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="mdl_user"/>
+
+    </changeSet>
+</databaseChangeLog>
