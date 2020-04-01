@@ -2,6 +2,7 @@ package org.jhipster.mdl.web.rest;
 
 import org.jhipster.mdl.MdlApp;
 import org.jhipster.mdl.domain.MdlUser;
+import org.jhipster.mdl.domain.User;
 import org.jhipster.mdl.repository.MdlUserRepository;
 import org.jhipster.mdl.service.MdlUserService;
 import org.jhipster.mdl.service.dto.MdlUserDTO;
@@ -84,6 +85,11 @@ public class MdlUserResourceIT {
      */
     public static MdlUser createEntity(EntityManager em) {
         MdlUser mdlUser = new MdlUser();
+        // Add required entity
+        User user = UserResourceIT.createEntity(em);
+        em.persist(user);
+        em.flush();
+        mdlUser.setUser(user);
         return mdlUser;
     }
     /**
@@ -94,6 +100,11 @@ public class MdlUserResourceIT {
      */
     public static MdlUser createUpdatedEntity(EntityManager em) {
         MdlUser mdlUser = new MdlUser();
+        // Add required entity
+        User user = UserResourceIT.createEntity(em);
+        em.persist(user);
+        em.flush();
+        mdlUser.setUser(user);
         return mdlUser;
     }
 
@@ -118,6 +129,9 @@ public class MdlUserResourceIT {
         List<MdlUser> mdlUserList = mdlUserRepository.findAll();
         assertThat(mdlUserList).hasSize(databaseSizeBeforeCreate + 1);
         MdlUser testMdlUser = mdlUserList.get(mdlUserList.size() - 1);
+
+        // Validate the id for MapsId, the ids must be same
+        assertThat(testMdlUser.getId()).isEqualTo(testMdlUser.getUser().getId());
     }
 
     @Test
@@ -140,6 +154,43 @@ public class MdlUserResourceIT {
         assertThat(mdlUserList).hasSize(databaseSizeBeforeCreate);
     }
 
+    @Test
+    @Transactional
+    public void updateMdlUserMapsIdAssociationWithNewId() throws Exception {
+        // Initialize the database
+        mdlUserRepository.saveAndFlush(mdlUser);
+        int databaseSizeBeforeCreate = mdlUserRepository.findAll().size();
+
+        // Add a new parent entity
+        User user = UserResourceIT.createEntity(em);
+        em.persist(user);
+        em.flush();
+
+        // Load the mdlUser
+        MdlUser updatedMdlUser = mdlUserRepository.findById(mdlUser.getId()).get();
+        // Disconnect from session so that the updates on updatedMdlUser are not directly saved in db
+        em.detach(updatedMdlUser);
+
+        // Update the User with new association value
+        updatedMdlUser.setUser(user);
+        MdlUserDTO updatedMdlUserDTO = mdlUserMapper.toDto(updatedMdlUser);
+
+        // Update the entity
+        restMdlUserMockMvc.perform(put("/api/mdl-users")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(updatedMdlUserDTO)))
+            .andExpect(status().isOk());
+
+        // Validate the MdlUser in the database
+        List<MdlUser> mdlUserList = mdlUserRepository.findAll();
+        assertThat(mdlUserList).hasSize(databaseSizeBeforeCreate);
+        MdlUser testMdlUser = mdlUserList.get(mdlUserList.size() - 1);
+
+        // Validate the id for MapsId, the ids must be same
+        // Uncomment the following line for assertion. However, please note that there is a known issue and uncommenting will fail the test.
+        // Please look at https://github.com/jhipster/generator-jhipster/issues/9100. You can modify this test as necessary.
+        // assertThat(testMdlUser.getId()).isEqualTo(testMdlUser.getUser().getId());
+    }
 
     @Test
     @Transactional

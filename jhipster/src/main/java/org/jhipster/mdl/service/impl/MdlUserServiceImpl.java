@@ -2,8 +2,8 @@ package org.jhipster.mdl.service.impl;
 
 import org.jhipster.mdl.service.MdlUserService;
 import org.jhipster.mdl.domain.MdlUser;
-import org.jhipster.mdl.domain.User;
 import org.jhipster.mdl.repository.MdlUserRepository;
+import org.jhipster.mdl.repository.UserRepository;
 import org.jhipster.mdl.service.dto.MdlUserDTO;
 import org.jhipster.mdl.service.mapper.MdlUserMapper;
 import org.slf4j.Logger;
@@ -30,9 +30,12 @@ public class MdlUserServiceImpl implements MdlUserService {
 
     private final MdlUserMapper mdlUserMapper;
 
-    public MdlUserServiceImpl(MdlUserRepository mdlUserRepository, MdlUserMapper mdlUserMapper) {
+    private final UserRepository userRepository;
+
+    public MdlUserServiceImpl(MdlUserRepository mdlUserRepository, MdlUserMapper mdlUserMapper, UserRepository userRepository) {
         this.mdlUserRepository = mdlUserRepository;
         this.mdlUserMapper = mdlUserMapper;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -45,6 +48,8 @@ public class MdlUserServiceImpl implements MdlUserService {
     public MdlUserDTO save(MdlUserDTO mdlUserDTO) {
         log.debug("Request to save MdlUser : {}", mdlUserDTO);
         MdlUser mdlUser = mdlUserMapper.toEntity(mdlUserDTO);
+        long userId = mdlUserDTO.getUserId();
+        userRepository.findById(userId).ifPresent(mdlUser::user);
         mdlUser = mdlUserRepository.save(mdlUser);
         return mdlUserMapper.toDto(mdlUser);
     }
@@ -88,9 +93,4 @@ public class MdlUserServiceImpl implements MdlUserService {
         log.debug("Request to delete MdlUser : {}", id);
         mdlUserRepository.deleteById(id);
     }
-    
-    @Override
-	public Optional<MdlUserDTO> convert(String login) {
-		return Optional.of(new MdlUserDTO());
-	}
 }

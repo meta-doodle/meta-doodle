@@ -15,9 +15,6 @@
             <column name="id" type="bigint">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="user_id" type="bigint">
-                <constraints unique="true" nullable="true" uniqueConstraintName="ux_mdl_user_user_id" />
-            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
     </changeSet>
