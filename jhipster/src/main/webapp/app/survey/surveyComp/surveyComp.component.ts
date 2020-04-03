@@ -64,7 +64,9 @@ export class SurveyComponent implements OnInit {
 
   constructor(private surveyService: SurveyService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+
+  }
 
   submit(): void {
     this.result = this.surveyService.answers;
