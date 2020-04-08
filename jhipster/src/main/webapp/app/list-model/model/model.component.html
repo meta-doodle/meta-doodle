@@ -1,0 +1,16 @@
+<!--component html goes here -->
+
+<div class="main">
+    <div class="left_container container">
+        <p>{{ this.title }}</p>
+    </div>
+    <div class="middle_container container">
+
+        <p>{{ this.description}}</p>
+    </div>
+    <div class="right_container container">
+      <a class="navlink" [routerLink]="['/list-model/instantiate',id]">
+       <span>create</span>
+   </a>
+    </div>
+</div>

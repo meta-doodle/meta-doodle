@@ -9,4 +9,4 @@ import { HomeComponent } from './home.component';
   imports: [MdlSharedModule, RouterModule.forChild([HOME_ROUTE])],
   declarations: [HomeComponent]
 })
-export class MdlHomeModule {}
+export class MdlHomeModule { }

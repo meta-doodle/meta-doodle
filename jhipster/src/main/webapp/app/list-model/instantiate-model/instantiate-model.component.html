@@ -1,0 +1,23 @@
+<form [formGroup]="instantiateModel" (ngSubmit)="onSubmitForm()">
+  <div class="form-group">
+      <label for="name">
+        Titre de votre événement :
+      </label>
+      <input type="text" id="titre" class="form-control" name="titre" formControlName="titre">
+  </div>
+  <div class="form-group">
+      <label for="description">
+        Description :
+      </label>
+      <textarea  id="description" class="form-control" rows="3" name="description" formControlName="description"></textarea>
+  </div>
+  <div class="form-group">
+      <label for="emails">
+        E-mail des participants (séparer par des ','):
+      </label>
+    <input id="email" class="form-control" placeholder="Ex: pat@example.com, bob@eponge.com" name="emails" formControlName="emails">
+    <div *ngIf="!instantiateModel.valid" class="invalid-feedback">Please enter a valid email address</div>
+  </div>
+  <button type="submit" class="btn btn-primary" [disabled]="instantiateModel.invalid">Soumettre</button>
+</form>
+{{ this.titre}} {{ this.description}} {{ this.emails}}

@@ -1,0 +1,29 @@
+{
+    "name": "WorkflowInstanceState",
+    "fields": [],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "currentStep",
+            "otherEntityRelationshipName": "workflowInstanceState",
+            "relationshipName": "steps"
+        },
+        {
+            "relationshipType": "one-to-one",
+            "otherEntityName": "workflowInstance",
+            "otherEntityRelationshipName": "state",
+            "relationshipName": "workflowInstance",
+            "ownerSide": false
+        }
+    ],
+    "changelogDate": "20200328110200",
+    "entityTableName": "workflow_instance_state",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": "*"
+}
