@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
 import { IAnswer } from 'app/shared/model/answer.model';
+import { ISurveyView } from 'app/shared/model/survey-view';
 
 type EntityResponseType = HttpResponse<IAnswer>;
 type EntityArrayResponseType = HttpResponse<IAnswer[]>;
@@ -12,8 +13,9 @@ type EntityArrayResponseType = HttpResponse<IAnswer[]>;
 @Injectable({ providedIn: 'root' })
 export class AnswerService {
   public resourceUrl = SERVER_API_URL + 'api/answers';
+  public sendAnswerUrl = SERVER_API_URL + 'api/send-answer'
 
-  constructor(protected http: HttpClient) {}
+  constructor(protected http: HttpClient) { }
 
   create(answer: IAnswer): Observable<EntityResponseType> {
     return this.http.post<IAnswer>(this.resourceUrl, answer, { observe: 'response' });
@@ -34,5 +36,9 @@ export class AnswerService {
 
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  }
+
+  send(answer: IAnswer): Observable<HttpResponse<ISurveyView>> {
+    return this.http.post<ISurveyView>(this.sendAnswerUrl, answer, { observe: 'response' });
   }
 }

@@ -20,12 +20,12 @@ public class MdlUser implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
     @OneToOne
-    @JoinColumn(unique = true)
+
+    @MapsId
+    @JoinColumn(name = "id")
     private User user;
 
     @OneToMany(mappedBy = "creator")
