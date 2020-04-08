@@ -16,6 +16,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -50,6 +51,9 @@ public class MdlUserResource {
         log.debug("REST request to save MdlUser : {}", mdlUserDTO);
         if (mdlUserDTO.getId() != null) {
             throw new BadRequestAlertException("A new mdlUser cannot already have an ID", ENTITY_NAME, "idexists");
+        }
+        if (Objects.isNull(mdlUserDTO.getUserId())) {
+            throw new BadRequestAlertException("Invalid association value provided", ENTITY_NAME, "null");
         }
         MdlUserDTO result = mdlUserService.save(mdlUserDTO);
         return ResponseEntity.created(new URI("/api/mdl-users/" + result.getId()))
@@ -115,8 +119,8 @@ public class MdlUserResource {
         mdlUserService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
     }
-    
-    @GetMapping("/mdl-users/convert/{login}")
+	
+	@GetMapping("/mdl-users/convert/{login}")
     public ResponseEntity<MdlUserDTO> convertJUserToMdlUser(@PathVariable String login) {
         log.debug("REST request to convert JUser to MdlUser : {}", login);
         Optional<MdlUserDTO> mdlUserDTO = mdlUserService.convert(login);
