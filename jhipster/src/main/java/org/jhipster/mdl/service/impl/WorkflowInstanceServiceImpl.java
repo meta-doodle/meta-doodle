@@ -106,8 +106,8 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
 	}
 
 	@Override
-	public WorkflowInstanceDTO create(WorkflowInstanceParamsDTO workflowInstanceParamsDTO) {
-		return new WorkflowInstanceDTO();
+	public Optional<WorkflowInstanceDTO> create(WorkflowInstanceParamsDTO workflowInstanceParamsDTO) {
+		return Optional.of(new WorkflowInstanceDTO());
 	}
 
 }

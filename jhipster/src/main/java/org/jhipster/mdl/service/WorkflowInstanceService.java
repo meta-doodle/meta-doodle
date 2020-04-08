@@ -53,5 +53,5 @@ public interface WorkflowInstanceService {
     
     Optional<WorkflowStepData> getWorkflowStep(String login, Long wfiID);
     
-    WorkflowInstanceDTO create(WorkflowInstanceParamsDTO workflowInstanceParamsDTO);
+    Optional<WorkflowInstanceDTO> create(WorkflowInstanceParamsDTO workflowInstanceParamsDTO);
 }

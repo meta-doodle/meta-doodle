@@ -150,7 +150,7 @@ public class WorkflowInstanceResource {
 			throw new BadRequestAlertException("Invalide workflox model ID", ENTITY_NAME,
 					"idnull");
 		}
-		WorkflowInstanceDTO workflowInstance = workflowInstanceService.create(workflowInstanceParamsDTO);
-		return ResponseEntity.ok(workflowInstance);
+		Optional<WorkflowInstanceDTO> workflowInstance = workflowInstanceService.create(workflowInstanceParamsDTO);
+		return ResponseUtil.wrapOrNotFound(workflowInstance);
 	}
 }
