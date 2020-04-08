@@ -1,4 +1,7 @@
-package org.xtext.metadoodle.interpreter;
+package org.xtext.metadoodle.interpreter.Implementation;
+
+import org.xtext.metadoodle.interpreter.Interface.ID;
+import org.xtext.metadoodle.interpreter.Interface.MailReminder;
 
 import java.util.Objects;
 
@@ -8,6 +11,13 @@ public abstract class UserInteraction {
 	private InteractionType it;
 	private boolean hasReminder;
 	private MailReminder mail;
+	
+	public UserInteraction(ID id, String comment, InteractionType it) {
+		this.id = id;
+		this.comment = comment;
+		this.it = it;
+		this.hasReminder = false;
+	}
 	
 	public ID getStepID() {
 		return this.id;

@@ -1,4 +1,4 @@
-package org.xtext.metadoodle.interpreter;
+package org.xtext.metadoodle.interpreter.Implementation;
 
 import java.io.InputStream;
 import java.util.logging.Logger;
@@ -13,7 +13,9 @@ import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceSet;
 import org.eclipse.xtext.util.StringInputStream;
 import org.xtext.metadoodle.MDLStandaloneSetup;
-
+import org.xtext.metadoodle.interpreter.Interface.Interpreter;
+import org.xtext.metadoodle.interpreter.Interface.WorkflowExecutionState;
+import org.xtext.metadoodle.interpreter.Interface.WorkflowStep;
 import org.xtext.metadoodle.mDL.impl.WorkflowImpl;
 
 import com.google.inject.Injector;

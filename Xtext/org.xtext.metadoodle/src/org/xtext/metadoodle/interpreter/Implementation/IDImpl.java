@@ -1,4 +1,6 @@
-package org.xtext.metadoodle.interpreter;
+package org.xtext.metadoodle.interpreter.Implementation;
+
+import org.xtext.metadoodle.interpreter.Interface.ID;
 
 public class IDImpl implements ID {
 

@@ -1,4 +1,4 @@
-package org.xtext.metadoodle.interpreter;
+package org.xtext.metadoodle.interpreter.Interface;
 
 public interface Interpreter {
 	/**

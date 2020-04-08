@@ -1,4 +1,4 @@
-package org.xtext.metadoodle.interpreter;
+package org.xtext.metadoodle.interpreter.Interface;
 
 import java.util.List;
 
