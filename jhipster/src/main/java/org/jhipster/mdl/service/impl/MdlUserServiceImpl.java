@@ -93,4 +93,9 @@ public class MdlUserServiceImpl implements MdlUserService {
         log.debug("Request to delete MdlUser : {}", id);
         mdlUserRepository.deleteById(id);
     }
+	
+	@Override
+	public Optional<MdlUserDTO> convert(String login) {
+		return Optional.of(new MdlUserDTO());
+	}
 }
