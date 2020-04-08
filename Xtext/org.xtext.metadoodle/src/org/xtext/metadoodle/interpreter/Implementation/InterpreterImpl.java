@@ -90,10 +90,16 @@ public class InterpreterImpl implements Interpreter {
 						else 
 							LOG.severe("Answer Type unknown." + name);
 						
+						LOG.info(type);
 						QuestionForm qCreate = new QuestionForm(question.getName(), AnswerType.valueOf(type));
-						((Form)ui).addQuestion(qCreate);	
+						
+						EList<String> reps = question.getResponses();
+						
+						for(String rep : reps)
+							qCreate.addAnswer(rep);
+						
+						((Form)ui).addQuestion(qCreate);
 					}
-					
 				}else {
 					LOG.severe("UserInteraction : " + step.getClass().getName() + " unknown.");
 					break;

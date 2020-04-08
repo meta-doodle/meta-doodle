@@ -65,6 +65,7 @@ public abstract class UserInteraction {
 	
 	@Override
 	public String toString() {
-		return this.id + " : " + this.comment + "\n" + this.it + " :\n" + more();
+		return "Nom de l'étape : " + this.id + " | " + this.comment + 
+				"\nType : " + this.it + " :\n" + more();
 	}
 }

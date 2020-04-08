@@ -56,6 +56,11 @@ public class WorkflowStepImpl implements WorkflowStep{
 	}
 
 	public String toString() {
-		return this.name + " : " + this.description;
+		String ret ="Nom du wf : " + this.name + " | Descrition : " + this.description + "\n";
+		
+		for(UserInteraction ui : this.interactions)
+			ret += ui + "\n";
+		
+		return ret;
 	}
 }
