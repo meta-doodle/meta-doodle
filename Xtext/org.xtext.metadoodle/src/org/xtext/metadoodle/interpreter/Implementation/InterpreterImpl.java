@@ -14,14 +14,8 @@ import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceSet;
 import org.eclipse.xtext.util.StringInputStream;
 import org.xtext.metadoodle.MDLStandaloneSetup;
-import org.xtext.metadoodle.interpreter.Interface.Interpreter;
-import org.xtext.metadoodle.interpreter.Interface.WorkflowExecutionState;
-import org.xtext.metadoodle.interpreter.Interface.WorkflowStep;
-import org.xtext.metadoodle.mDL.QuestionLan;
-import org.xtext.metadoodle.mDL.SurveyLan;
-import org.xtext.metadoodle.mDL.UserInteractionLan;
-import org.xtext.metadoodle.mDL.WorkflowLan;
-import org.xtext.metadoodle.mDL.WorkflowStepLan;
+import org.xtext.metadoodle.interpreter.Interface.*;
+import org.xtext.metadoodle.mDL.*;
 
 import com.google.inject.Injector;
 
@@ -68,11 +62,14 @@ public class InterpreterImpl implements Interpreter {
 		EList<WorkflowStepLan> steps = toplevel.getSteps();
 		
 		for(WorkflowStepLan step : steps) {
+			// Ajout des questions.
 			UserInteraction ui = null;
 			EList<UserInteractionLan> userInteractions = step.getUserInteraction();
 			
 			for(UserInteractionLan userInteraction : userInteractions) {
-				if(userInteraction.getInteraction().getClass().getName().toUpperCase().contains("SURVEY")) {
+				String stepTypeName = userInteraction.getInteraction().getClass().getName().toUpperCase();
+				
+				if(stepTypeName.contains("SURVEY")) {
 					SurveyLan sur = userInteraction.getInteraction();
 					ui = new Form(new IDImpl(step.getName()), step.getComment(), InteractionType.FORM);
 					
@@ -100,11 +97,29 @@ public class InterpreterImpl implements Interpreter {
 						
 						((Form)ui).addQuestion(qCreate);
 					}
+				}else if(stepTypeName.contains("CALENDAR")) {
+					
+				}else if(stepTypeName.contains("FILEUPLOAD")) {
+					
 				}else {
 					LOG.severe("UserInteraction : " + step.getClass().getName() + " unknown.");
 					break;
 				}
 			}
+			
+			// Ajout mailReminder.
+			MailReminderLan mail = step.getReminders();
+			MailReminder mr = new MailReminderImpl(mail.getObject(), mail.getBody());
+			
+			for(String date : mail.getDateToSend())
+				mr.addDate(date);
+			
+			ui.setReminder(mr);
+			
+			// synchro
+			SynchroLan sync = step.getSynchro();
+			
+			// TODO
 			
 			wfStep.addUserInteraction(ui);
 		}
@@ -130,6 +145,7 @@ public class InterpreterImpl implements Interpreter {
 		InputStream in = new StringInputStream(wfString);
 
 		LOG.info("<< init : >> load");
+		
 		try {
 			// Chargement du wf.
 			r.load(in, null);
@@ -138,8 +154,6 @@ public class InterpreterImpl implements Interpreter {
 		}
 
 		LOG.info("<< load");
-		// TODO : créer le workflowStep.
-
 		EcoreUtil.resolveAll(r);
 		return r.getParseResult().getRootASTElement();
 	}

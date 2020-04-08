@@ -23,7 +23,7 @@ public class Form extends UserInteraction {
 	
 	public void addQuestion(QuestionForm quest) {
 		Objects.requireNonNull(quest);
-		LOG.info(quest.toString());
+		//LOG.info(quest.toString());
 		this.questions.add(quest);
 	}
 

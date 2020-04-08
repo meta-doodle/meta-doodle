@@ -21,4 +21,7 @@ public interface MailReminder {
 	 * @return
 	 */
 	public String getBody();
+	
+
+	public void addDate(String date);
 }
