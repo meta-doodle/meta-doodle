@@ -1,6 +1,7 @@
 package org.jhipster.mdl.service.impl;
 
 import org.jhipster.mdl.service.MdlUserService;
+import org.jhipster.mdl.domain.User;
 import org.jhipster.mdl.domain.MdlUser;
 import org.jhipster.mdl.repository.MdlUserRepository;
 import org.jhipster.mdl.repository.UserRepository;
