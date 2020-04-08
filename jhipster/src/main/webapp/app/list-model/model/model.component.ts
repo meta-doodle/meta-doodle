@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { IModel } from 'app/shared/types/question';
-import { IWorkflowModel } from 'app/shared/model/workflow-model.model';
+import { WorkflowModel } from 'app/shared/model/workflow-model.model';
 
 @Component({
   moduleId: module.id,
@@ -9,13 +8,13 @@ import { IWorkflowModel } from 'app/shared/model/workflow-model.model';
   styleUrls: ['model.component.scss']
 })
 export class ModelComponent implements OnInit {
-  @Input() model!: IWorkflowModel;
+  @Input() model!: WorkflowModel;
 
   id: number | undefined;
   title: string | undefined;
   description: string | undefined;
 
-  constructor() {}
+  constructor() { }
 
   ngOnInit(): void {
     this.id = this.model.id;
@@ -23,5 +22,5 @@ export class ModelComponent implements OnInit {
     this.description = this.model.description;
   }
 
-  create(): void {}
+  create(): void { }
 }

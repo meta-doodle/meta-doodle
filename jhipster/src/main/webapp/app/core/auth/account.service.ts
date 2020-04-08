@@ -15,7 +15,7 @@ export class AccountService {
   private userIdentity: Account | null = null;
   private authenticationState = new ReplaySubject<Account | null>(1);
   private accountCache$?: Observable<Account | null>;
-  private mdlUser?: Observable<MdlUser | null>;
+  private mdlUser?: MdlUser | null;
 
   constructor(private http: HttpClient, private stateStorageService: StateStorageService, private router: Router, private mdlUserService: MdlUserService) { }
 
@@ -49,7 +49,7 @@ export class AccountService {
 
           if (account) {
             this.mdlUserService.findFromLogin(account.login).subscribe(
-              (resp) => { resp.body; debugger; }
+              (resp) => { this.mdlUser = resp.body; }
             )
             this.navigateToStoredUrl();
           }
@@ -60,8 +60,8 @@ export class AccountService {
     return this.accountCache$;
   }
 
-  getMdlUser(): Observable<MdlUser | null> {
-    return this.mdlUser ? this.mdlUser : new Observable();
+  getMdlUser(): MdlUser | null {
+    return this.mdlUser ? this.mdlUser : null;
   }
 
   isAuthenticated(): boolean {
