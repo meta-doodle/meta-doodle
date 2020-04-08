@@ -3,6 +3,7 @@ package org.xtext.metadoodle.interpreter.Implementation;
 import java.io.InputStream;
 import java.util.logging.Logger;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -16,7 +17,11 @@ import org.xtext.metadoodle.MDLStandaloneSetup;
 import org.xtext.metadoodle.interpreter.Interface.Interpreter;
 import org.xtext.metadoodle.interpreter.Interface.WorkflowExecutionState;
 import org.xtext.metadoodle.interpreter.Interface.WorkflowStep;
-import org.xtext.metadoodle.mDL.impl.WorkflowImpl;
+import org.xtext.metadoodle.mDL.QuestionLan;
+import org.xtext.metadoodle.mDL.SurveyLan;
+import org.xtext.metadoodle.mDL.UserInteractionLan;
+import org.xtext.metadoodle.mDL.WorkflowLan;
+import org.xtext.metadoodle.mDL.WorkflowStepLan;
 
 import com.google.inject.Injector;
 
@@ -45,9 +50,76 @@ public class InterpreterImpl implements Interpreter {
 		// resSet = injector.getInstance(ResourceSet.class);
 	}
 
+	// TODO fragmenter cette methode.
 	@Override
 	public WorkflowStep getStep(String wfString, WorkflowExecutionState wes) {
 		LOG.info(">> " + wfString);
+
+		final WorkflowLan toplevel = (WorkflowLan) getRoot(wfString);
+		
+		// TODO Passer de workflowImpl (généré par xtext) à workflowStep (géré par nous).
+		// Création du workflowStep.
+		String nameWF = toplevel.getName();
+		String desc = toplevel.getDesc();
+		
+		WorkflowStep wfStep = new WorkflowStepImpl(new IDImpl(nameWF), desc);
+		
+		// Ajout des UserInteractions.
+		EList<WorkflowStepLan> steps = toplevel.getSteps();
+		
+		for(WorkflowStepLan step : steps) {
+			UserInteraction ui = null;
+			EList<UserInteractionLan> userInteractions = step.getUserInteraction();
+			
+			for(UserInteractionLan userInteraction : userInteractions) {
+				switch (userInteraction.getInteraction().getClass().getName()) {
+				case "org.xtext.metadoodle.mDL.impl.WorkflowStepLanImpl":
+					SurveyLan sur = (SurveyLan)userInteraction;
+					ui = new Form(new IDImpl(step.getName()), step.getComment(), InteractionType.FORM);
+					
+					EList<QuestionLan> qGen = sur.getQuestions();
+					
+					for(QuestionLan question : qGen) {
+						String type = null, name = question.getType().getType();
+						
+						if(name.toUpperCase().contains("OPENQUESTION"))
+							type = "FREEANSWER";
+						else if(name.toUpperCase().contains("CHECKBOX"))
+							type = "CHECKBOX";
+						else if(name.toUpperCase().contains("RADIOBUTTON"))
+							type = "RADIOBUTTON";
+						else 
+							LOG.severe("Answer Type unknown." + name);
+						
+						QuestionForm qCreate = new QuestionForm(question.getName(), AnswerType.valueOf(type));
+						((Form)ui).addQuestion(qCreate);	
+					}
+					
+					break;
+				case "CalandarImpl":
+					
+					break;
+				case "FileUploadImpl":
+					
+					break;
+				default:
+					LOG.severe("UserInteraction : " + step.getClass().getName() + " unknown.");
+					break;
+				}
+			}
+			
+			wfStep.addUserInteraction(ui);
+		}
+		
+		return wfStep;
+	}
+	
+	/**
+	 * Cette méthode passe le wfString dnas l'interpréteur et retourne la racine de l'ast.
+	 * @param wfString Le workflow.
+	 * @return La racine de l'AST.
+	 */
+	private EObject getRoot(String wfString) {
 
 		// Resource r = resSet.getResource(URI.createURI("wfInstance.mdl"), true);
 		final XtextResourceSet rs = injector.<XtextResourceSet>getInstance(XtextResourceSet.class);
@@ -71,21 +143,13 @@ public class InterpreterImpl implements Interpreter {
 		// TODO : créer le workflowStep.
 
 		EcoreUtil.resolveAll(r);
-		final EObject root = r.getParseResult().getRootASTElement();
-		final WorkflowImpl toplevel = ((WorkflowImpl) root);
-		
-		// TODO Passer de workflowImpl (généré par xtext) à workflowStep (géré par nous).
-		String nameWF = toplevel.getName();
-		String desc = toplevel.getDesc();
-		
-		
-		WorkflowStep wfStep = new WorkflowStepImpl(new IDImpl(nameWF), desc);
-		
-		
-		
-		return wfStep;
+		return r.getParseResult().getRootASTElement();
 	}
 
+	/**
+	 * Main de test.
+	 * @param args
+	 */
 	public static void main(String args[]) {
 		Interpreter i = new InterpreterImpl();
 

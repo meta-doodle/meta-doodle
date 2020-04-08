@@ -3,54 +3,52 @@ grammar org.xtext.metadoodle.MDL with org.eclipse.xtext.common.Terminals
 generate mDL "http://www.xtext.org/metadoodle/MDL"
 
 // Parsing
-Workflow:
+WorkflowLan:
 	name=ID
 	Desc=STRING
-	(steps+=WorkflowStep)+
+	(steps+=WorkflowStepLan)+
 ;
 
-WorkflowStep :
+WorkflowStepLan :
     '{' 'StepName:' name=ID
     'Comment:' comment=STRING
-    userInteraction+=UserInteraction
-    synchro=Synchro
-    ('(' reminders=MailReminder ')')? '}'
+    userInteraction+=UserInteractionLan
+    synchro=SynchroLan
+    ('(' reminders=MailReminderLan ')')? '}'
 ;
 
-UserInteraction :
-    Survey | Calendar | FileUpload
+UserInteractionLan :
+	interaction = SurveyLan | CalendarLan | FileUploadLan
 ;
 
-Survey:
+SurveyLan:
 	'Survey'
-	'{' (questions+=Question)+ '}'
+	'{' (questions+=QuestionLan)+ '}'
 ;
 
-Question:
+QuestionLan:
 	'QuestionTitle:' name=ID
-    'QuestionType:' type=AnswerType
+    'QuestionType:' type=AnswerTypeLan
     ('PossibleAnswers:' (responses+=STRING)+)?
 ;
 
-AnswerType:
-    OPENQUESTION='OpenQuestion' |
-    CHECKBOX='CheckBox' |
-    RADIOBUTTON='RadioButton'
+AnswerTypeLan:
+    type=('OpenQuestion' | 'CheckBox' | 'RadioButton')
 ;
 
-Calendar:
+CalendarLan:
 	'Calendar'
     '{' 'StartingDate:' start=DATE
     'EndingDate:' end=DATE 
     ('Accuracy:' accuracy=STRING)? '}'
 ;
 
-FileUpload:
+FileUploadLan:
 	'FileUpload'
     '{' (mimeTypes+=STRING)+ '}'
 ;
 
-Synchro:
+SynchroLan:
 	'Synchro'
     endDate=DATE
     waitOtherUsers=BOOLEAN
@@ -59,7 +57,7 @@ Synchro:
     percentageCompletion=INT
 ;
 
-MailReminder:
+MailReminderLan:
     'MailReminder'
     (dateToSend+=DATE)+
     object=STRING

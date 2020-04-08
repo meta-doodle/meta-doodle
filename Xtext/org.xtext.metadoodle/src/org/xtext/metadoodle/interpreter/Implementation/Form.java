@@ -2,54 +2,26 @@ package org.xtext.metadoodle.interpreter.Implementation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.xtext.metadoodle.interpreter.Interface.ID;
 
 public class Form extends UserInteraction {
 
-	private ID id;
-	private InteractionType it;
-	private String title;
-	private List<String> possibleAnswer;
-	private AnswerType at;
+	private List<QuestionForm> questions;
 
-	public Form(ID id, String comment, InteractionType it, String title, AnswerType at) {
-		this(id, comment, it, title, new ArrayList<String>(), at);
-	}
-
-	public Form(
-			ID id, 
-			String comment, 
-			InteractionType it, 
-			String title, 
-			List<String> pa, 
-			AnswerType at) {
+	public Form(ID id, String comment, InteractionType it) {
 		super(id, comment, it);
-		this.title = title;
-		this.possibleAnswer = pa;
-		this.at = at;
+		this.questions = new ArrayList<>();
 	}
 
-	@Override
-	public ID getStepID() {
-		return this.id;
+	public List<QuestionForm> getQuestions(){
+		return this.questions; // TODO rendre immutable.
 	}
-
-	@Override
-	public InteractionType getType() {
-		return this.it;
-	}
-
-	public String getTitle() {
-		return this.title;
-	}
-
-	public List<String> getPossibleAnswers() {
-		return new ArrayList<>(this.possibleAnswer);
-	}
-
-	public AnswerType getAnswerType() {
-		return this.at;
+	
+	public void addQuestion(QuestionForm quest) {
+		Objects.requireNonNull(quest);
+		this.questions.add(quest);
 	}
 
 	@Override
