@@ -28,6 +28,12 @@ public interface WorkflowStep {
 	public Optional<String> getComment();
 	
 	/**
+	 * Cette méthode permet d'ajouter des UserInteraction.
+	 * @param interaction L'interaction à ajouter.
+	 */
+	public void addUserInteraction(UserInteraction interaction);
+	
+	/**
 	 * Donne l'action correspondant à l'étape.
 	 * @return
 	 */
@@ -44,4 +50,14 @@ public interface WorkflowStep {
 	 * @return
 	 */
 	public MailReminder getReminder();
+	
+	/**
+	 * Cette méthode permet d'ajouter un mail de rappel.
+	 * C'est elle qui change le hasReminder à vrai.
+	 * @param mail Le corps du mail à envoyer ainsi que les dates d'envoi.
+	 */
+	public void setReminder(MailReminder mail);
+	
+	@Override
+	public String toString();
 }

@@ -44,8 +44,8 @@ public class InterpreterImpl implements Interpreter {
 	}
 
 	@Override
-	public WorkflowStep getStep(String wf, WorkflowExecutionState wes) {
-		LOG.info(">> " + wf);
+	public WorkflowStep getStep(String wfString, WorkflowExecutionState wes) {
+		LOG.info(">> " + wfString);
 
 		// Resource r = resSet.getResource(URI.createURI("wfInstance.mdl"), true);
 		final XtextResourceSet rs = injector.<XtextResourceSet>getInstance(XtextResourceSet.class);
@@ -55,7 +55,7 @@ public class InterpreterImpl implements Interpreter {
 		rs.getResources().add(r);
 
 		// Transformation du String en InputString.
-		InputStream in = new StringInputStream(wf);
+		InputStream in = new StringInputStream(wfString);
 
 		LOG.info("<< init : >> load");
 		try {
@@ -73,9 +73,15 @@ public class InterpreterImpl implements Interpreter {
 		final WorkflowImpl toplevel = ((WorkflowImpl) root);
 		
 		// TODO Passer de workflowImpl (généré par xtext) à workflowStep (géré par nous).
-		// toplevel.
+		String nameWF = toplevel.getName();
+		String desc = toplevel.getDesc();
 		
-		return null;
+		
+		WorkflowStep wfStep = new WorkflowStepImpl(new IDImpl(nameWF), desc);
+		
+		
+		
+		return wfStep;
 	}
 
 	public static void main(String args[]) {
