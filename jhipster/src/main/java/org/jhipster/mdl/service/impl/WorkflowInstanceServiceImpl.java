@@ -4,6 +4,7 @@ import org.jhipster.mdl.service.WorkflowInstanceService;
 import org.jhipster.mdl.domain.WorkflowInstance;
 import org.jhipster.mdl.repository.WorkflowInstanceRepository;
 import org.jhipster.mdl.service.dto.WorkflowInstanceDTO;
+import org.jhipster.mdl.service.dto.WorkflowInstanceParamsDTO;
 import org.jhipster.mdl.service.mapper.WorkflowInstanceMapper;
 import org.jhipster.mdl.workflow.to_transfert_data.WorkflowStepData;
 import org.slf4j.Logger;
@@ -102,6 +103,11 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
 	public Optional<WorkflowStepData> getWorkflowStep(String login, Long wfiID) {
 		log.debug("Request wf step : {}", login, wfiID);
 		return Optional.of(new WorkflowStepData());
+	}
+
+	@Override
+	public WorkflowInstanceDTO create(WorkflowInstanceParamsDTO workflowInstanceParamsDTO) {
+		return new WorkflowInstanceDTO();
 	}
 
 }
