@@ -7,14 +7,17 @@ import { StateStorageService } from 'app/core/auth/state-storage.service';
 
 import { SERVER_API_URL } from 'app/app.constants';
 import { Account } from 'app/core/user/account.model';
+import { MdlUser } from 'app/shared/model/mdl-user.model';
+import { MdlUserService } from 'app/entities/mdl-user/mdl-user.service';
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {
   private userIdentity: Account | null = null;
   private authenticationState = new ReplaySubject<Account | null>(1);
   private accountCache$?: Observable<Account | null>;
+  private mdlUser?: MdlUser | null;
 
-  constructor(private http: HttpClient, private stateStorageService: StateStorageService, private router: Router) {}
+  constructor(private http: HttpClient, private stateStorageService: StateStorageService, private router: Router, private mdlUserService: MdlUserService) { }
 
   save(account: Account): Observable<{}> {
     return this.http.post(SERVER_API_URL + 'api/account', account);
@@ -45,6 +48,9 @@ export class AccountService {
           this.authenticate(account);
 
           if (account) {
+            this.mdlUserService.findFromLogin(account.login).subscribe(
+              (resp) => { this.mdlUser = resp.body; }
+            )
             this.navigateToStoredUrl();
           }
         }),
@@ -52,6 +58,10 @@ export class AccountService {
       );
     }
     return this.accountCache$;
+  }
+
+  getMdlUser(): MdlUser | null {
+    return this.mdlUser ? this.mdlUser : null;
   }
 
   isAuthenticated(): boolean {

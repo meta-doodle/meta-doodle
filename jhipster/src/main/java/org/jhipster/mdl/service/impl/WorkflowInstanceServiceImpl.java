@@ -10,6 +10,7 @@ import org.jhipster.mdl.fakeInterpreter.FakeReturnExec;
 import org.jhipster.mdl.fakeInterpreter.FakeState;
 import org.jhipster.mdl.repository.WorkflowInstanceRepository;
 import org.jhipster.mdl.service.dto.WorkflowInstanceDTO;
+import org.jhipster.mdl.service.dto.WorkflowInstanceParamsDTO;
 import org.jhipster.mdl.service.mapper.WorkflowInstanceMapper;
 import org.jhipster.mdl.workflow.to_transfert_data.WorkflowStepData;
 import org.slf4j.Logger;
@@ -133,6 +134,11 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
 			log.debug("wfiID is null");
 		}
 		return Optional.empty();
+	}
+
+	@Override
+	public Optional<WorkflowInstanceDTO> create(WorkflowInstanceParamsDTO workflowInstanceParamsDTO) {
+		return Optional.of(new WorkflowInstanceDTO());
 	}
 
 }
