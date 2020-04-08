@@ -72,9 +72,8 @@ public class InterpreterImpl implements Interpreter {
 			EList<UserInteractionLan> userInteractions = step.getUserInteraction();
 			
 			for(UserInteractionLan userInteraction : userInteractions) {
-				switch (userInteraction.getInteraction().getClass().getName()) {
-				case "org.xtext.metadoodle.mDL.impl.WorkflowStepLanImpl":
-					SurveyLan sur = (SurveyLan)userInteraction;
+				if(userInteraction.getInteraction().getClass().getName().toUpperCase().contains("SURVEY")) {
+					SurveyLan sur = userInteraction.getInteraction();
 					ui = new Form(new IDImpl(step.getName()), step.getComment(), InteractionType.FORM);
 					
 					EList<QuestionLan> qGen = sur.getQuestions();
@@ -95,14 +94,7 @@ public class InterpreterImpl implements Interpreter {
 						((Form)ui).addQuestion(qCreate);	
 					}
 					
-					break;
-				case "CalandarImpl":
-					
-					break;
-				case "FileUploadImpl":
-					
-					break;
-				default:
+				}else {
 					LOG.severe("UserInteraction : " + step.getClass().getName() + " unknown.");
 					break;
 				}
