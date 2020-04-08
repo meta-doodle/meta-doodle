@@ -1,7 +1,9 @@
-package org.xtext.metadoodle.interpreter;
+package org.xtext.metadoodle.interpreter.Interface;
 
 import java.util.List;
 import java.util.Optional;
+
+import org.xtext.metadoodle.interpreter.Implementation.UserInteraction;
 
 /**
  * Cette classe gère l'étape d'une instance de workflow.

@@ -1,9 +1,13 @@
-package org.xtext.metadoodle.interpreter;
+package org.xtext.metadoodle.interpreter.Implementation;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+
+import org.xtext.metadoodle.interpreter.Interface.ID;
+import org.xtext.metadoodle.interpreter.Interface.MailReminder;
+import org.xtext.metadoodle.interpreter.Interface.WorkflowStep;
 
 public class WorkflowStepImpl implements WorkflowStep{
 	private ID name;
