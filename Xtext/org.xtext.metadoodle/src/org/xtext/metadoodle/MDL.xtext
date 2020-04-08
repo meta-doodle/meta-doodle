@@ -32,8 +32,9 @@ QuestionLan:
     ('PossibleAnswers:' (responses+=STRING)+)?
 ;
 
+
 AnswerTypeLan:
-    type=('OpenQuestion' | 'CheckBox' | 'RadioButton')
+    Type = ('OpenQuestion' | 'CheckBox' | 'RadioButton')
 ;
 
 CalendarLan:
