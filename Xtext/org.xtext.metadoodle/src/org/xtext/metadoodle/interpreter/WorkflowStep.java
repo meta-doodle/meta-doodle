@@ -39,25 +39,6 @@ public interface WorkflowStep {
 	 */
 	public List<UserInteraction> getUserInteractions();
 	
-	/**
-	 * cette méthode retourne true s'il y a un rappel.
-	 * @return
-	 */
-	public boolean hasReminder();
-	
-	/**
-	 * Retourne l'object Reminder qui s'occupe des rappels.
-	 * @return
-	 */
-	public MailReminder getReminder();
-	
-	/**
-	 * Cette méthode permet d'ajouter un mail de rappel.
-	 * C'est elle qui change le hasReminder à vrai.
-	 * @param mail Le corps du mail à envoyer ainsi que les dates d'envoi.
-	 */
-	public void setReminder(MailReminder mail);
-	
 	@Override
 	public String toString();
 }

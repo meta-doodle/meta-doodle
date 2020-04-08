@@ -9,23 +9,20 @@ public class WorkflowStepImpl implements WorkflowStep{
 	private ID name;
 	private String description;
 	private List<UserInteraction> interactions;
-	private Boolean hasReminder;
-	private MailReminder mail = null;
 
 	/**
 	 * Le constructeur.
-	 * 
 	 * 
 	 * @param name 
 	 * @param desc
 	 */
 	public WorkflowStepImpl(ID name, String desc) {
 		Objects.requireNonNull(name);
+		Objects.requireNonNull(desc);
 		
 		this.name = name;
 		this.description = desc;
 		this.interactions = new ArrayList<>();
-		this.hasReminder = false;
 	}
 	
 	@Override
@@ -54,22 +51,6 @@ public class WorkflowStepImpl implements WorkflowStep{
 		return this.interactions;
 	}
 
-	@Override
-	public boolean hasReminder() {
-		return this.hasReminder;
-	}
-
-	@Override
-	public MailReminder getReminder() {
-		return this.mail;
-	}
-
-	@Override
-	public void setReminder(MailReminder mail) {
-		Objects.requireNonNull(mail);
-		this.mail = mail;
-	}
-	
 	public String toString() {
 		return this.name + " : " + this.description;
 	}
