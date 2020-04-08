@@ -5,10 +5,16 @@ import org.jhipster.mdl.domain.CurrentStep;
 import org.jhipster.mdl.domain.MdlUser;
 import org.jhipster.mdl.domain.User;
 import org.jhipster.mdl.domain.WorkflowInstance;
+import org.jhipster.mdl.domain.WorkflowInstanceState;
+import org.jhipster.mdl.domain.WorkflowModel;
 import org.jhipster.mdl.fakeInterpreter.FakeInterpreter;
 import org.jhipster.mdl.fakeInterpreter.FakeReturnExec;
 import org.jhipster.mdl.fakeInterpreter.FakeState;
+import org.jhipster.mdl.repository.CurrentStepRepository;
+import org.jhipster.mdl.repository.MdlUserRepository;
 import org.jhipster.mdl.repository.WorkflowInstanceRepository;
+import org.jhipster.mdl.repository.WorkflowInstanceStateRepository;
+import org.jhipster.mdl.repository.WorkflowModelRepository;
 import org.jhipster.mdl.service.dto.WorkflowInstanceDTO;
 import org.jhipster.mdl.service.dto.WorkflowInstanceParamsDTO;
 import org.jhipster.mdl.service.mapper.WorkflowInstanceMapper;
@@ -40,10 +46,24 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
 
 	private final WorkflowInstanceMapper workflowInstanceMapper;
 
+	private WorkflowModelRepository workflowModelRepository;
+
+	private MdlUserRepository mdlUserRepository;
+
+	private WorkflowInstanceStateRepository workflowInstanceStateRepository;
+
+	private CurrentStepRepository currentStepRepository;
+
 	public WorkflowInstanceServiceImpl(WorkflowInstanceRepository workflowInstanceRepository,
-			WorkflowInstanceMapper workflowInstanceMapper) {
+			WorkflowInstanceMapper workflowInstanceMapper, WorkflowModelRepository workflowModelRepository,
+			MdlUserRepository mdlUserRepository, WorkflowInstanceStateRepository workflowInstanceStateRepository,
+			CurrentStepRepository currentStepRepository) {
 		this.workflowInstanceRepository = workflowInstanceRepository;
 		this.workflowInstanceMapper = workflowInstanceMapper;
+		this.workflowModelRepository = workflowModelRepository;
+		this.mdlUserRepository = mdlUserRepository;
+		this.workflowInstanceStateRepository = workflowInstanceStateRepository;
+		this.currentStepRepository = currentStepRepository;
 	}
 
 	/**
@@ -116,10 +136,11 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
 				Optional<MdlUser> mdlUser = wfi.findMdlUserByLogin(login);
 				if (mdlUser.isPresent()) {
 					Optional<CurrentStep> currentStep = wfi.getState().findCurrentStepContainingMdlUser(mdlUser.get());
-					if(currentStep.isPresent()) {
+					if (currentStep.isPresent()) {
 						CurrentStep step = currentStep.get();
 						log.debug("CurrentStep found with value : {}", step.getStepIdent());
-						FakeReturnExec ret = FakeInterpreter.INTERPRETER.exec(wfi.getWfModel().getBody(), new FakeState(Integer.parseInt(step.getStepIdent()), wfi.getGuests().size(), 0));
+						FakeReturnExec ret = FakeInterpreter.INTERPRETER.exec(wfi.getWfModel().getBody(),
+								new FakeState(Integer.parseInt(step.getStepIdent()), wfi.getGuests().size(), 0));
 						return Optional.of(ret.stepData);
 					} else {
 						log.debug("No CurrentStep found with {}", mdlUser.get());
@@ -138,7 +159,59 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
 
 	@Override
 	public Optional<WorkflowInstanceDTO> create(WorkflowInstanceParamsDTO workflowInstanceParamsDTO) {
-		return Optional.of(new WorkflowInstanceDTO());
+		WorkflowInstance workflowInstance = new WorkflowInstance();
+
+		Optional<MdlUser> optMdlUser = mdlUserRepository.findById(workflowInstanceParamsDTO.getCreatorId());
+		Optional<WorkflowModel> optWFM = workflowModelRepository.findById(workflowInstanceParamsDTO.getWfModelId());
+
+		if (optMdlUser.isPresent()) {
+			workflowInstance.setCreator(optMdlUser.get());
+		} else {
+			log.debug("MdlUser not found in DB with id {}", workflowInstanceParamsDTO.getCreatorId());
+			return Optional.empty();
+		}
+
+		if (optWFM.isPresent()) {
+			workflowInstance.setWfModel(optWFM.get());
+		} else {
+			log.debug("WorkflowModel not found in DB with id {}", workflowInstanceParamsDTO.getWfModelId());
+			return Optional.empty();
+		}
+
+		for (MdlUser mdlUser : mdlUserRepository.findAll()) {
+			for (String mails : workflowInstanceParamsDTO.getGuests()) {
+				User user = mdlUser.getUser();
+				if (user != null && mails.equalsIgnoreCase(user.getEmail())) {
+					workflowInstance.addGuests(mdlUser);
+				}
+			}
+		}
+
+		WorkflowInstanceState workflowInstanceState = new WorkflowInstanceState();
+		workflowInstanceState = workflowInstanceStateRepository.save(workflowInstanceState);
+		
+		CurrentStep step = createCurrentStep(workflowInstance.getGuests());
+		
+		step.setWorkflowInstanceState(workflowInstanceState);
+		workflowInstanceState.addSteps(step);
+
+		workflowInstance.setState(workflowInstanceState);
+
+		workflowInstance = workflowInstanceRepository.save(workflowInstance);
+
+		return Optional.of(workflowInstanceMapper.toDto(workflowInstance));
+	}
+
+	private CurrentStep createCurrentStep(Set<MdlUser> guests) {
+		CurrentStep step = new CurrentStep();
+
+		step.stepIdent("0").numberOfAnswer(0);
+
+		for (MdlUser mdlUser : guests) {
+			step.addUsers(mdlUser);
+		}
+
+		return currentStepRepository.save(step);
 	}
 
 }
