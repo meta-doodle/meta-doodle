@@ -4,8 +4,12 @@ import { IQuestion } from 'app/shared/types/question';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/user/account.model';
 import { User } from 'app/core/user/user.model';
+import { IAnswer, Answer } from 'app/shared/model/answer.model';
 import { WorkflowInstanceService } from 'app/entities/workflow-instance/workflow-instance.service';
 import { ISurveyView } from 'app/shared/model/survey-view';
+import { AnswerService } from 'app/entities/answer/answer.service';
+import { isEmpty, map } from 'rxjs/operators';
+import { AvailableTypes } from 'app/shared/model/enumerations/available-types.model';
 
 @Component({
   selector: 'jhi-survey',
@@ -14,6 +18,7 @@ import { ISurveyView } from 'app/shared/model/survey-view';
 })
 export class SurveyComponent implements OnInit {
 
+  answer: IAnswer = new Answer;
    data: any ;
    questions: Array<IQuestion> | null= [];
   questionsU: Array<IQuestion> = [
@@ -68,9 +73,11 @@ export class SurveyComponent implements OnInit {
     }
   ];
 
-  result = {};
+  result:Object = {};
+  //result = new Map();
 
-  constructor(private surveyService: SurveyService, private accountService: AccountService, private workflowService : WorkflowInstanceService) {}
+  constructor(private surveyService: SurveyService, private accountService: AccountService,
+    private workflowService : WorkflowInstanceService, private answerService: AnswerService) {}
 
   ngOnInit(): void {
     this.accountService.identity().subscribe( (res)=>{
@@ -84,6 +91,19 @@ export class SurveyComponent implements OnInit {
     /* debugger; */
 
     this.result = this.surveyService.answers;
+    if(this.result !=="{}"){
+      for(let elem in this.result){
+        this.answer.answer = this.result[elem];
+        this.answer.questionIdent = elem;
+        this.answer.stepIdent = "0";
+        this.answer.type = AvailableTypes.String;
+        this.answer.userId = 1;
+        this.answer.workflowInstanceId = 1;
+        this.sendAnswer(this.answer);
+
+        this.result = new Object;
+      }
+    }
   }
 
   demarerInstance(): void{
@@ -91,6 +111,12 @@ export class SurveyComponent implements OnInit {
       this.questions = res.body.questionViews ;
     })
 
+  }
+
+  sendAnswer(answer: IAnswer): void{
+    this.answerService.send(answer).subscribe((res:any)=>{
+      this.questions = res.body.questionViews;
+    })
   }
 
 }
