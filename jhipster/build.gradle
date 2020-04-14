@@ -279,6 +279,8 @@ dependencies {
     testImplementation "com.h2database:h2"
     liquibaseRuntime "com.h2database:h2"
     //jhipster-needle-gradle-dependency - JHipster will add additional dependencies here
+    
+     compile files('libs/org.xtext.metadoodle-1.0.0-SNAPSHOT.jar')
 }
 
 if (project.hasProperty("gae")) {
