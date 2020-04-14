@@ -5,6 +5,7 @@ import org.jhipster.mdl.domain.User;
 import org.jhipster.mdl.repository.UserRepository;
 import org.jhipster.mdl.security.SecurityUtils;
 import org.jhipster.mdl.service.MailService;
+import org.jhipster.mdl.service.MdlUserService;
 import org.jhipster.mdl.service.UserService;
 import org.jhipster.mdl.service.dto.PasswordChangeDTO;
 import org.jhipster.mdl.service.dto.UserDTO;
@@ -40,16 +41,40 @@ public class AccountResource {
     private final UserRepository userRepository;
 
     private final UserService userService;
+   
+    private final MdlUserService mdlUserService;
 
     private final MailService mailService;
 
-    public AccountResource(UserRepository userRepository, UserService userService, MailService mailService) {
+    public AccountResource(UserRepository userRepository, UserService userService, MailService mailService, MdlUserService mdlUserService) {
 
         this.userRepository = userRepository;
         this.userService = userService;
         this.mailService = mailService;
+        this.mdlUserService = mdlUserService;
     }
 
+    /**
+     * {@code POST  /register_with_mdl} : register the user and attach it a new mdlUser.
+     *
+     * @param managedUserVM the managed user View Model.
+     * @throws InvalidPasswordException {@code 400 (Bad Request)} if the password is incorrect.
+     * @throws EmailAlreadyUsedException {@code 400 (Bad Request)} if the email is already used.
+     * @throws LoginAlreadyUsedException {@code 400 (Bad Request)} if the login is already used.
+     */
+    @PostMapping("/register_with_mdl")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void registerAccountWithMdl(@Valid @RequestBody ManagedUserVM managedUserVM) {
+        if (!checkPasswordLength(managedUserVM.getPassword())) {
+            throw new InvalidPasswordException();
+        }
+        User user = userService.registerUser(managedUserVM, managedUserVM.getPassword());
+        mailService.sendActivationEmail(user);
+        
+        // Create MdlUser
+        mdlUserService.create_for(user);
+    }
+    
     /**
      * {@code POST  /register} : register the user.
      *

@@ -1,5 +1,6 @@
 package org.jhipster.mdl.service;
 
+import org.jhipster.mdl.domain.User;
 import org.jhipster.mdl.service.dto.MdlUserDTO;
 
 import java.util.List;
@@ -17,6 +18,11 @@ public interface MdlUserService {
      * @return the persisted entity.
      */
     MdlUserDTO save(MdlUserDTO mdlUserDTO);
+    
+    /**
+     * Create a mdlUser for a given User
+     */
+    void create_for(User user);
 
     /**
      * Get all the mdlUsers.
