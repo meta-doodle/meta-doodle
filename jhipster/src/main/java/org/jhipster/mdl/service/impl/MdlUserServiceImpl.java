@@ -111,6 +111,11 @@ public class MdlUserServiceImpl implements MdlUserService {
 
 	@Override
 	public Optional<MdlUser> create_for(long userId) {
-		return Optional.empty(); // Unimplemented
+		Optional<User> user = userRepository.findById(userId);
+		
+		if(user.isPresent())
+			return Optional.of(mdlUserRepository.save( new MdlUser().user(user.get()) ));
+		else
+			return Optional.empty();
 	}
 }
