@@ -1,5 +1,6 @@
 package org.jhipster.mdl.service;
 
+import org.jhipster.mdl.domain.MdlUser;
 import org.jhipster.mdl.domain.User;
 import org.jhipster.mdl.service.dto.MdlUserDTO;
 
@@ -21,8 +22,9 @@ public interface MdlUserService {
     
     /**
      * Create a mdlUser for a given User
+     * @return Created MdlUser
      */
-    void create_for(User user);
+    Optional<MdlUser> create_for(long userId);
 
     /**
      * Get all the mdlUsers.

@@ -72,7 +72,8 @@ public class AccountResource {
         mailService.sendActivationEmail(user);
         
         // Create MdlUser
-        mdlUserService.create_for(user);
+        if(!mdlUserService.create_for(user.getId()).isPresent())
+        	throw new AccountResourceException("Unable to create MdlUser");
     }
     
     /**

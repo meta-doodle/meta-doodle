@@ -110,7 +110,7 @@ public class MdlUserServiceImpl implements MdlUserService {
 	}
 
 	@Override
-	public void create_for(User user) {
-		// Unimplemented
+	public Optional<MdlUser> create_for(long userId) {
+		return Optional.empty(); // Unimplemented
 	}
 }
