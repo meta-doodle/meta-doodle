@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { WorkflowInstanceService } from 'app/entities/workflow-instance/workflow-instance.service';
+import { from } from 'rxjs';
+import { ISurveyView } from 'app/shared/model/survey-view';
+
 
 @Component({
   selector: 'jhi-manage',
@@ -6,6 +10,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./manage.component.scss']
 })
 export class ManageComponent implements OnInit {
+
+  //dataUser: ISurveyView | null = null;
   data = [
     {
       status: 'accepted',
@@ -27,7 +33,18 @@ export class ManageComponent implements OnInit {
     }
   ];
 
-  constructor() {}
+  //idW= 1;
+  //user= "user";
 
-  ngOnInit(): void {}
+
+
+  constructor(private userWorkflowService: WorkflowInstanceService) {}
+
+  ngOnInit(): void {
+    //this.userWorkflowService.view(this.user,this.idW).subscribe((res) =>{
+     // this.data = res.body;
+    //  console.log(this.data);
+  //});
+
+  }
 }

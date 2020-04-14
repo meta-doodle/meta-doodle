@@ -1,6 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { SurveyService } from '../survey.service';
 import { IQuestion } from 'app/shared/types/question';
+import { AccountService } from 'app/core/auth/account.service';
+import { Account } from 'app/core/user/account.model';
+import { User } from 'app/core/user/user.model';
+import { WorkflowInstanceService } from 'app/entities/workflow-instance/workflow-instance.service';
+import { ISurveyView } from 'app/shared/model/survey-view';
 
 @Component({
   selector: 'jhi-survey',
@@ -8,10 +13,13 @@ import { IQuestion } from 'app/shared/types/question';
   styleUrls: ['./surveyComp.component.scss']
 })
 export class SurveyComponent implements OnInit {
-  questions: Array<IQuestion> = [
+
+   data: any ;
+   questions: Array<IQuestion> | null= [];
+  questionsU: Array<IQuestion> = [
     {
-      answerType: 'RADIO',
-      title: 'La vie, dans son sens intemporel, universel et grandiloquent, a-t-elle une once de sens ?',
+      reponseType: 'RADIO',
+      intitule: 'La vie, dans son sens intemporel, universel et grandiloquent, a-t-elle une once de sens ?',
       id: 'vie',
       restrictions: [
         {
@@ -25,8 +33,8 @@ export class SurveyComponent implements OnInit {
       ]
     },
     {
-      answerType: 'CHECKBOX',
-      title: 'Ils sont où les quignons à Kadoc ?',
+      reponseType: 'CHECKBOX',
+      intitule: 'Ils sont où les quignons à Kadoc ?',
       id: 'quignons',
       restrictions: [
         {
@@ -44,14 +52,14 @@ export class SurveyComponent implements OnInit {
       ]
     },
     {
-      answerType: 'TEXTFIELD',
-      title: 'Quel est la différence entre un hamburger ?',
+      reponseType: 'TEXTFIELD',
+      intitule: 'Quel est la différence entre un hamburger ?',
       id: 'hamburger',
       restrictions: []
     },
     {
-      answerType: 'DATE',
-      title: 'Si la mémoire est à la tête ce que le passé, peut-on y accéder à six ?',
+      reponseType: 'DATE',
+      intitule: 'Si la mémoire est à la tête ce que le passé, peut-on y accéder à six ?',
       id: 'memoire',
       restrictions: {
         dateBegin: '2020-03-09',
@@ -62,10 +70,13 @@ export class SurveyComponent implements OnInit {
 
   result = {};
 
-  constructor(private surveyService: SurveyService) {}
+  constructor(private surveyService: SurveyService, private accountService: AccountService, private workflowService : WorkflowInstanceService) {}
 
   ngOnInit(): void {
-
+    this.accountService.identity().subscribe( (res)=>{
+      this.data = res;
+      this.demarerInstance();
+    })
   }
 
   submit(): void {
@@ -74,4 +85,12 @@ export class SurveyComponent implements OnInit {
 
     this.result = this.surveyService.answers;
   }
+
+  demarerInstance(): void{
+    this.workflowService.view(this.data.login, 1).subscribe((res: any)=>{
+      this.questions = res.body.questionViews ;
+    })
+
+  }
+
 }

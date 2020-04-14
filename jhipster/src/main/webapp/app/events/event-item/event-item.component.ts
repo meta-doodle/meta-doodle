@@ -1,4 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { WorkflowInstanceService } from 'app/entities/workflow-instance/workflow-instance.service';
+import { AccountService } from 'app/core/auth/account.service';
+import { Account } from 'app/core/user/account.model';
 
 @Component({
   selector: 'jhi-event-item',
@@ -11,9 +14,15 @@ export class EventItemComponent implements OnInit {
   @Input() remove!: (index: number) => void;
   @Input() ownerStatus!: number; // 1 if currentUser is owner, 0 otherwise, not boolean since it could be extended to more values
 
-  constructor() {}
+  userLogin: any;
 
-  ngOnInit(): void {}
+  constructor(private workflowInstanceService: WorkflowInstanceService, private accountService: AccountService) {}
+
+  ngOnInit(): void {
+    this.accountService.identity().subscribe( (res: any)=>{
+      this.userLogin = res.login;
+    })
+  }
 
   details(): void {
     alert('details for ' + this.event.title);

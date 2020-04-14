@@ -7,8 +7,8 @@
 import { IRestriction, IDateRestriction } from './options';
 
 export interface IQuestion {
-  answerType: string;
-  title: string;
+  reponseType: string;
+  intitule: string;
   id: string;
   restrictions: Array<IRestriction> | IDateRestriction;
 }
