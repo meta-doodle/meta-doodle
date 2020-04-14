@@ -14,10 +14,10 @@ export class JhiRadioComponent implements OnInit {
   constructor(private surveyService: SurveyService) {}
 
   ngOnInit(): void {
-    this.surveyService.setKey(this.question.id, '');
+    this.surveyService.setKey(this.question.intitule, '');
   }
 
   onChange(value: string): void {
-    this.surveyService.setKey(this.question.id, value);
+    this.surveyService.setKey(this.question.intitule, value);
   }
 }

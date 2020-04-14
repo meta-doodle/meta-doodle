@@ -15,18 +15,18 @@ export class JhiCheckboxComponent implements OnInit {
   constructor(private surveyService: SurveyService) {}
 
   ngOnInit(): void {
-    this.surveyService.answers[this.question.id] = [];
+    this.surveyService.answers[this.question.intitule] = [];
   }
 
   onChange(value: string): void {
-    const prevValue: Array<string> = this.surveyService.answers[this.question.id];
+    const prevValue: Array<string> = this.surveyService.answers[this.question.intitule];
     const valIndex = prevValue.indexOf(value);
 
     if (valIndex === -1) {
-      this.surveyService.setKey(this.question.id, [...prevValue, value]);
+      this.surveyService.setKey(this.question.intitule, [...prevValue, value]);
     } else {
       prevValue.splice(valIndex, 1);
-      this.surveyService.setKey(this.question.id, prevValue);
+      this.surveyService.setKey(this.question.intitule, prevValue);
     }
   }
 }

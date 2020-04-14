@@ -57,14 +57,14 @@ export class InstantiateModelComponent implements OnInit {
     this.accountService.identity().subscribe(value => {
       login = value ? value.login : '';
     });
-    console.log(login);
+    //console.log(login);
     this.mdlUserService.findFromLogin(login).subscribe(value => {
       this.mdlUser = value.body;
     });
     if (this.mdlUser != null) {
       this.creatorId = this.mdlUser.id!;
     } else {
-      console.log('erreur mdluser null');
+     /// console.log('erreur mdluser null');
     }
   }
   initForm(): void {

@@ -1,8 +1,9 @@
 <ul class="">
+    <p>{{this.question.reponseType}}</p>
     <div class="list-group-item">
-        <jhi-radio *ngIf="'RADIO' === this.question.answerType" [question]="this.question"></jhi-radio>
-        <jhi-checkbox *ngIf="'CHECKBOX' === this.question.answerType" [question]="this.question"></jhi-checkbox>
-        <jhi-textfield *ngIf="'TEXTFIELD' === this.question.answerType" [question]="this.question"></jhi-textfield>
-        <jhi-date-selector *ngIf="'DATE' === this.question.answerType" [question]="this.question"></jhi-date-selector>
+        <jhi-radio *ngIf="'RADIOBOX' === this.question.reponseType" [question]="this.question"></jhi-radio>
+        <jhi-checkbox *ngIf="'CHECKBOX' === this.question.reponseType" [question]="this.question"></jhi-checkbox>
+        <jhi-textfield *ngIf="'TEXTFIELD' === this.question.reponseType" [question]="this.question"></jhi-textfield>
+        <jhi-date-selector *ngIf="'DATE' === this.question.reponseType" [question]="this.question"></jhi-date-selector>
     </div>
 </ul>
