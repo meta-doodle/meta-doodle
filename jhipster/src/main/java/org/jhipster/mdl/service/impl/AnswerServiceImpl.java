@@ -145,7 +145,9 @@ public class AnswerServiceImpl implements AnswerService {
 					currentStepRepository.saveAndFlush(newCurrentStep);
 				}
 			}
-
+			
+			// TODO : clean up
+			ret = FakeInterpreter.INTERPRETER.exec("", new FakeState(ret.nextStep, 0, 0));
 			return ret.stepData;
 
 		} catch (NumberFormatException e) {
