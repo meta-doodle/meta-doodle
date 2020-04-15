@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 import java.util.logging.Logger;
 
 import org.eclipse.emf.common.util.EList;
@@ -46,6 +47,9 @@ public class InterpreterImpl implements Interpreter {
 
 	@Override
 	public WorkflowStep getStep(String wfString, WorkflowExecutionState wes) {
+		Objects.requireNonNull(wfString);
+		//Objects.requireNonNull(wes); // TODO à décommenter quand wesImpl sera implémenté.
+		
 		// TODO Utiliser wes.
 		LOG.info(">> " + wfString);
 		return getWorkflowStep((WorkflowLan) getRoot(wfString));
