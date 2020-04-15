@@ -1,14 +1,13 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { SurveyService } from '../survey.service';
 import { IQuestion } from 'app/shared/types/question';
 import { AccountService } from 'app/core/auth/account.service';
-import { Account } from 'app/core/user/account.model';
-import { User } from 'app/core/user/user.model';
+
 import { IAnswer, Answer } from 'app/shared/model/answer.model';
 import { WorkflowInstanceService } from 'app/entities/workflow-instance/workflow-instance.service';
-import { ISurveyView } from 'app/shared/model/survey-view';
+
 import { AnswerService } from 'app/entities/answer/answer.service';
-import { isEmpty, map } from 'rxjs/operators';
+
 import { AvailableTypes } from 'app/shared/model/enumerations/available-types.model';
 
 @Component({
@@ -17,6 +16,7 @@ import { AvailableTypes } from 'app/shared/model/enumerations/available-types.mo
   styleUrls: ['./surveyComp.component.scss']
 })
 export class SurveyComponent implements OnInit {
+
 
   answer: IAnswer = new Answer;
    data: any ;
@@ -92,7 +92,9 @@ export class SurveyComponent implements OnInit {
 
     this.result = this.surveyService.answers;
     if(this.result !=="{}"){
-      for(let elem in this.result){
+
+      for(const elem in this.result){
+        if ({}.hasOwnProperty.call(this.result, elem)) {
         this.answer.answer = this.result[elem];
         this.answer.questionIdent = elem;
         this.answer.stepIdent = "0";
@@ -103,6 +105,7 @@ export class SurveyComponent implements OnInit {
 
         this.result = new Object;
       }
+    }
     }
   }
 
