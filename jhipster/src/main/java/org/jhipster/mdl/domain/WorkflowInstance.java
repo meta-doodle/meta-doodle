@@ -25,6 +25,9 @@ public class WorkflowInstance implements Serializable {
     @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
+    @Column(name = "description")
+    private String description;
+
     @OneToOne
     @JoinColumn(unique = true)
     private WorkflowInstanceState state;
@@ -55,6 +58,19 @@ public class WorkflowInstance implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public WorkflowInstance description(String description) {
+        this.description = description;
+        return this;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public WorkflowInstanceState getState() {
@@ -167,6 +183,7 @@ public class WorkflowInstance implements Serializable {
     public String toString() {
         return "WorkflowInstance{" +
             "id=" + getId() +
+            ", description='" + getDescription() + "'" +
             "}";
     }
 }

@@ -12,6 +12,8 @@ public class WorkflowInstanceDTO implements Serializable {
 
     private Long id;
 
+    private String description;
+
 
     private Long stateId;
 
@@ -27,6 +29,14 @@ public class WorkflowInstanceDTO implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Long getStateId() {
@@ -86,6 +96,7 @@ public class WorkflowInstanceDTO implements Serializable {
     public String toString() {
         return "WorkflowInstanceDTO{" +
             "id=" + getId() +
+            ", description='" + getDescription() + "'" +
             ", stateId=" + getStateId() +
             ", wfModelId=" + getWfModelId() +
             ", creatorId=" + getCreatorId() +
