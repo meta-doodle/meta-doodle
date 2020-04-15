@@ -33,7 +33,6 @@ public class Calendar extends UserInteraction {
 
 	@Override
 	protected String more() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Find date between " + startDate + " and " + endDate + ", with the granularity : " + granularity;
 	}
 }

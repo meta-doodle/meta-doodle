@@ -3,7 +3,9 @@ package org.xtext.metadoodle.interpreter.Implementation;
 import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import java.util.logging.Logger;
 
@@ -121,7 +123,7 @@ public class InterpreterImpl implements Interpreter {
 			Date curDate = new Date(), stepDate = null;
 			
 			try {
-				stepDate = new SimpleDateFormat("dd/MM/yy").parse(synchro.getEndDate());
+				stepDate = new SimpleDateFormat("dd/MM/yy").parse(synchro.getEndStepDate());
 			} catch (ParseException e) {
 				LOG.severe(e.getMessage());
 			}
@@ -143,9 +145,9 @@ public class InterpreterImpl implements Interpreter {
 				if(stepTypeName.contains("SURVEY")) {
 					ui = getForm(userInteraction.getInteraction(), step);
 				}else if(stepTypeName.contains("CALENDAR")) {
-					// TODO
+					ui = getCalendar((CalendarLan) userInteraction.getInteraction(), step);
 				}else if(stepTypeName.contains("FILEUPLOAD")) {
-					// TODO
+					ui = getFileUpload((FileUploadLan) userInteraction.getInteraction(), step);
 				}else {
 					LOG.severe("UserInteraction : " + step.getClass().getName() + " unknown.");
 					break;
@@ -205,12 +207,48 @@ public class InterpreterImpl implements Interpreter {
 	}
 	
 	/**
+	 * TODO si pas d'accuracie.
+	 * @param cal
+	 * @param step
+	 * @return
+	 */
+	private Calendar getCalendar(CalendarLan cal, WorkflowStepLan step) {
+		return new Calendar(
+				new IDImpl(step.getName()), 
+				step.getComment(), 
+				InteractionType.CALENDAR, 
+				cal.getStart(), 
+				cal.getEnd(), 
+				cal.getAccuracy());
+	}
+	
+	/**
+	 * 
+	 * @param fileUp
+	 * @param step
+	 * @return
+	 */
+	private FileUpload getFileUpload(FileUploadLan fileUp, WorkflowStepLan step) {
+		List<String> mimeTypes = new ArrayList<>();
+		
+		for(String mimeType : fileUp.getMimeTypes())
+			mimeTypes.add(mimeType);
+		
+		return new FileUpload(
+				new IDImpl(step.getName()), 
+				step.getComment(), 
+				InteractionType.FILEUPLOAD, 
+				mimeTypes);
+	}
+	
+	/**
 	 * Main de test.
 	 * @param args
 	 */
 	public static void main(String args[]) {
 		Interpreter i = new InterpreterImpl();
-		String wfInstance = "nomDuWF \"desc\" {StepName:Etape_1 Comment:\"Le commentaire\" Survey {QuestionTitle: Q1 QuestionType: CheckBox PossibleAnswers: \"rep_1\" \"rep_2\"} Synchro 02/07/20 false false 0 }";
+		//String wfInstance = "nomDuWF \"desc\" {StepName:Etape_1 Comment:\"Le commentaire\" Survey {QuestionTitle: Q1 QuestionType: CheckBox PossibleAnswers: \"rep_1\" \"rep_2\"} Synchro 02/07/20 false false 0 }";
+		String wfInstance = "nomDuWF \"desc\" {StepName:Etape_1 Comment:\"Le commentaire\" CalendarLan {StartingDate: 01/01/20 EndingDate: 31/01/20 Accuacy: \"1\"} Synchro 02/07/20 false false 0 }";
 		WorkflowStep ws = i.getStep(wfInstance, null);
 		System.out.println(">>> " + ws);
 	}

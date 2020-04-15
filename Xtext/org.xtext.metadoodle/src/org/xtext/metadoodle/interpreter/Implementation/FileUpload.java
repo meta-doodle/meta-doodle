@@ -19,7 +19,11 @@ public class FileUpload extends UserInteraction {
 
 	@Override
 	protected String more() {
-		// TODO Auto-generated method stub
-		return null;
+		String ret = "Liste of mimeTypes : ";
+		
+		for(String mt : mimeTypes)
+			ret += mt + " ";
+		
+		return ret;
 	}
 }

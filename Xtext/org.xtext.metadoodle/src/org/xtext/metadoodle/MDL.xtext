@@ -32,7 +32,6 @@ QuestionLan:
     ('PossibleAnswers:' (responses+=STRING)+)?
 ;
 
-
 AnswerTypeLan:
     Type = ('OpenQuestion' | 'CheckBox' | 'RadioButton')
 ;
@@ -51,7 +50,7 @@ FileUploadLan:
 
 SynchroLan:
 	'Synchro'
-    endDate=DATE
+    endStepDate=DATE
     waitOtherUsers=BOOLEAN
     // If we have a certain percentage of answer
     percentageCompletionUse=BOOLEAN
