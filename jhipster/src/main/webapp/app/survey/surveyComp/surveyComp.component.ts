@@ -1,6 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { SurveyService } from '../survey.service';
 import { IQuestion } from 'app/shared/types/question';
+import { AccountService } from 'app/core/auth/account.service';
+
+import { IAnswer, Answer } from 'app/shared/model/answer.model';
+import { WorkflowInstanceService } from 'app/entities/workflow-instance/workflow-instance.service';
+
+import { AnswerService } from 'app/entities/answer/answer.service';
+
+import { AvailableTypes } from 'app/shared/model/enumerations/available-types.model';
 
 @Component({
   selector: 'jhi-survey',
@@ -8,10 +16,15 @@ import { IQuestion } from 'app/shared/types/question';
   styleUrls: ['./surveyComp.component.scss']
 })
 export class SurveyComponent implements OnInit {
-  questions: Array<IQuestion> = [
+
+
+  answer: IAnswer = new Answer;
+   data: any ;
+   questions: Array<IQuestion> | null= [];
+  questionsU: Array<IQuestion> = [
     {
-      answerType: 'RADIO',
-      title: 'La vie, dans son sens intemporel, universel et grandiloquent, a-t-elle une once de sens ?',
+      reponseType: 'RADIO',
+      intitule: 'La vie, dans son sens intemporel, universel et grandiloquent, a-t-elle une once de sens ?',
       id: 'vie',
       restrictions: [
         {
@@ -25,8 +38,8 @@ export class SurveyComponent implements OnInit {
       ]
     },
     {
-      answerType: 'CHECKBOX',
-      title: 'Ils sont où les quignons à Kadoc ?',
+      reponseType: 'CHECKBOX',
+      intitule: 'Ils sont où les quignons à Kadoc ?',
       id: 'quignons',
       restrictions: [
         {
@@ -44,14 +57,14 @@ export class SurveyComponent implements OnInit {
       ]
     },
     {
-      answerType: 'TEXTFIELD',
-      title: 'Quel est la différence entre un hamburger ?',
+      reponseType: 'TEXTFIELD',
+      intitule: 'Quel est la différence entre un hamburger ?',
       id: 'hamburger',
       restrictions: []
     },
     {
-      answerType: 'DATE',
-      title: 'Si la mémoire est à la tête ce que le passé, peut-on y accéder à six ?',
+      reponseType: 'DATE',
+      intitule: 'Si la mémoire est à la tête ce que le passé, peut-on y accéder à six ?',
       id: 'memoire',
       restrictions: {
         dateBegin: '2020-03-09',
@@ -60,12 +73,17 @@ export class SurveyComponent implements OnInit {
     }
   ];
 
-  result = {};
+  result:Object = {};
+  //result = new Map();
 
-  constructor(private surveyService: SurveyService) {}
+  constructor(private surveyService: SurveyService, private accountService: AccountService,
+    private workflowService : WorkflowInstanceService, private answerService: AnswerService) {}
 
   ngOnInit(): void {
-
+    this.accountService.identity().subscribe( (res)=>{
+      this.data = res;
+      this.demarerInstance();
+    })
   }
 
   submit(): void {
@@ -73,5 +91,35 @@ export class SurveyComponent implements OnInit {
     /* debugger; */
 
     this.result = this.surveyService.answers;
+    if(this.result !=="{}"){
+
+      for(const elem in this.result){
+        if ({}.hasOwnProperty.call(this.result, elem)) {
+        this.answer.answer = this.result[elem];
+        this.answer.questionIdent = elem;
+        this.answer.stepIdent = "0";
+        this.answer.type = AvailableTypes.String;
+        this.answer.userId = 1;
+        this.answer.workflowInstanceId = 1;
+        this.sendAnswer(this.answer);
+
+        this.result = new Object;
+      }
+    }
+    }
   }
+
+  demarerInstance(): void{
+    this.workflowService.view(this.data.login, 1).subscribe((res: any)=>{
+      this.questions = res.body.questionViews ;
+    })
+
+  }
+
+  sendAnswer(answer: IAnswer): void{
+    this.answerService.send(answer).subscribe((res:any)=>{
+      this.questions = res.body.questionViews;
+    })
+  }
+
 }
