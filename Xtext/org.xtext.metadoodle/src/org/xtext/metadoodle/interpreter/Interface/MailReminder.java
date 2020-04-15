@@ -5,8 +5,8 @@ import java.util.Optional;
 public interface MailReminder {
 	
 	/**
-	 * Retourne la prochaine date pour envoyer les mails de rappelle.
-	 * @return La date.
+	 * Retourne la prochaine date pour envoyer les mails de rappel.
+	 * @return une date d'envoie optionnel
 	 */
 	public Optional<String> getNextDateToSend();
 	
@@ -17,11 +17,14 @@ public interface MailReminder {
 	public String getObject();
 	
 	/**
-	 * 
-	 * @return
+	 * Retourne le corps du mail à envoyer
+	 * @return corps du mail
 	 */
 	public String getBody();
 	
-
+	/**
+	 * ajoute une date dans la liste des dates de mails de rappel
+	 * @param date
+	 */
 	public void addDate(String date);
 }

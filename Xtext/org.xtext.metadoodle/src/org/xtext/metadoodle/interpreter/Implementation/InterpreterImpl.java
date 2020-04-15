@@ -247,8 +247,8 @@ public class InterpreterImpl implements Interpreter {
 	 */
 	public static void main(String args[]) {
 		Interpreter i = new InterpreterImpl();
-		//String wfInstance = "nomDuWF \"desc\" {StepName:Etape_1 Comment:\"Le commentaire\" Survey {QuestionTitle: Q1 QuestionType: CheckBox PossibleAnswers: \"rep_1\" \"rep_2\"} Synchro 02/07/20 false false 0 }";
-		String wfInstance = "nomDuWF \"desc\" {StepName:Etape_1 Comment:\"Le commentaire\" CalendarLan {StartingDate: 01/01/20 EndingDate: 31/01/20 Accuacy: \"1\"} Synchro 02/07/20 false false 0 }";
+		String wfInstance = "nomDuWF \"desc\" {StepName:Etape_1 Comment:\"Le commentaire\" Survey {QuestionTitle: Q1 QuestionType: CheckBox PossibleAnswers: \"rep_1\" \"rep_2\"} Synchro 02/07/20 false false 0 }";
+		//String wfInstance = "nomDuWF \"desc\" {StepName:Etape_1 Comment:\"Le commentaire\" CalendarLan {StartingDate: 01/01/20 EndingDate: 31/01/20 Accuracy: \"1\"} Synchro 02/07/20 false false 0 }";
 		WorkflowStep ws = i.getStep(wfInstance, null);
 		System.out.println(">>> " + ws);
 	}
