@@ -1,5 +1,6 @@
 package org.jhipster.mdl.service.mapper;
 
+
 import org.jhipster.mdl.domain.*;
 import org.jhipster.mdl.service.dto.WorkflowModelDTO;
 

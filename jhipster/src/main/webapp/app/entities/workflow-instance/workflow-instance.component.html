@@ -23,6 +23,7 @@
             <thead>
                 <tr>
                     <th scope="col" ><span>ID</span></th>
+                    <th scope="col" ><span>Description</span></th>
                     <th scope="col" ><span>State</span></th>
                     <th scope="col" ><span>Wf Model</span></th>
                     <th scope="col" ><span>Guests</span></th>
@@ -33,6 +34,7 @@
             <tbody>
                 <tr *ngFor="let workflowInstance of workflowInstances ;trackBy: trackId">
                     <td><a [routerLink]="['/workflow-instance', workflowInstance.id, 'view']">{{ workflowInstance.id }}</a></td>
+                    <td>{{ workflowInstance.description }}</td>
                     <td>
                         <div *ngIf="workflowInstance.stateId">
                             <a [routerLink]="['/workflow-instance-state', workflowInstance.stateId , 'view']" >{{ workflowInstance.stateId }}</a>

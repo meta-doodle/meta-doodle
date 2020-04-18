@@ -29,6 +29,7 @@ export class WorkflowInstanceUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
+    description: [],
     stateId: [],
     wfModelId: [],
     guests: [],
@@ -79,6 +80,7 @@ export class WorkflowInstanceUpdateComponent implements OnInit {
   updateForm(workflowInstance: IWorkflowInstance): void {
     this.editForm.patchValue({
       id: workflowInstance.id,
+      description: workflowInstance.description,
       stateId: workflowInstance.stateId,
       wfModelId: workflowInstance.wfModelId,
       guests: workflowInstance.guests,
@@ -104,6 +106,7 @@ export class WorkflowInstanceUpdateComponent implements OnInit {
     return {
       ...new WorkflowInstance(),
       id: this.editForm.get(['id'])!.value,
+      description: this.editForm.get(['description'])!.value,
       stateId: this.editForm.get(['stateId'])!.value,
       wfModelId: this.editForm.get(['wfModelId'])!.value,
       guests: this.editForm.get(['guests'])!.value,

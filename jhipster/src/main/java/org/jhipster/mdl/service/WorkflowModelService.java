@@ -25,7 +25,6 @@ public interface WorkflowModelService {
      */
     List<WorkflowModelDTO> findAll();
 
-
     /**
      * Get the "id" workflowModel.
      *

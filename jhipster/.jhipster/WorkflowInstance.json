@@ -1,6 +1,11 @@
 {
     "name": "WorkflowInstance",
-    "fields": [],
+    "fields": [
+        {
+            "fieldName": "description",
+            "fieldType": "String"
+        }
+    ],
     "relationships": [
         {
             "relationshipType": "one-to-one",

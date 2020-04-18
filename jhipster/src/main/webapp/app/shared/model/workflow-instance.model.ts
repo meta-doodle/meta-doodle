@@ -3,6 +3,7 @@ import { IMdlUser } from 'app/shared/model/mdl-user.model';
 
 export interface IWorkflowInstance {
   id?: number;
+  description?: string;
   stateId?: number;
   answers?: IAnswer[];
   wfModelId?: number;
@@ -13,6 +14,7 @@ export interface IWorkflowInstance {
 export class WorkflowInstance implements IWorkflowInstance {
   constructor(
     public id?: number,
+    public description?: string,
     public stateId?: number,
     public answers?: IAnswer[],
     public wfModelId?: number,

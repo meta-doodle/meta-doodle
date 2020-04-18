@@ -62,7 +62,6 @@ public class WorkflowModelServiceImpl implements WorkflowModelService {
             .collect(Collectors.toCollection(LinkedList::new));
     }
 
-
     /**
      * Get one workflowModel by id.
      *
