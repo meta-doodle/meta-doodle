@@ -2,6 +2,7 @@ package org.jhipster.mdl.service.impl;
 
 import org.jhipster.mdl.service.MdlUserService;
 import org.jhipster.mdl.domain.MdlUser;
+import org.jhipster.mdl.domain.User;
 import org.jhipster.mdl.repository.MdlUserRepository;
 import org.jhipster.mdl.repository.UserRepository;
 import org.jhipster.mdl.service.dto.MdlUserDTO;
@@ -97,5 +98,10 @@ public class MdlUserServiceImpl implements MdlUserService {
 	@Override
 	public Optional<MdlUserDTO> convert(String login) {
 		return Optional.of(new MdlUserDTO());
+	}
+
+	@Override
+	public Optional<MdlUser> create_for(long userId) {
+		return Optional.empty(); // Unimplemented
 	}
 }

@@ -20,7 +20,7 @@ describe('Service Tests', () => {
       service = injector.get(WorkflowInstanceService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new WorkflowInstance(0);
+      elemDefault = new WorkflowInstance(0, 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -52,7 +52,12 @@ describe('Service Tests', () => {
       });
 
       it('should update a WorkflowInstance', () => {
-        const returnedFromService = Object.assign({}, elemDefault);
+        const returnedFromService = Object.assign(
+          {
+            description: 'BBBBBB'
+          },
+          elemDefault
+        );
 
         const expected = Object.assign({}, returnedFromService);
 
@@ -64,7 +69,12 @@ describe('Service Tests', () => {
       });
 
       it('should return a list of WorkflowInstance', () => {
-        const returnedFromService = Object.assign({}, elemDefault);
+        const returnedFromService = Object.assign(
+          {
+            description: 'BBBBBB'
+          },
+          elemDefault
+        );
 
         const expected = Object.assign({}, returnedFromService);
 

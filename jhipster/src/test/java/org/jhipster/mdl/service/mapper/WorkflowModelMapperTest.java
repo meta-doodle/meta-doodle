@@ -4,7 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 public class WorkflowModelMapperTest {
 
     private WorkflowModelMapper workflowModelMapper;
@@ -16,7 +15,7 @@ public class WorkflowModelMapperTest {
 
     @Test
     public void testEntityFromId() {
-        Long id = 2L;
+        Long id = 1L;
         assertThat(workflowModelMapper.fromId(id).getId()).isEqualTo(id);
         assertThat(workflowModelMapper.fromId(null)).isNull();
     }

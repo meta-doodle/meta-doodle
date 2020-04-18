@@ -8,6 +8,7 @@ entity WorkflowModel {
 }
 
 entity WorkflowInstance {
+	description String
 }
 
 entity WorkflowInstanceState{

@@ -1,4 +1,5 @@
 package org.jhipster.mdl.service.dto;
+
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
