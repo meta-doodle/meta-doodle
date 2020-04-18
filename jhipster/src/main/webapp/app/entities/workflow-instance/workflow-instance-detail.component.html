@@ -8,6 +8,10 @@
             <jhi-alert-error></jhi-alert-error>
 
             <dl class="row-md jh-entity-details">
+                <dt><span>Description</span></dt>
+                <dd>
+                    <span>{{ workflowInstance.description }}</span>
+                </dd>
                 <dt><span>State</span></dt>
                 <dd>
                     <div *ngIf="workflowInstance.stateId">

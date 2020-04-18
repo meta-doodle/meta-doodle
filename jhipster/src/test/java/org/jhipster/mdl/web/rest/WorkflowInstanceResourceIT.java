@@ -41,6 +41,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = MdlApp.class)
 public class WorkflowInstanceResourceIT {
 
+    private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
+    private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
+
     @Autowired
     private WorkflowInstanceRepository workflowInstanceRepository;
 
@@ -94,7 +97,8 @@ public class WorkflowInstanceResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static WorkflowInstance createEntity(EntityManager em) {
-        WorkflowInstance workflowInstance = new WorkflowInstance();
+        WorkflowInstance workflowInstance = new WorkflowInstance()
+            .description(DEFAULT_DESCRIPTION);
         return workflowInstance;
     }
     /**
@@ -104,7 +108,8 @@ public class WorkflowInstanceResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static WorkflowInstance createUpdatedEntity(EntityManager em) {
-        WorkflowInstance workflowInstance = new WorkflowInstance();
+        WorkflowInstance workflowInstance = new WorkflowInstance()
+            .description(UPDATED_DESCRIPTION);
         return workflowInstance;
     }
 
@@ -129,6 +134,7 @@ public class WorkflowInstanceResourceIT {
         List<WorkflowInstance> workflowInstanceList = workflowInstanceRepository.findAll();
         assertThat(workflowInstanceList).hasSize(databaseSizeBeforeCreate + 1);
         WorkflowInstance testWorkflowInstance = workflowInstanceList.get(workflowInstanceList.size() - 1);
+        assertThat(testWorkflowInstance.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
     }
 
     @Test
@@ -162,7 +168,8 @@ public class WorkflowInstanceResourceIT {
         restWorkflowInstanceMockMvc.perform(get("/api/workflow-instances?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(workflowInstance.getId().intValue())));
+            .andExpect(jsonPath("$.[*].id").value(hasItem(workflowInstance.getId().intValue())))
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)));
     }
     
     @SuppressWarnings({"unchecked"})
@@ -208,7 +215,8 @@ public class WorkflowInstanceResourceIT {
         restWorkflowInstanceMockMvc.perform(get("/api/workflow-instances/{id}", workflowInstance.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.id").value(workflowInstance.getId().intValue()));
+            .andExpect(jsonPath("$.id").value(workflowInstance.getId().intValue()))
+            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION));
     }
 
     @Test
@@ -231,6 +239,8 @@ public class WorkflowInstanceResourceIT {
         WorkflowInstance updatedWorkflowInstance = workflowInstanceRepository.findById(workflowInstance.getId()).get();
         // Disconnect from session so that the updates on updatedWorkflowInstance are not directly saved in db
         em.detach(updatedWorkflowInstance);
+        updatedWorkflowInstance
+            .description(UPDATED_DESCRIPTION);
         WorkflowInstanceDTO workflowInstanceDTO = workflowInstanceMapper.toDto(updatedWorkflowInstance);
 
         restWorkflowInstanceMockMvc.perform(put("/api/workflow-instances")
@@ -242,6 +252,7 @@ public class WorkflowInstanceResourceIT {
         List<WorkflowInstance> workflowInstanceList = workflowInstanceRepository.findAll();
         assertThat(workflowInstanceList).hasSize(databaseSizeBeforeUpdate);
         WorkflowInstance testWorkflowInstance = workflowInstanceList.get(workflowInstanceList.size() - 1);
+        assertThat(testWorkflowInstance.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
     }
 
     @Test
