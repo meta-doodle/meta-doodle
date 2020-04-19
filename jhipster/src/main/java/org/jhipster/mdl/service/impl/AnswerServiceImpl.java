@@ -2,13 +2,8 @@ package org.jhipster.mdl.service.impl;
 
 import org.jhipster.mdl.service.AnswerService;
 import org.jhipster.mdl.domain.Answer;
-import org.jhipster.mdl.domain.CurrentStep;
-import org.jhipster.mdl.domain.MdlUser;
 import org.jhipster.mdl.domain.WorkflowInstance;
-import org.jhipster.mdl.domain.WorkflowInstanceState;
-import org.jhipster.mdl.fakeInterpreter.FakeInterpreter;
-import org.jhipster.mdl.fakeInterpreter.FakeReturnExec;
-import org.jhipster.mdl.fakeInterpreter.FakeState;
+import org.jhipster.mdl.interpreter.InterpreterInterface;
 import org.jhipster.mdl.repository.AnswerRepository;
 import org.jhipster.mdl.repository.CurrentStepRepository;
 import org.jhipster.mdl.repository.WorkflowInstanceRepository;
@@ -111,17 +106,24 @@ public class AnswerServiceImpl implements AnswerService {
 		if (optWFI.isPresent()) {
 			log.debug("WorkflowInstance found !");
 			WorkflowInstance wfi = optWFI.get();
-			Optional<CurrentStep> optStep = wfi.getState().findCurrentStepContainingMdlUser(answer.getUser());
 
-			if (optStep.isPresent()) {
-				log.debug("CurrentStep found !");
-				CurrentStep currentStep = optStep.get();
-				WorkflowStepData workflowStepData = doExec(wfi.getState(), currentStep, answer.getUser());
+			// Optional<CurrentStep> optStep =
+			// wfi.getState().findCurrentStepContainingMdlUser(answer.getUser());
 
-				return Optional.of(workflowStepData);
-			} else {
-				log.debug("CurrentStep not found : {}", wfi, answer.getUser());
-			}
+			/*
+			 * if (optStep.isPresent()) { log.debug("CurrentStep found !"); CurrentStep
+			 * currentStep = optStep.get();
+			 */
+
+			Optional<WorkflowStepData> workflowStepData = InterpreterInterface.getWorkflowStepData(wfi,
+					answer.getUser(), currentStepRepository);
+			// WorkflowStepData workflowStepData = doExec(wfi.getState(), currentStep,
+			// answer.getUser());
+
+			return workflowStepData;
+			/*
+			 * } else { log.debug("CurrentStep not found : {}", wfi, answer.getUser()); }
+			 */
 		} else {
 			log.debug("WorkflowInstance doesn't exist with id : {}", answerDTO.getWorkflowInstanceId());
 		}
@@ -129,31 +131,22 @@ public class AnswerServiceImpl implements AnswerService {
 		return Optional.empty();
 	}
 
-	private WorkflowStepData doExec(
-			WorkflowInstanceState workflowInstanceState, 
-			CurrentStep currentStep,
+	/*private WorkflowStepData doExec(WorkflowInstanceState workflowInstanceState, CurrentStep currentStep,
 			MdlUser mdlUser) {
-		/*
-		String wf = "nomDuWF \"desc\" {StepName:Etape_1 Comment:\"Le commentaire\" Survey {QuestionTitle: Q1 QuestionType: CheckBox PossibleAnswers: \"rep_1\" \"rep_2\"} Synchro 02/07/20 false false 0 }";
-		
-		InterpreterImpl interpreter = new InterpreterImpl();
-		
-		interpreter.getStep(wf, (WorkflowExecutionState) workflowInstanceState);*/
-		
+
 		try {
 			int ident = Integer.parseInt(currentStep.getStepIdent());
 			FakeReturnExec ret = FakeInterpreter.INTERPRETER.exec("", new FakeState(ident, 0, 0));
 
 			if (!currentStep.getStepIdent().equals(ret.nextStep + "")) {
 				currentStep.removeUsers(mdlUser);
-				CurrentStep newCurrentStep = workflowInstanceState.putMdlUserInRightCurrentStep(
-						mdlUser,
+				CurrentStep newCurrentStep = workflowInstanceState.putMdlUserInRightCurrentStep(mdlUser,
 						ret.nextStep + "");
 				if (!currentStep.equals(newCurrentStep)) {
 					currentStepRepository.saveAndFlush(newCurrentStep);
 				}
 			}
-			
+
 			// TODO : clean up
 			ret = FakeInterpreter.INTERPRETER.exec("", new FakeState(ret.nextStep, 0, 0));
 			return ret.stepData;
@@ -161,5 +154,5 @@ public class AnswerServiceImpl implements AnswerService {
 		} catch (NumberFormatException e) {
 			return new WorkflowStepData();
 		}
-	}
+	}*/
 }
