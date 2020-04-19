@@ -1,7 +1,6 @@
 package org.jhipster.mdl.service;
 
 import org.jhipster.mdl.domain.MdlUser;
-import org.jhipster.mdl.domain.User;
 import org.jhipster.mdl.service.dto.MdlUserDTO;
 import org.jhipster.mdl.service.dto.WorkflowInstanceDTO;
 
@@ -53,5 +52,5 @@ public interface MdlUserService {
 	
 	Optional<MdlUserDTO> convert(String login);
 	
-	Set<WorkflowInstanceDTO> getWorkflows(MdlUserDTO mdlUserDTO);
+	Set<WorkflowInstanceDTO> getWorkflows(Long id);
 }

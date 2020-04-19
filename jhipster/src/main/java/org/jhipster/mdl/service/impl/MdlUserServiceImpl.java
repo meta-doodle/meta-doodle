@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -125,10 +126,19 @@ public class MdlUserServiceImpl implements MdlUserService {
 	}
 
 	@Override
-	public Set<WorkflowInstanceDTO> getWorkflows(MdlUserDTO mdlUserDTO) {
-		MdlUser user = mdlUserMapper.toEntity(mdlUserDTO);
-		return user.getWorkflowInstances().parallelStream().
-				map(workflowInstanceMapper::toDto).
-				collect(Collectors.toSet());
+	public Set<WorkflowInstanceDTO> getWorkflows(Long id) {
+		log.debug("Request workflows of MdlUser with id : {}", id);
+		Optional<MdlUser> optMdlUser = mdlUserRepository.findById(id);
+		if(optMdlUser.isPresent()) {
+			log.debug("MdlUser with id : {} found", id);
+			MdlUser user = optMdlUser.get();
+			return user.getWorkflowInstances().parallelStream().
+					map(workflowInstanceMapper::toDto).
+					collect(Collectors.toSet());
+		} else {
+			log.debug("MdlUser with id : {} not found", id);
+			return new HashSet<>();
+		}
+		
 	}
 }
