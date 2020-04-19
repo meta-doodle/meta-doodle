@@ -138,11 +138,6 @@ public class MdlUserResource {
     @GetMapping("/mdl-users/{id}/workflows")
     public ResponseEntity<Set<WorkflowInstanceDTO>> getMdlUserWorkflows(@PathVariable Long id) {
         log.debug("REST request to get MdlUser's workflows : {}", id);
-        Optional<Set<WorkflowInstanceDTO>> res = Optional.empty();
-        Optional<MdlUserDTO> mdlUserDTO = mdlUserService.findOne(id);
-        if(mdlUserDTO.isPresent())
-        	res = Optional.of( mdlUserService.getWorkflows(mdlUserDTO.get()) );
-        
-        return ResponseUtil.wrapOrNotFound(res);
+        return ResponseEntity.ok(mdlUserService.getWorkflows(id));
     }
 }
