@@ -3,11 +3,12 @@ package org.jhipster.mdl.service.impl;
 import org.jhipster.mdl.service.MdlUserService;
 import org.jhipster.mdl.domain.User;
 import org.jhipster.mdl.domain.MdlUser;
-import org.jhipster.mdl.domain.User;
 import org.jhipster.mdl.repository.MdlUserRepository;
 import org.jhipster.mdl.repository.UserRepository;
 import org.jhipster.mdl.service.dto.MdlUserDTO;
+import org.jhipster.mdl.service.dto.WorkflowInstanceDTO;
 import org.jhipster.mdl.service.mapper.MdlUserMapper;
+import org.jhipster.mdl.service.mapper.WorkflowInstanceMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -33,11 +35,14 @@ public class MdlUserServiceImpl implements MdlUserService {
     private final MdlUserMapper mdlUserMapper;
 
     private final UserRepository userRepository;
+    
+    private final WorkflowInstanceMapper workflowInstanceMapper;
 
-    public MdlUserServiceImpl(MdlUserRepository mdlUserRepository, MdlUserMapper mdlUserMapper, UserRepository userRepository) {
+    public MdlUserServiceImpl(MdlUserRepository mdlUserRepository, MdlUserMapper mdlUserMapper, UserRepository userRepository, WorkflowInstanceMapper workflowInstanceMapper) {
         this.mdlUserRepository = mdlUserRepository;
         this.mdlUserMapper = mdlUserMapper;
         this.userRepository = userRepository;
+        this.workflowInstanceMapper = workflowInstanceMapper;
     }
 
     /**
@@ -117,5 +122,13 @@ public class MdlUserServiceImpl implements MdlUserService {
 			return Optional.of(mdlUserRepository.save( new MdlUser().user(user.get()) ));
 		else
 			return Optional.empty();
+	}
+
+	@Override
+	public Set<WorkflowInstanceDTO> getWorkflows(MdlUserDTO mdlUserDTO) {
+		MdlUser user = mdlUserMapper.toEntity(mdlUserDTO);
+		return user.getWorkflowInstances().parallelStream().
+				map(workflowInstanceMapper::toDto).
+				collect(Collectors.toSet());
 	}
 }
