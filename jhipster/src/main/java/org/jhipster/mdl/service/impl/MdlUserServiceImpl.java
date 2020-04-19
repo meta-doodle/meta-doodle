@@ -8,13 +8,13 @@ import org.jhipster.mdl.repository.UserRepository;
 import org.jhipster.mdl.service.dto.MdlUserDTO;
 import org.jhipster.mdl.service.dto.WorkflowInstanceDTO;
 import org.jhipster.mdl.service.mapper.MdlUserMapper;
+import org.jhipster.mdl.service.mapper.WorkflowInstanceMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -35,11 +35,14 @@ public class MdlUserServiceImpl implements MdlUserService {
     private final MdlUserMapper mdlUserMapper;
 
     private final UserRepository userRepository;
+    
+    private final WorkflowInstanceMapper workflowInstanceMapper;
 
-    public MdlUserServiceImpl(MdlUserRepository mdlUserRepository, MdlUserMapper mdlUserMapper, UserRepository userRepository) {
+    public MdlUserServiceImpl(MdlUserRepository mdlUserRepository, MdlUserMapper mdlUserMapper, UserRepository userRepository, WorkflowInstanceMapper workflowInstanceMapper) {
         this.mdlUserRepository = mdlUserRepository;
         this.mdlUserMapper = mdlUserMapper;
         this.userRepository = userRepository;
+        this.workflowInstanceMapper = workflowInstanceMapper;
     }
 
     /**
@@ -123,6 +126,9 @@ public class MdlUserServiceImpl implements MdlUserService {
 
 	@Override
 	public Set<WorkflowInstanceDTO> getWorkflows(MdlUserDTO mdlUserDTO) {
-		return Collections.emptySet(); // Unimplemented
+		MdlUser user = mdlUserMapper.toEntity(mdlUserDTO);
+		return user.getWorkflowInstances().parallelStream().
+				map(workflowInstanceMapper::toDto).
+				collect(Collectors.toSet());
 	}
 }
