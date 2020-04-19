@@ -6,9 +6,6 @@ import org.jhipster.mdl.domain.CurrentStep;
 import org.jhipster.mdl.domain.MdlUser;
 import org.jhipster.mdl.domain.WorkflowInstance;
 import org.jhipster.mdl.domain.WorkflowInstanceState;
-import org.jhipster.mdl.fakeInterpreter.FakeInterpreter;
-import org.jhipster.mdl.fakeInterpreter.FakeReturnExec;
-import org.jhipster.mdl.fakeInterpreter.FakeState;
 import org.jhipster.mdl.repository.AnswerRepository;
 import org.jhipster.mdl.repository.CurrentStepRepository;
 import org.jhipster.mdl.repository.WorkflowInstanceRepository;
@@ -20,6 +17,8 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.xtext.metadoodle.interpreter.Implementation.InterpreterImpl;
+import org.xtext.metadoodle.interpreter.Interface.WorkflowExecutionState;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -131,15 +130,25 @@ public class AnswerServiceImpl implements AnswerService {
 		return Optional.empty();
 	}
 
-	private WorkflowStepData doExec(WorkflowInstanceState workflowInstanceState, CurrentStep currentStep,
+	private WorkflowStepData doExec(
+			WorkflowInstanceState workflowInstanceState, 
+			CurrentStep currentStep,
 			MdlUser mdlUser) {
-		try {
+		
+		String wf = "nomDuWF \"desc\" {StepName:Etape_1 Comment:\"Le commentaire\" Survey {QuestionTitle: Q1 QuestionType: CheckBox PossibleAnswers: \"rep_1\" \"rep_2\"} Synchro 02/07/20 false false 0 }";
+		
+		InterpreterImpl interpreter = new InterpreterImpl();
+		
+		interpreter.getStep(wf, (WorkflowExecutionState) workflowInstanceState);
+		
+		/*try {
 			int ident = Integer.parseInt(currentStep.getStepIdent());
 			FakeReturnExec ret = FakeInterpreter.INTERPRETER.exec("", new FakeState(ident, 0, 0));
 
 			if (!currentStep.getStepIdent().equals(ret.nextStep + "")) {
 				currentStep.removeUsers(mdlUser);
-				CurrentStep newCurrentStep = workflowInstanceState.putMdlUserInRightCurrentStep(mdlUser,
+				CurrentStep newCurrentStep = workflowInstanceState.putMdlUserInRightCurrentStep(
+						mdlUser,
 						ret.nextStep + "");
 				if (!currentStep.equals(newCurrentStep)) {
 					currentStepRepository.saveAndFlush(newCurrentStep);
@@ -152,6 +161,6 @@ public class AnswerServiceImpl implements AnswerService {
 
 		} catch (NumberFormatException e) {
 			return new WorkflowStepData();
-		}
+		}*/
 	}
 }

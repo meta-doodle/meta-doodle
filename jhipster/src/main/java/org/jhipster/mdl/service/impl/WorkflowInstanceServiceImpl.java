@@ -7,9 +7,6 @@ import org.jhipster.mdl.domain.User;
 import org.jhipster.mdl.domain.WorkflowInstance;
 import org.jhipster.mdl.domain.WorkflowInstanceState;
 import org.jhipster.mdl.domain.WorkflowModel;
-import org.jhipster.mdl.fakeInterpreter.FakeInterpreter;
-import org.jhipster.mdl.fakeInterpreter.FakeReturnExec;
-import org.jhipster.mdl.fakeInterpreter.FakeState;
 import org.jhipster.mdl.repository.CurrentStepRepository;
 import org.jhipster.mdl.repository.MdlUserRepository;
 import org.jhipster.mdl.repository.WorkflowInstanceRepository;
@@ -129,30 +126,40 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
 	@Override
 	public Optional<WorkflowStepData> getWorkflowStep(String login, Long wfiID) {
 		log.debug("Request wf step : {}", login, wfiID);
-		if (wfiID != null) {
-			Optional<WorkflowInstance> optWFI = workflowInstanceRepository.findById(wfiID);
-			if (optWFI.isPresent()) {
-				WorkflowInstance wfi = optWFI.get();
-				Optional<MdlUser> mdlUser = wfi.findMdlUserByLogin(login);
-				if (mdlUser.isPresent()) {
-					Optional<CurrentStep> currentStep = wfi.getState().findCurrentStepContainingMdlUser(mdlUser.get());
-					if (currentStep.isPresent()) {
-						CurrentStep step = currentStep.get();
-						log.debug("CurrentStep found with value : {}", step.getStepIdent());
-						FakeReturnExec ret = FakeInterpreter.INTERPRETER.exec(wfi.getWfModel().getBody(),
-								new FakeState(Integer.parseInt(step.getStepIdent()), wfi.getGuests().size(), 0));
-						return Optional.of(ret.stepData);
-					} else {
-						log.debug("No CurrentStep found with {}", mdlUser.get());
-					}
-				} else {
-					log.debug("MdlUser {} not found in WorkflowInstance guests", login);
-				}
-			} else {
-				log.debug("WorkflowInstance not found in BDD with id : {}", wfiID);
-			}
-		} else {
+		
+		if (wfiID == null) {
 			log.debug("wfiID is null");
+			return Optional.empty();
+		}
+		
+		Optional<WorkflowInstance> optWFI = workflowInstanceRepository.findById(wfiID);
+		
+		if (!optWFI.isPresent()) {
+			log.debug("WorkflowInstance not found in BDD with id : {}", wfiID);
+			return Optional.empty();
+		}
+		
+		WorkflowInstance wfi = optWFI.get();
+		Optional<MdlUser> mdlUser = wfi.findMdlUserByLogin(login);
+		
+		
+		if (!mdlUser.isPresent()) {
+			log.debug("MdlUser {} not found in WorkflowInstance guests", login);
+			return Optional.empty();
+		}
+		
+		Optional<CurrentStep> currentStep = wfi.getState().findCurrentStepContainingMdlUser(mdlUser.get());
+		
+		if (currentStep.isPresent()) {
+			CurrentStep step = currentStep.get();
+			log.debug("CurrentStep found with value : {}", step.getStepIdent());
+			FakeReturnExec ret = FakeInterpreter.INTERPRETER.exec(
+					wfi.getWfModel().getBody(),
+					new FakeState(Integer.parseInt(step.getStepIdent()), wfi.getGuests().size(), 0));
+			
+			return Optional.of(ret.stepData);
+		} else {
+			log.debug("No CurrentStep found with {}", mdlUser.get());
 		}
 		return Optional.empty();
 	}
