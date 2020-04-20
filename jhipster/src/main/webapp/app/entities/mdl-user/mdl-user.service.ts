@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
 import { IMdlUser } from 'app/shared/model/mdl-user.model';
+import { IWorkflowInstance } from 'app/shared/model/workflow-instance.model';
 
 type EntityResponseType = HttpResponse<IMdlUser>;
 type EntityArrayResponseType = HttpResponse<IMdlUser[]>;
@@ -42,5 +43,9 @@ export class MdlUserService {
 
   createFromLogin(login: string): Observable<EntityResponseType> {
     return this.http.post<IMdlUser>(`${this.resourceUrl}/convert`, login, { observe: 'response' })
+  }
+
+  findUserWorkflows(id: number): Observable<EntityResponseType> {
+    return this.http.get<IWorkflowInstance>(`${this.resourceUrl}/${id}/workflows`, { observe: 'response' })
   }
 }

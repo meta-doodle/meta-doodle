@@ -45,4 +45,8 @@ export class WorkflowInstanceService {
   createWithGuests(postWorkflowInstance: PostWorkFlowInstance): Observable<EntityResponseType> {
     return this.http.post<IWorkflowInstance>(this.resourceUrl + '/create', postWorkflowInstance, { observe: 'response' })
   }
+
+  findAll(): Observable<EntityResponseType>{
+    return this.http.get(`${this.resourceUrl}`, {observe: 'response'});
+  }
 }

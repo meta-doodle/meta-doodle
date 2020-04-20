@@ -5,7 +5,7 @@ import { SurveyComponent } from './surveyComp.component'
 
 export const surveyComponentRoute: Route =
   {
-  path:'user/1',
+  path:'user/2',
     component: SurveyComponent,
     data: {
         authorities: [],
@@ -16,7 +16,7 @@ export const surveyComponentRoute: Route =
 
   export const surveyComponentAdminRoute: Route =
   {
-  path:'admin/1',
+  path:'admin/2',
     component: SurveyComponent,
     data: {
         authorities: [],
