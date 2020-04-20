@@ -19,6 +19,7 @@ import org.xtext.metadoodle.interpreter.Implementation.InteractionType;
 import org.xtext.metadoodle.interpreter.Implementation.InterpreterImpl;
 import org.xtext.metadoodle.interpreter.Implementation.QuestionForm;
 import org.xtext.metadoodle.interpreter.Implementation.UserInteraction;
+import org.xtext.metadoodle.interpreter.Interface.ID;
 import org.xtext.metadoodle.interpreter.Interface.Interpreter;
 import org.xtext.metadoodle.interpreter.Interface.WorkflowStep;
 
@@ -27,26 +28,37 @@ public class InterpreterInterface {
 
 	private static final Interpreter INTERPRETER = new InterpreterImpl();
 
-	public static Optional<WorkflowStepData> getWorkflowStepData(WorkflowInstance workflowInstance, MdlUser mdlUser, CurrentStepRepository currentStepRepository) {
-		WorkflowExecutionStateImpl workflowExecutionStateImpl = new WorkflowExecutionStateImpl(
-				workflowInstance.getState(), mdlUser);
+	public static Optional<WorkflowStepData> getWorkflowStepData(WorkflowInstance workflowInstance, MdlUser mdlUser,
+			CurrentStepRepository currentStepRepository, boolean endOfStep) {
+		log.debug("Resquest WorkflowStepData with value {}", endOfStep);
 
-		WorkflowStep wfStep = INTERPRETER.getStep(workflowInstance.getWfModel().getBody(), workflowExecutionStateImpl);
-		
+		WorkflowExecutionStateImpl workflowExecutionStateImpl = new WorkflowExecutionStateImpl(
+				workflowInstance.getState(), mdlUser, endOfStep);
+
+		String wfModel = "nomDuWF \"desc\""
+				+ " {StepName:Etape_1 Comment:\"Le commentaire\" Survey {QuestionTitle: Q1 QuestionType: CheckBox PossibleAnswers: \"rep_1\" \"rep_2\"} Synchro 02/07/20 false false 0 }"
+				+ " {StepName:Etape_2 Comment:\"Nouvelle etape\" Survey {QuestionTitle: Q2 QuestionType: CheckBox PossibleAnswers: \"rep_3\" \"rep_4\"} Synchro 02/07/20 false false 0 }";
+
+		WorkflowStep wfStep = INTERPRETER.getStep(wfModel, workflowExecutionStateImpl);
+
+		log.debug("User Interactions {}", wfStep.getUserInteractions());
+
 		Optional<CurrentStep> optCurrentStep = workflowInstance.getState().findCurrentStepContainingMdlUser(mdlUser);
 		if (!optCurrentStep.isPresent()) {
 			log.debug("Current Step not found for MdlUser {}", mdlUser);
 			return Optional.empty();
 		}
 		CurrentStep currentStep = optCurrentStep.get();
-		String nextStepIdent = "nextID"; // TODO revoir result de wfStep.getIDOfNextStep()
+		Optional<ID> nextStepIdent = wfStep.getIDOfNextStep();
+		//String nextStepIdent = "test";
 
-		if (!currentStep.getStepIdent().equals(nextStepIdent)) {
+		// if (!currentStep.getStepIdent().equals(nextStepIdent)) {
+		if (endOfStep && nextStepIdent.isPresent() && nextStepIdent.get() != null) {
 			WorkflowInstanceState workflowInstanceState = workflowInstance.getState();
-			
+
 			currentStep.removeUsers(mdlUser);
-			CurrentStep newCurrentStep = workflowInstanceState.putMdlUserInRightCurrentStep(mdlUser, nextStepIdent);
-			
+			CurrentStep newCurrentStep = workflowInstanceState.putMdlUserInRightCurrentStep(mdlUser, nextStepIdent.get().getID());
+
 			if (!currentStep.equals(newCurrentStep)) {
 				currentStepRepository.saveAndFlush(newCurrentStep);
 			}
