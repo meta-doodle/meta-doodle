@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { WorkflowInstanceService } from 'app/entities/workflow-instance/workflow-instance.service';
+import { WorkflowInstance, IWorkflowInstance } from 'app/shared/model/workflow-instance.model';
+import { AccountService } from 'app/core/auth/account.service';
+import { IMdlUser } from 'app/shared/model/mdl-user.model';
+import { MdlUserService } from 'app/entities/mdl-user/mdl-user.service';
 import { from } from 'rxjs';
-import { ISurveyView } from 'app/shared/model/survey-view';
 
 
 @Component({
@@ -11,8 +14,12 @@ import { ISurveyView } from 'app/shared/model/survey-view';
 })
 export class ManageComponent implements OnInit {
 
-  //dataUser: ISurveyView | null = null;
-  data = [
+
+  data: any | null= [];
+  idUser: any | null;
+  userData: any | null = [];
+
+  datas = [
     {
       status: 'accepted',
       title: "Rétablir l'équilibre dans la Force",
@@ -33,18 +40,19 @@ export class ManageComponent implements OnInit {
     }
   ];
 
-  //idW= 1;
-  //user= "user";
 
-
-
-  constructor(private userWorkflowService: WorkflowInstanceService) {}
+  constructor(private workflowService: WorkflowInstanceService, private userService: AccountService, private mdlUserService: MdlUserService) {}
 
   ngOnInit(): void {
-    //this.userWorkflowService.view(this.user,this.idW).subscribe((res) =>{
-     // this.data = res.body;
-    //  console.log(this.data);
-  //});
+    this.idUser = this.userService.getMdlUser();
+    this.findWorkflows(this.idUser.userId);
 
+  }
+
+  findWorkflows(id: number):  void{
+    this.mdlUserService.findUserWorkflows(id).subscribe((res)=>{
+      this.data = (res.body);
+
+    });
   }
 }

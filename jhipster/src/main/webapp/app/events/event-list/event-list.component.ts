@@ -9,6 +9,7 @@ import { AccountService } from 'app/core/auth/account.service';
   styleUrls: ['./event-list.component.scss']
 })
 export class EventListComponent implements OnInit {
+  @Input() idUser: any;
   @Input() data: Array<EventInterface> = [];
   currentUser!: User;
 
@@ -17,13 +18,7 @@ export class EventListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.accountService.identity().subscribe(account => {
-      if (account) {
-        this.userService.find(account.login).subscribe(user => {
-          this.currentUser = user;
-        });
-      }
-    });
+    this.idUser = this.accountService.getMdlUser();
   }
 
   remove(index: number): void {
@@ -33,7 +28,7 @@ export class EventListComponent implements OnInit {
   }
 
   getStatus(index: number): number {
-    if (this.data[index].owner === this.currentUser.login) {
+    if (this.data[index].owner === this.idUser.userId) {
       return 1;
     } else {
       return 0;

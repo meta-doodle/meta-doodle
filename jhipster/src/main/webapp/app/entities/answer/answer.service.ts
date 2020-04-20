@@ -41,4 +41,6 @@ export class AnswerService {
   send(answer: IAnswer): Observable<HttpResponse<ISurveyView>> {
     return this.http.post<ISurveyView>(this.sendAnswerUrl, answer, { observe: 'response' });
   }
+
+ 
 }
