@@ -1,6 +1,8 @@
 package org.xtext.metadoodle.interpreter.Implementation;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Logger;
@@ -18,7 +20,7 @@ public class Form extends UserInteraction {
 	}
 
 	public List<QuestionForm> getQuestions(){
-		return this.questions; // TODO rendre immutable.
+		return Collections.unmodifiableList(this.questions);
 	}
 	
 	public void addQuestion(QuestionForm quest) {

@@ -13,5 +13,5 @@ public interface Answer {
 	 * @param reqID
 	 * @return
 	 */
-	public List<String> getAnwer(ID reqID);
+	public List<String> getAnswer(ID reqID);
 }

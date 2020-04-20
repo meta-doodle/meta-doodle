@@ -268,43 +268,34 @@ public class InterpreterImpl implements Interpreter {
 		Interpreter i = new InterpreterImpl();
 		String wfInstance = "nomDuWF \"desc\" {StepName:Etape_1 Comment:\"Le commentaire\" Survey {QuestionTitle: Q1 QuestionType: CheckBox PossibleAnswers: \"rep_1\" \"rep_2\"} Synchro 02/07/20 false false 0 }";
 		//String wfInstance = "nomDuWF \"desc\" {StepName:Etape_1 Comment:\"Le commentaire\" CalendarLan {StartingDate: 01/01/20 EndingDate: 31/01/20 Accuacy: \"1\"} Synchro 02/07/20 false false 0 }";
+		
 		WorkflowExecutionState wes = new WorkflowExecutionState() {
-			
 			@Override
 			public boolean isStepComplete() {
 				return false;
 			}
-			
 			@Override
 			public RetainedChoice getPreviousRetainedChoice(String name) {
-				// TODO Auto-generated method stub
 				return null;
 			}
-			
 			@Override
 			public Optional<Answer> getPreviousAnswer(ID reqID, ID stepID) {
-				// TODO Auto-generated method stub
 				return null;
 			}
-			
 			@Override
 			public int getNumberOfUser() {
 				return 0;
 			}
-			
 			@Override
 			public int getNumberAnwers(ID stepID) {
 				return 0;
 			}
-			
 			@Override
 			public ID getCurrentStepID() {
 				return new IDImpl("Etape_1");
 			}
-			
 			@Override
 			public Optional<Answer> getCurrentAnswer() {
-				// TODO Auto-generated method stub
 				return null;
 			}
 		};

@@ -33,12 +33,12 @@ public interface WorkflowExecutionState {
 	 * 
 	 * @param reqID L'id de la question.
 	 * @param stepID L'id de l'étape.
-	 * @return 
+	 * @return réponse précédente si présente
 	 */
 	public Optional<Answer> getPreviousAnswer(ID reqID, ID stepID);
 	
 	/**
-	 * Cette méthode retourne la valeur désidé grace à une question 
+	 * Cette méthode retourne la valeur décidé grace à une question 
 	 * précédente. Celle-ci étant associée à un nom "name".
 	 * 
 	 * @param name Le nom de la variable.
