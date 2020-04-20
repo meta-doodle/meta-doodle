@@ -15,10 +15,12 @@ public class WorkflowExecutionStateImpl implements WorkflowExecutionState {
 
 	private WorkflowInstanceState workflowInstanceState;
 	private MdlUser mdlUser;
+	private boolean endOfStep;
 
-	public WorkflowExecutionStateImpl(WorkflowInstanceState workflowInstanceState, MdlUser mdlUser) {
+	public WorkflowExecutionStateImpl(WorkflowInstanceState workflowInstanceState, MdlUser mdlUser, boolean endOfStep) {
 		this.workflowInstanceState = workflowInstanceState;
 		this.mdlUser = mdlUser;
+		this.endOfStep = endOfStep;
 	}
 
 	@Override
@@ -33,28 +35,27 @@ public class WorkflowExecutionStateImpl implements WorkflowExecutionState {
 			CurrentStep step = optStep.get();
 			return new IDImpl(step.getStepIdent());
 		}
-		return new IDImpl("fatal error");
+		return new IDImpl("Etape_1");
 	}
 
 	@Override
 	public int getNumberAnwers(ID id) {
-		Optional<CurrentStep> optStep = workflowInstanceState.findCurrentStepContainingMdlUser(mdlUser);
-		if(optStep.isPresent()) {
-			CurrentStep step = optStep.get();
-			return step.getNumberOfAnswer();
-		}
+//		Optional<CurrentStep> optStep = workflowInstanceState.findCurrentStepContainingMdlUser(mdlUser);
+//		if(optStep.isPresent()) {
+//			CurrentStep step = optStep.get();
+//			return step.getNumberOfAnswer();
+//		}
 		return 0;
 	}
 
 	@Override
 	public int getNumberOfUser() {
-		Optional<Integer> nbUsers = workflowInstanceState.getSteps().parallelStream()
-				.map(step -> step.getUsers().size()).reduce((x, y) -> x + y);
-		if(nbUsers.isPresent()) {
-			return nbUsers.get();
-		} else {
-			return 0;
-		}
+//		Optional<Integer> nbUsers = workflowInstanceState.getSteps().parallelStream()
+//				.map(step -> step.getUsers().size()).reduce((x, y) -> x + y);
+//		if(nbUsers.isPresent()) {
+//			return nbUsers.get();
+//		}
+		return 0;
 	}
 
 	@Override
@@ -68,8 +69,8 @@ public class WorkflowExecutionStateImpl implements WorkflowExecutionState {
 	}
 
 	@Override
-	public ID getUserID() {
-		return null;
+	public boolean isStepComplete() {
+		return endOfStep;
 	}
 
 }

@@ -147,7 +147,7 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
 			return Optional.empty();
 		}
 
-		return InterpreterInterface.getWorkflowStepData(wfi, mdlUser.get(), currentStepRepository);
+		return InterpreterInterface.getWorkflowStepData(wfi, mdlUser.get(), currentStepRepository, false);
 
 		/*
 		 * FakeReturnExec ret = FakeInterpreter.INTERPRETER.exec(
