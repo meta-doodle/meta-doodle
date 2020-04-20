@@ -21,10 +21,4 @@ public interface MailReminder {
 	 * @return corps du mail
 	 */
 	public String getBody();
-	
-	/**
-	 * ajoute une date dans la liste des dates de mails de rappel
-	 * @param date
-	 */
-	public void addDate(String date);
 }

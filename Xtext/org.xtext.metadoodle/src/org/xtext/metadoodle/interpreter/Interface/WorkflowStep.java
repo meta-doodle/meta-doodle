@@ -21,7 +21,7 @@ public interface WorkflowStep {
 	 * This method return the ID of the next step.
 	 * @return
 	 */
-	public ID getIDOfNextStep();
+	public Optional<ID> getIDOfNextStep();
 	
 	/**
 	 * Cette métode retourne le commentaire (ou titre) de l'étape.

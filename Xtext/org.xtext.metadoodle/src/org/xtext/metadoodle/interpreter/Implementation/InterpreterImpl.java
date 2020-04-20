@@ -97,7 +97,7 @@ public class InterpreterImpl implements Interpreter {
 		// Création du workflowStep.
 		String nameWF = root.getName();
 		String desc = root.getDesc();
-		WorkflowStep wfStep = new WorkflowStepImpl(new IDImpl(nameWF), desc);
+		WorkflowStepImpl wfStep = new WorkflowStepImpl(new IDImpl(nameWF), desc);
 		
 		// Récupération des UserInteractions.
 		EList<WorkflowStepLan> steps = root.getSteps();
@@ -106,7 +106,26 @@ public class InterpreterImpl implements Interpreter {
 		if(ui != null)
 			wfStep.addUserInteraction(ui);
 		
+		wfStep.setIDNextStep(getNextID(steps, wes.getCurrentStepID()));
+		
 		return wfStep;
+	}
+	
+	private ID getNextID(EList<WorkflowStepLan> steps, ID id) {
+		ID ret = null;
+		Boolean find = false;
+		
+		for(WorkflowStepLan wsl : steps) {
+			if(find) {
+				ret = new IDImpl(wsl.getName());
+				break;
+			}
+			if(wsl.getName().equals(id.toString())) {
+				find = true;
+			}
+		}
+		
+		return ret;
 	}
 	
 	/**
@@ -131,7 +150,7 @@ public class InterpreterImpl implements Interpreter {
 				findCurrentID = true;
 				
 				// TODO à améliorer.
-				if(wes.isStepComplete() || wes.getNumberAnwers(new IDImpl(step.getName())) > synchro.getPercentageCompletion()) { // TODO remplacer || => &&
+				if(wes.isStepComplete()) {// || wes.getNumberAnwers(new IDImpl(step.getName())) >= synchro.getPercentageCompletion()) { // TODO remplacer || => &&
 					continue;
 				}
 			} else if(!findCurrentID) {
@@ -177,15 +196,16 @@ public class InterpreterImpl implements Interpreter {
 			MailReminderLan mail = step.getReminders();
 			
 			if(mail != null) {
-				MailReminder mr = new MailReminderImpl(mail.getObject(), mail.getBody());
+				MailReminderImpl mr = new MailReminderImpl(mail.getObject(), mail.getBody());
 				
 				for(String date : mail.getDateToSend())
 					mr.addDate(date);
+				LOG.info("UserInteraction add.");
 				ui.setReminder(mr);
 			}
 			// Comme une seule step à besoin d'être retournée, 
 			// on récupère la première dont la date n'est pas passé.
-			break; 
+			break;
 		}
 		return ui;
 	}

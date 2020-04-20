@@ -1,7 +1,6 @@
 package org.xtext.metadoodle.interpreter.Implementation;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -14,7 +13,7 @@ public class Form extends UserInteraction {
 	private List<QuestionForm> questions;
 	static final Logger LOG = Logger.getLogger(Form.class.getName());
 
-	public Form(ID id, String comment, InteractionType it) {
+	public Form(ID id, String comment, InteractionType it) { // TODO suppr add question
 		super(id, comment, it);
 		this.questions = new ArrayList<>();
 	}

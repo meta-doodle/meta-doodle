@@ -33,7 +33,11 @@ public class MailReminderImpl implements MailReminder {
 	public String getBody() {
 		return this.bodyMail;
 	}
-	
+
+	/**
+	 * ajoute une date dans la liste des dates de mails de rappel
+	 * @param date
+	 */
 	public void addDate(String date) {
 		Objects.requireNonNull(date);
 		this.dates.add(date);

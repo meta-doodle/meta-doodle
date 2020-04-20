@@ -40,9 +40,10 @@ public class WorkflowStepImpl implements WorkflowStep{
 	}
 
 	@Override
-	public ID getIDOfNextStep() {
-		Objects.requireNonNull(this.nextStep);
-		return this.nextStep;
+	public Optional<ID> getIDOfNextStep() {
+		if(this.nextStep == null)
+			return Optional.empty();
+		return Optional.of(this.nextStep);
 	}
 
 	@Override
