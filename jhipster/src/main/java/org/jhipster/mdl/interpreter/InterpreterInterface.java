@@ -19,6 +19,7 @@ import org.xtext.metadoodle.interpreter.Implementation.InteractionType;
 import org.xtext.metadoodle.interpreter.Implementation.InterpreterImpl;
 import org.xtext.metadoodle.interpreter.Implementation.QuestionForm;
 import org.xtext.metadoodle.interpreter.Implementation.UserInteraction;
+import org.xtext.metadoodle.interpreter.Interface.ID;
 import org.xtext.metadoodle.interpreter.Interface.Interpreter;
 import org.xtext.metadoodle.interpreter.Interface.WorkflowStep;
 
@@ -34,7 +35,9 @@ public class InterpreterInterface {
 		WorkflowExecutionStateImpl workflowExecutionStateImpl = new WorkflowExecutionStateImpl(
 				workflowInstance.getState(), mdlUser, endOfStep);
 
-		String wfModel = "nomDuWF \"desc\" {StepName:Etape_1 Comment:\"Le commentaire\" Survey {QuestionTitle: Q1 QuestionType: CheckBox PossibleAnswers: \"rep_1\" \"rep_2\"} Synchro 02/07/20 false false 0 }";
+		String wfModel = "nomDuWF \"desc\""
+				+ " {StepName:Etape_1 Comment:\"Le commentaire\" Survey {QuestionTitle: Q1 QuestionType: CheckBox PossibleAnswers: \"rep_1\" \"rep_2\"} Synchro 02/07/20 false false 0 }"
+				+ " {StepName:Etape_2 Comment:\"Nouvelle etape\" Survey {QuestionTitle: Q2 QuestionType: CheckBox PossibleAnswers: \"rep_3\" \"rep_4\"} Synchro 02/07/20 false false 0 }";
 
 		WorkflowStep wfStep = INTERPRETER.getStep(wfModel, workflowExecutionStateImpl);
 
@@ -46,15 +49,15 @@ public class InterpreterInterface {
 			return Optional.empty();
 		}
 		CurrentStep currentStep = optCurrentStep.get();
-		// String nextStepIdent = wfStep.getIDOfNextStep().getID();
-		String nextStepIdent = "test";
+		Optional<ID> nextStepIdent = wfStep.getIDOfNextStep();
+		//String nextStepIdent = "test";
 
 		// if (!currentStep.getStepIdent().equals(nextStepIdent)) {
-		if (endOfStep) {
+		if (endOfStep && nextStepIdent.isPresent() && nextStepIdent.get() != null) {
 			WorkflowInstanceState workflowInstanceState = workflowInstance.getState();
 
 			currentStep.removeUsers(mdlUser);
-			CurrentStep newCurrentStep = workflowInstanceState.putMdlUserInRightCurrentStep(mdlUser, nextStepIdent);
+			CurrentStep newCurrentStep = workflowInstanceState.putMdlUserInRightCurrentStep(mdlUser, nextStepIdent.get().getID());
 
 			if (!currentStep.equals(newCurrentStep)) {
 				currentStepRepository.saveAndFlush(newCurrentStep);
