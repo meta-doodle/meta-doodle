@@ -12,6 +12,7 @@ import org.xtext.metadoodle.interpreter.Interface.WorkflowStep;
 public class WorkflowStepImpl implements WorkflowStep{
 	private ID name;
 	private String description;
+	private ID nextStep = null;
 	private List<UserInteraction> interactions;
 
 	/**
@@ -33,10 +34,15 @@ public class WorkflowStepImpl implements WorkflowStep{
 	public ID getId() {
 		return this.name;
 	}
+	
+	public void setIDNextStep(ID id) {
+		this.nextStep = id;
+	}
 
 	@Override
-	public List<ID> getIDOfNextStep() {
-		return null; // TODO
+	public ID getIDOfNextStep() {
+		Objects.requireNonNull(this.nextStep);
+		return this.nextStep;
 	}
 
 	@Override
@@ -56,7 +62,8 @@ public class WorkflowStepImpl implements WorkflowStep{
 	}
 
 	public String toString() {
-		String ret ="Nom du wf : " + this.name + " | Descrition : " + this.description + "\n";
+		String ret ="Nom du wf : " + this.name + " | Descrition : " + this.description + 
+				" | NextID : " + this.nextStep + "\n";
 		
 		for(UserInteraction ui : this.interactions)
 			ret += ui + "\n";

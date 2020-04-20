@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 import org.eclipse.emf.common.util.EList;
@@ -30,6 +31,7 @@ import com.google.inject.Injector;
  * @version 0.1
  */
 public class InterpreterImpl implements Interpreter {
+
 	/**
 	 * A définir
 	 */
@@ -50,11 +52,11 @@ public class InterpreterImpl implements Interpreter {
 	@Override
 	public WorkflowStep getStep(String wfString, WorkflowExecutionState wes) {
 		Objects.requireNonNull(wfString);
-		//Objects.requireNonNull(wes); // TODO à décommenter quand wesImpl sera implémenté.
+		//Objects.requireNonNull(wes);
 		
 		// TODO Utiliser wes.
 		LOG.info(">> " + wfString);
-		return getWorkflowStep((WorkflowLan) getRoot(wfString));
+		return getWorkflowStep((WorkflowLan) getRoot(wfString), wes);
 	}
 	
 	/**
@@ -91,7 +93,7 @@ public class InterpreterImpl implements Interpreter {
 	 * @param root
 	 * @return Ne peut pas être null.
 	 */
-	private WorkflowStep getWorkflowStep(WorkflowLan root) {
+	private WorkflowStep getWorkflowStep(WorkflowLan root, WorkflowExecutionState wes) {
 		// Création du workflowStep.
 		String nameWF = root.getName();
 		String desc = root.getDesc();
@@ -99,7 +101,7 @@ public class InterpreterImpl implements Interpreter {
 		
 		// Récupération des UserInteractions.
 		EList<WorkflowStepLan> steps = root.getSteps();
-		UserInteraction ui = getUserInteraction(steps);
+		UserInteraction ui = getUserInteraction(steps, wes);
 		
 		if(ui != null)
 			wfStep.addUserInteraction(ui);
@@ -112,16 +114,33 @@ public class InterpreterImpl implements Interpreter {
 	 * @param steps
 	 * @return Peut-être null.
 	 */
-	private UserInteraction getUserInteraction(EList<WorkflowStepLan> steps) {
+	private UserInteraction getUserInteraction(EList<WorkflowStepLan> steps, WorkflowExecutionState wes) {
 		UserInteraction ui = null;
+		boolean findCurrentID = false;
+		SynchroLan synchro;
+		Date curDate, stepDate;
 
 		for(WorkflowStepLan step : steps) {
+			synchro = step.getSynchro();
+			curDate = new Date(); 
+			stepDate = null;
+			
+			// ********** wes **********
+			
+			if(wes.getCurrentStepID().toString().equals(step.getName())) {
+				findCurrentID = true;
+				
+				// TODO à améliorer.
+				if(wes.isStepComplete() || wes.getNumberAnwers(new IDImpl(step.getName())) > synchro.getPercentageCompletion()) { // TODO remplacer || => &&
+					continue;
+				}
+			} else if(!findCurrentID) {
+				continue;
+			}
 			
 			// ********** Synchro **********
-			
-			SynchroLan synchro = step.getSynchro();
-			Date curDate = new Date(), stepDate = null;
-			
+			LOG.info(synchro.getEndStepDate());
+
 			try {
 				stepDate = new SimpleDateFormat("dd/MM/yy").parse(synchro.getEndStepDate());
 			} catch (ParseException e) {
@@ -247,9 +266,50 @@ public class InterpreterImpl implements Interpreter {
 	 */
 	public static void main(String args[]) {
 		Interpreter i = new InterpreterImpl();
-		//String wfInstance = "nomDuWF \"desc\" {StepName:Etape_1 Comment:\"Le commentaire\" Survey {QuestionTitle: Q1 QuestionType: CheckBox PossibleAnswers: \"rep_1\" \"rep_2\"} Synchro 02/07/20 false false 0 }";
-		String wfInstance = "nomDuWF \"desc\" {StepName:Etape_1 Comment:\"Le commentaire\" CalendarLan {StartingDate: 01/01/20 EndingDate: 31/01/20 Accuacy: \"1\"} Synchro 02/07/20 false false 0 }";
-		WorkflowStep ws = i.getStep(wfInstance, null);
+		String wfInstance = "nomDuWF \"desc\" {StepName:Etape_1 Comment:\"Le commentaire\" Survey {QuestionTitle: Q1 QuestionType: CheckBox PossibleAnswers: \"rep_1\" \"rep_2\"} Synchro 02/07/20 false false 0 }";
+		//String wfInstance = "nomDuWF \"desc\" {StepName:Etape_1 Comment:\"Le commentaire\" CalendarLan {StartingDate: 01/01/20 EndingDate: 31/01/20 Accuacy: \"1\"} Synchro 02/07/20 false false 0 }";
+		WorkflowExecutionState wes = new WorkflowExecutionState() {
+			
+			@Override
+			public boolean isStepComplete() {
+				return false;
+			}
+			
+			@Override
+			public RetainedChoice getPreviousRetainedChoice(String name) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			@Override
+			public Optional<Answer> getPreviousAnswer(ID reqID, ID stepID) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			@Override
+			public int getNumberOfUser() {
+				return 0;
+			}
+			
+			@Override
+			public int getNumberAnwers(ID stepID) {
+				return 0;
+			}
+			
+			@Override
+			public ID getCurrentStepID() {
+				return new IDImpl("Etape_1");
+			}
+			
+			@Override
+			public Optional<Answer> getCurrentAnswer() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+		};
+		
+		WorkflowStep ws = i.getStep(wfInstance, wes);
 		System.out.println(">>> " + ws);
 	}
 }

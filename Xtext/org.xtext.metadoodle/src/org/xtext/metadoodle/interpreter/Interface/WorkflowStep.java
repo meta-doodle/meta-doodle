@@ -18,10 +18,10 @@ public interface WorkflowStep {
 	public ID getId();
 	
 	/**
-	 * This method return the list of ID of next step.
+	 * This method return the ID of the next step.
 	 * @return
 	 */
-	public List<ID> getIDOfNextStep();
+	public ID getIDOfNextStep();
 	
 	/**
 	 * Cette métode retourne le commentaire (ou titre) de l'étape.

@@ -12,12 +12,6 @@ public interface WorkflowExecutionState {
 	public int getNumberOfUser();
 	
 	/**
-	 * L'objet ID sera peut-être à remplacer par un UserID.
-	 * @return
-	 */
-	public ID getUserID();
-	
-	/**
 	 * Cette méthode retourne l'id de l'étape courrante.
 	 * @return
 	 */
@@ -58,4 +52,10 @@ public interface WorkflowExecutionState {
 	 * @return
 	 */
 	public Optional<Answer> getCurrentAnswer();
+	
+	/**
+	 * Méthode permettant de savoir si l'utilisateur a répondu à l'étape en cours.
+	 * @return
+	 */
+	public boolean isStepComplete();
 }
