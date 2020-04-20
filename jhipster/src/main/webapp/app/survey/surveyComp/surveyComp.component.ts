@@ -106,7 +106,7 @@ export class SurveyComponent implements OnInit {
           this.answer.stepIdent = "0";
           this.answer.type = AvailableTypes.String;
           this.answer.userId = this.idUser.userId;
-          this.answer.workflowInstanceId = 1;
+          this.answer.workflowInstanceId = 2;
           this.compteur = this.compteur + 1;
           this.sendAnswer(this.answer);
       }
