@@ -1,0 +1,22 @@
+<form [formGroup]="uploadModel" (ngSubmit)="onSubmitForm()">
+  <div class="form-group">
+      <label for="titre">
+        Titre de votre événement :
+      </label>
+      <input type="text" id="titre" class="form-control" name="titre" formControlName="titre">
+  </div>
+  <div class="form-group">
+      <label for="description">
+        Description :
+      </label>
+      <textarea  id="description" class="form-control" rows="3" name="description" formControlName="description"></textarea>
+  </div>
+  <div class="form-group">
+      <label for="body">
+       Model :
+      </label>
+    <input id="body" class="form-control" name="body" formControlName="body">
+    <div *ngIf="!uploadModel.valid" class="invalid-feedback">Please enter a valid email address</div>
+  </div>
+  <button type="submit" class="btn btn-primary" [disabled]="uploadModel.invalid">Créer</button>
+</form>
