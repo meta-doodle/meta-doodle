@@ -1,5 +1,5 @@
 <div class="main">
     <jhi-event-item *ngFor="let item of data; let i = index" [event]="item" [remove]="remove" [index]="i"
-        [ownerStatus]="getStatus(i)">
+        [owner]="getStatus(i)">
     </jhi-event-item>
 </div>

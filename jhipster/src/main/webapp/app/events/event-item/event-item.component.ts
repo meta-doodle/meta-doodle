@@ -12,7 +12,7 @@ export class EventItemComponent implements OnInit {
   @Input() event!: EventInterface;
   @Input() index!: number;
   @Input() remove!: (index: number) => void;
-  @Input() ownerStatus!: number; // 1 if currentUser is owner, 0 otherwise, not boolean since it could be extended to more values
+  @Input() owner!: number; // 1 if currentUser is owner, 0 otherwise, not boolean since it could be extended to more values
 
   userLogin: any;
 
@@ -25,7 +25,7 @@ export class EventItemComponent implements OnInit {
   }
 
   details(): void {
-    alert('details for ' + this.event.title);
+    alert('details for ' + this.event.description);
   }
 
   join(): void {
@@ -37,7 +37,7 @@ export class EventItemComponent implements OnInit {
   }
 
   getOwnerStatusAsString(): string {
-    if (this.ownerStatus === 1) {
+    if (this.owner === 1) {
       return 'Organisateur';
     } else {
       return 'Participant';

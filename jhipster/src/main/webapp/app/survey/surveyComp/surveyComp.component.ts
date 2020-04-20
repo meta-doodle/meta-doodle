@@ -17,8 +17,9 @@ import { AvailableTypes } from 'app/shared/model/enumerations/available-types.mo
 })
 export class SurveyComponent implements OnInit {
 
-
-  answer: IAnswer = new Answer;
+  compteur = 0;
+  idUser : any | null;
+  answer = new Answer;
    data: any ;
    questions: Array<IQuestion> | null= [];
   questionsU: Array<IQuestion> = [
@@ -74,7 +75,7 @@ export class SurveyComponent implements OnInit {
   ];
 
   result:Object = {};
-  //result = new Map();
+
 
   constructor(private surveyService: SurveyService, private accountService: AccountService,
     private workflowService : WorkflowInstanceService, private answerService: AnswerService) {}
@@ -91,26 +92,32 @@ export class SurveyComponent implements OnInit {
     /* debugger; */
 
     this.result = this.surveyService.answers;
+    this.idUser = this.accountService.getMdlUser();
+
+    this.compteur = 0;
     if(this.result !=="{}"){
 
       for(const elem in this.result){
-        if ({}.hasOwnProperty.call(this.result, elem)) {
-        this.answer.answer = this.result[elem];
-        this.answer.questionIdent = elem;
-        this.answer.stepIdent = "0";
-        this.answer.type = AvailableTypes.String;
-        this.answer.userId = 1;
-        this.answer.workflowInstanceId = 1;
-        this.sendAnswer(this.answer);
 
-        this.result = new Object;
+        if ({}.hasOwnProperty.call(this.result, elem)) {
+
+          this.answer.answer = "oui";
+          this.answer.questionIdent = "0";
+          this.answer.stepIdent = "0";
+          this.answer.type = AvailableTypes.String;
+          this.answer.userId = this.idUser.userId;
+          this.answer.workflowInstanceId = 1;
+          this.compteur = this.compteur + 1;
+          this.sendAnswer(this.answer);
       }
     }
+
+    this.result = new Object;
     }
   }
 
   demarerInstance(): void{
-    this.workflowService.view(this.data.login, 1).subscribe((res: any)=>{
+    this.workflowService.view(this.data.login, 2).subscribe((res: any)=>{
       this.questions = res.body.questionViews ;
     })
 

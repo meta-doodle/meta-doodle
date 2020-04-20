@@ -1,7 +1,6 @@
 interface EventInterface {
   id:string;
-  status: 'accepted' | 'invited';
-  title: string;
-  owner: string;
-  desc: string;
+  status: 'accepted';
+  owner: number;
+  description: string;
 }
