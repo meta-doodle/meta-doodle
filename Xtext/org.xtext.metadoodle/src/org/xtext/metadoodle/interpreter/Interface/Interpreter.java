@@ -12,4 +12,12 @@ public interface Interpreter {
 	 * @return L'étape en cours à afficher.
 	 */
 	public WorkflowStep getStep(String wf, WorkflowExecutionState wfs);
+	/**
+	 * Cette méthode retourne les informations necessaire au workflow.
+	 * 
+	 * @param wfString L'instance du workflow.
+	 * @return Un objet contenant le nom et la description du workflow 
+	 * ainsi que l'id de la première étape.
+	 */
+	public WorkflowInstanceData getWorkflowData(String wfString);
 }

@@ -13,9 +13,4 @@ public class IDImpl implements ID {
 	public String toString() {
 		return this.id;
 	}
-
-	@Override
-	public String getID() {
-		return this.id;
-	}
 }
