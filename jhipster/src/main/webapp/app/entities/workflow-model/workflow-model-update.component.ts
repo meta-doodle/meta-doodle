@@ -5,9 +5,11 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } from 'ng-jhipster';
 
 import { IWorkflowModel, WorkflowModel } from 'app/shared/model/workflow-model.model';
 import { WorkflowModelService } from './workflow-model.service';
+import { AlertError } from 'app/shared/alert/alert-error.model';
 import { IMdlUser } from 'app/shared/model/mdl-user.model';
 import { MdlUserService } from 'app/entities/mdl-user/mdl-user.service';
 
@@ -29,6 +31,8 @@ export class WorkflowModelUpdateComponent implements OnInit {
   });
 
   constructor(
+    protected dataUtils: JhiDataUtils,
+    protected eventManager: JhiEventManager,
     protected workflowModelService: WorkflowModelService,
     protected mdlUserService: MdlUserService,
     protected activatedRoute: ActivatedRoute,
@@ -57,6 +61,22 @@ export class WorkflowModelUpdateComponent implements OnInit {
       description: workflowModel.description,
       body: workflowModel.body,
       creatorId: workflowModel.creatorId
+    });
+  }
+
+  byteSize(base64String: string): string {
+    return this.dataUtils.byteSize(base64String);
+  }
+
+  openFile(contentType: string, base64String: string): void {
+    this.dataUtils.openFile(contentType, base64String);
+  }
+
+  setFileData(event: Event, field: string, isImage: boolean): void {
+    this.dataUtils.loadFileToForm(event, this.editForm, field, isImage).subscribe(null, (err: JhiFileLoadError) => {
+      this.eventManager.broadcast(
+        new JhiEventWithContent<AlertError>('mdlApp.error', { message: err.message })
+      );
     });
   }
 

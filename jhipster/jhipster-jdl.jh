@@ -4,7 +4,7 @@ entity MdlUser {
 entity WorkflowModel {
 	title String required minlength(3) maxlength(25)
     description String
-    body String required
+    body TextBlob required
 }
 
 entity WorkflowInstance {
