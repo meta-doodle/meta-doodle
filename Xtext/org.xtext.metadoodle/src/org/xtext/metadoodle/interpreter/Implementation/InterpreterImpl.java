@@ -30,7 +30,7 @@ import com.google.inject.Injector;
  * 
  * @version 0.1
  */
-public class InterpreterImpl implements Interpreter {
+class InterpreterImpl implements Interpreter {
 	/**
 	 * Le logger.
 	 */
@@ -39,9 +39,8 @@ public class InterpreterImpl implements Interpreter {
 	@Override
 	public WorkflowStep getStep(String wfString, WorkflowExecutionState wes) {
 		Objects.requireNonNull(wfString);
-		//Objects.requireNonNull(wes);
+		Objects.requireNonNull(wes);
 		
-		// TODO Utiliser wes.
 		LOG.info(">> " + wfString);
 		return getWorkflowStep((WorkflowLan) getRoot(wfString), wes);
 	}
@@ -135,7 +134,6 @@ public class InterpreterImpl implements Interpreter {
 		Date curDate, stepDate;
 		int percentageCompletion;
 		
-
 		for(WorkflowStepLan step : steps) {
 			LOG.info("Etape : " + step.getName());
 			synchro = step.getSynchro();
@@ -146,6 +144,10 @@ public class InterpreterImpl implements Interpreter {
 				continue;
 			} else if(wes.getCurrentStepID().toString().equals(step.getName())){ // étape courrante
 				findCurrentID = true;
+				
+				if(wes.getNumberOfUser() == 0)
+					LOG.severe("Le nombre d'utilisateur ne doit pas être null");
+				
 				percentageCompletion = wes.getNumberAnwers(new IDImpl(step.getName())) * 100 / wes.getNumberOfUser();
 				
 				LOG.info(step.getUserInteraction().size() + "");
@@ -176,6 +178,9 @@ public class InterpreterImpl implements Interpreter {
 			EList<UserInteractionLan> userInteractions = step.getUserInteraction();
 			
 			for(UserInteractionLan userInteraction : userInteractions) {
+				if(userInteraction.getInteraction() == null) {
+					LOG.severe("Erreur");
+				}
 				String stepTypeName = userInteraction.getInteraction().getClass().getName().toUpperCase();
 				
 				if(stepTypeName.contains("SURVEY")) {
@@ -296,14 +301,15 @@ public class InterpreterImpl implements Interpreter {
 	@Override
 	public WorkflowInstanceData getWorkflowData(String wfString) {
 		WorkflowLan wfLan = (WorkflowLan) getRoot(wfString);
-		String IDFirstStep = null;
 		
-		for(WorkflowStepLan step : wfLan.getSteps()) {
-			IDFirstStep = step.getName();
-			break;
+		if(wfLan.getSteps().size() == 0) {
+			LOG.severe("Erreur : la liste des étapes est vide.");
 		}
 		
-		return new WorkflowInstanceDataImpl(wfLan.getName(), wfLan.getDesc(), IDFirstStep);
+		return new WorkflowInstanceDataImpl(
+				wfLan.getName(), 
+				wfLan.getDesc(), 
+				wfLan.getSteps().get(0).getName());
 	}
 	
 	/**
@@ -312,8 +318,8 @@ public class InterpreterImpl implements Interpreter {
 	 */
 	public static void main(String args[]) {
 		Interpreter i = new InterpreterImpl();
-		String wfInstance = "nomDuWF \"desc\" {StepName:Etape_1 Comment:\"Le commentaire\" Survey {QuestionTitle: Q1 QuestionType: CheckBox PossibleAnswers: \"rep_1\" \"rep_2\"} Synchro 02/07/20 false false 0 }";
-		//String wfInstance = "nomDuWF \"desc\" {StepName: Etape_1 Comment: \"Le commentaire\" CalendarLan {StartingDate: 01/01/20 EndingDate: 31/01/20 } Synchro 02/07/20 false false 0 }";
+		//String wfInstance = "nomDuWF \"desc\" {StepName:Etape_1 Comment:\"Le commentaire\" Survey {QuestionTitle: Q1 QuestionType: CheckBox PossibleAnswers: \"rep_1\" \"rep_2\"} Synchro 02/07/20 false false 0 }";
+		String wfInstance = "nomDuWF \"desc\" {StepName: Etape_1 Comment: \"Le commentaire\" Calendar {StartingDate: 01/01/20 EndingDate: 31/01/20 } Synchro 02/07/20 false false 0 }";
 		
 		WorkflowExecutionState wes = new WorkflowExecutionState() {
 			@Override

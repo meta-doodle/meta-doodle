@@ -51,7 +51,10 @@ public class WorkflowStepImpl implements WorkflowStep{
 		return Optional.ofNullable(this.description);
 	}
 
-	@Override
+	/**
+	 * Cette méthode permet d'ajouter des UserInteraction.
+	 * @param interaction L'interaction à ajouter.
+	 */
 	public void addUserInteraction(UserInteraction interaction) {
 		Objects.requireNonNull(interaction);
 		this.interactions.add(interaction);
