@@ -110,4 +110,13 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
 		return Optional.of(new WorkflowInstanceDTO());
 	}
 
+	@Override
+	public void addGuest(long wfiId, long mdlUserId) {
+		// No implem on this branch
+	}
+
+	@Override
+	public void removeGuest(long wfiId, long mdlUserId) {
+		// No implem on this branch
+	}
 }

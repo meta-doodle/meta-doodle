@@ -54,4 +54,18 @@ public interface WorkflowInstanceService {
     Optional<WorkflowStepData> getWorkflowStep(String login, Long wfiID);
     
     Optional<WorkflowInstanceDTO> create(WorkflowInstanceParamsDTO workflowInstanceParamsDTO);
+    
+    /**
+     * Adds an MdlUser to the list of guests
+     * @param wfiId WorkflowInstance id
+     * @param mdlUserId MdlUser id
+     */
+    void addGuest(long wfiId, long mdlUserId);
+
+    /**
+     * Removes an MdlUser from the list of guests
+     * @param wfiId WorkflowInstance id
+     * @param mdlUserId MdlUser id
+     */
+    void removeGuest(long wfiId, long mdlUserId);
 }
