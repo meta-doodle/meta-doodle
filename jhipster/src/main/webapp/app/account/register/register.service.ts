@@ -10,6 +10,6 @@ export class RegisterService {
   constructor(private http: HttpClient) { }
 
   save(account: IUser): Observable<{}> {
-    return this.http.post(SERVER_API_URL + 'api/register_with_mdl', account);
+    return this.http.post(SERVER_API_URL + 'api/register', account);
   }
 }

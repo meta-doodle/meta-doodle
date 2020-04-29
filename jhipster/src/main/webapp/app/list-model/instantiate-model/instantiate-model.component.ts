@@ -30,7 +30,6 @@ export class InstantiateModelComponent implements OnInit {
   mdlUser?: IMdlUser;
 
   constructor(
-//  private mdlUserService: MdlUserService,
 private accountService: AccountService,
 private service: WorkflowInstanceService,
 private wfMdlService: WorkflowModelService,
@@ -69,22 +68,30 @@ private fb: FormBuilder
     });
   }
 
+
+
   onSubmitForm(): void {
     const form = this.instantiateModel;
     //  this.titre = form.value['titre'];
     //  this.description = form.value['description'];
-    this.emails = form.value['emails'].split(',').map((e: { trim: () => void }) => e.trim());;
+    this.emails = form.value['emails'].split(',').map((e: { trim: () => void }) => e.trim());
     this.post =   {
       wfModelId: this.id,
       creatorId: this.creatorId,
       guests: this.emails
     };
+    let url: string;
     this.service.createWithGuests(this.post).subscribe(
       (success) => {
-        this.router.navigate['/events/manage'];
+        this.router.navigate(['/events/manage']);
       },(error) => {
-
+        this.router.navigate(['/404']);
       }
     );
+  }
+
+  redirect(url: string): void{
+    const path = [url];
+    this.router.navigate(path);
   }
 }

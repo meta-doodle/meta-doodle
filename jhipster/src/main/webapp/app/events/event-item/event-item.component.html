@@ -1,15 +1,16 @@
 <div class="main">
 
     <div class="middle_container container">
-        <p>{{event.description}}</p>
+        <p>{{this.description}}</p>
     </div>
     <div class="right_container container">
         <p>{{ userLogin}}</p>
     </div>
     <div class="right_container container">
-        <button  class="btn btn-sm btn-success manage_button detail_button" routerLink="/survey/{{this.userLogin}}/2" routerLinkActive="router-link-active" >Demarer</button>
-        <button *ngIf="event.status == 'invited'" class="btn btn-sm btn-success manage_button"
-            (click)="join()">Rejoindre</button>
+        <button  class="btn btn-sm btn-success manage_button detail_button"
+                 [routerLink]="['/survey', this.mdlUser.id, this.event.id]">
+            Demarer
+        </button>
         <button class="btn btn-sm btn-danger manage_button" (click)="delete()">Supprimer</button>
     </div>
 </div>
