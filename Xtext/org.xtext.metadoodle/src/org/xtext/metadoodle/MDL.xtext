@@ -27,7 +27,7 @@ SurveyLan:
 ;
 
 QuestionLan:
-	'QuestionTitle:' name=ID
+	'QuestionTitle:' question=STRING
     'QuestionType:' type=AnswerTypeLan
     ('PossibleAnswers:' (responses+=STRING)+)?
 ;
@@ -51,9 +51,7 @@ FileUploadLan:
 SynchroLan:
 	'Synchro'
     endStepDate=DATE
-    waitOtherUsers=BOOLEAN
-    // If we have a certain percentage of answer
-    percentageCompletionUse=BOOLEAN
+    //percentage before continuing. 0 if no waiting required
     percentageCompletion=INT
 ;
 
