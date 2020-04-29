@@ -116,16 +116,6 @@ public class MdlUserServiceImpl implements MdlUserService {
 	}
 
 	@Override
-	public Optional<MdlUser> create_for(long userId) {
-		Optional<User> user = userRepository.findById(userId);
-		
-		if(user.isPresent())
-			return Optional.of(mdlUserRepository.save( new MdlUser().user(user.get()) ));
-		else
-			return Optional.empty();
-	}
-
-	@Override
 	public Set<WorkflowInstanceDTO> getWorkflows(Long id) {
 		log.debug("Request workflows of MdlUser with id : {}", id);
 		Optional<MdlUser> optMdlUser = mdlUserRepository.findById(id);
@@ -139,6 +129,5 @@ public class MdlUserServiceImpl implements MdlUserService {
 			log.debug("MdlUser with id : {} not found", id);
 			return new HashSet<>();
 		}
-		
 	}
 }

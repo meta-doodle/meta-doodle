@@ -215,4 +215,15 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
 		return currentStepRepository.save(step);
 	}
 
+	@Override
+	public void addGuest(long wfiId, long mdlUserId) {
+		MdlUser user = mdlUserRepository.getOne(mdlUserId);
+		workflowInstanceRepository.save(workflowInstanceRepository.getOne(wfiId).addGuests(user));
+	}
+
+	@Override
+	public void removeGuest(long wfiId, long mdlUserId) {
+		MdlUser user = mdlUserRepository.getOne(mdlUserId);
+		workflowInstanceRepository.save(workflowInstanceRepository.getOne(wfiId).removeGuests(user));
+	}
 }

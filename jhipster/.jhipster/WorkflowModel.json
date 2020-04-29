@@ -9,8 +9,8 @@
                 "minlength",
                 "maxlength"
             ],
-            "fieldValidateRulesMinlength": "3",
-            "fieldValidateRulesMaxlength": "25"
+            "fieldValidateRulesMinlength": 3,
+            "fieldValidateRulesMaxlength": 25
         },
         {
             "fieldName": "description",
@@ -18,7 +18,8 @@
         },
         {
             "fieldName": "body",
-            "fieldType": "String",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text",
             "fieldValidateRules": [
                 "required"
             ]

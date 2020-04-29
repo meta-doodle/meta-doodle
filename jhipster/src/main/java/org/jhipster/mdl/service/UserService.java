@@ -2,8 +2,10 @@ package org.jhipster.mdl.service;
 
 import org.jhipster.mdl.config.Constants;
 import org.jhipster.mdl.domain.Authority;
+import org.jhipster.mdl.domain.MdlUser;
 import org.jhipster.mdl.domain.User;
 import org.jhipster.mdl.repository.AuthorityRepository;
+import org.jhipster.mdl.repository.MdlUserRepository;
 import org.jhipster.mdl.repository.UserRepository;
 import org.jhipster.mdl.security.AuthoritiesConstants;
 import org.jhipster.mdl.security.SecurityUtils;
@@ -42,12 +44,15 @@ public class UserService {
     private final AuthorityRepository authorityRepository;
 
     private final CacheManager cacheManager;
+    
+    private final MdlUserRepository mdlUserRepository;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository, CacheManager cacheManager) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository, CacheManager cacheManager, MdlUserRepository mdlUserRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
         this.cacheManager = cacheManager;
+        this.mdlUserRepository = mdlUserRepository;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -122,6 +127,13 @@ public class UserService {
         userRepository.save(newUser);
         this.clearUserCaches(newUser);
         log.debug("Created Information for User: {}", newUser);
+        
+        // Create MdlUser
+        MdlUser newMdlUser = new MdlUser();
+        newMdlUser.setUser(newUser);
+        mdlUserRepository.save(newMdlUser);
+        log.debug("Created Information for MdlUser: {}", newMdlUser);
+        
         return newUser;
     }
 
