@@ -1,9 +1,10 @@
+works
 <div class="center survey-container">
     <div class="list-group">
         <jhi-question *ngFor="let item of this.questions" [question]="item"></jhi-question>
     </div>
     <label>{{this.result | json}} </label>
-    
+
 </div>
 <div class="center">
     <button class="btn btn-primary" (click)="submit()">Envoyer</button>

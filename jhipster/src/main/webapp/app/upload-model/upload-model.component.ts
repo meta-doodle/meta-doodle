@@ -65,11 +65,10 @@ private fb: FormBuilder
 
     this.wfMdlService.create(this.post).subscribe(
       (success) => {
-        this.router.navigate[''];
+        this.router.navigate(['/list-model']);
       },(error) => {
-
-      }
-    );
+        this.router.navigate(['/404']);
+      });
   }
 
 

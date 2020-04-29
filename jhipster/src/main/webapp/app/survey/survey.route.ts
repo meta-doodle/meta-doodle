@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 
-import { surveyComponentRoute, surveyComponentAdminRoute } from './surveyComp/surveyComp.route'
+import { surveyComponentAdminRoute } from './surveyComp/surveyComp.route'
 
-const SURVEY_ROUTES = [surveyComponentRoute, surveyComponentAdminRoute]
+const SURVEY_ROUTES = [surveyComponentAdminRoute]
 
 export const surveyRoute: Routes = [
   {
