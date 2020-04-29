@@ -83,11 +83,9 @@ private fb: FormBuilder
     let url: string;
     this.service.createWithGuests(this.post).subscribe(
       (success) => {
-        url = '/events/manage';
-        this.redirect(url);
+        this.router.navigate(['/events/manage']);
       },(error) => {
-        url = '/404';
-        this.redirect(url);
+        this.router.navigate(['/404']);
       }
     );
   }
