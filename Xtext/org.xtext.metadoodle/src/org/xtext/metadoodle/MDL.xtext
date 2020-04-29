@@ -18,7 +18,7 @@ WorkflowStepLan :
 ;
 
 UserInteractionLan :
-	interaction = SurveyLan | CalendarLan | FileUploadLan
+	SurveyLan | CalendarLan | FileUploadLan
 ;
 
 SurveyLan:

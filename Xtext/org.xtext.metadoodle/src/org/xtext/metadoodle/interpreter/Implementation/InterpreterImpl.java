@@ -173,23 +173,23 @@ class InterpreterImpl implements Interpreter {
 				needNextUI = true;
 				continue; // on passe à la suivante.
 			}
-			
+
 			// Ajout des questions.
 			EList<UserInteractionLan> userInteractions = step.getUserInteraction();
-			
-			for(UserInteractionLan userInteraction : userInteractions) {
-				if(userInteraction.getInteraction() == null) {
+
+			for (UserInteractionLan userInteraction : userInteractions) {
+				if (userInteraction == null) {
 					LOG.severe("Erreur");
 				}
-				String stepTypeName = userInteraction.getInteraction().getClass().getName().toUpperCase();
-				
-				if(stepTypeName.contains("SURVEY")) {
-					ret = getForm(userInteraction.getInteraction(), step);
-				}else if(stepTypeName.contains("CALENDAR")) {
-					ret = getCalendar((CalendarLan) userInteraction.getInteraction(), step);
-				}else if(stepTypeName.contains("FILEUPLOAD")) {
-					ret = getFileUpload((FileUploadLan) userInteraction.getInteraction(), step);
-				}else {
+				String stepTypeName = userInteraction.getClass().getName().toUpperCase();
+
+				if (stepTypeName.contains("SURVEY")) {
+					ret = getForm((SurveyLan) userInteraction, step);
+				} else if (stepTypeName.contains("CALENDAR")) {
+					ret = getCalendar((CalendarLan) userInteraction, step);
+				} else if (stepTypeName.contains("FILEUPLOAD")) {
+					ret = getFileUpload((FileUploadLan) userInteraction, step);
+				} else {
 					LOG.severe("UserInteraction : " + step.getClass().getName() + " unknown.");
 					break; // TODO Es-ce qu'on le laisse ???
 				}
