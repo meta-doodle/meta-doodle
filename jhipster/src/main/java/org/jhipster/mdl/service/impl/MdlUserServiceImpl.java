@@ -103,11 +103,6 @@ public class MdlUserServiceImpl implements MdlUserService {
 	}
 
 	@Override
-	public Optional<MdlUser> create_for(long userId) {
-		return Optional.empty(); // Unimplemented
-	}
-
-	@Override
 	public Set<WorkflowInstanceDTO> getWorkflows(MdlUserDTO mdlUserDTO) {
 		return Collections.emptySet(); // Unimplemented
 	}
