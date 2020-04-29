@@ -217,11 +217,13 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
 
 	@Override
 	public void addGuest(long wfiId, long mdlUserId) {
-		// No implem on this branch
+		MdlUser user = mdlUserRepository.getOne(mdlUserId);
+		workflowInstanceRepository.save(workflowInstanceRepository.getOne(wfiId).addGuests(user));
 	}
 
 	@Override
 	public void removeGuest(long wfiId, long mdlUserId) {
-		// No implem on this branch
+		MdlUser user = mdlUserRepository.getOne(mdlUserId);
+		workflowInstanceRepository.save(workflowInstanceRepository.getOne(wfiId).removeGuests(user));
 	}
 }
