@@ -215,4 +215,13 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
 		return currentStepRepository.save(step);
 	}
 
+	@Override
+	public void addGuest(long wfiId, long mdlUserId) {
+		// No implem on this branch
+	}
+
+	@Override
+	public void removeGuest(long wfiId, long mdlUserId) {
+		// No implem on this branch
+	}
 }
