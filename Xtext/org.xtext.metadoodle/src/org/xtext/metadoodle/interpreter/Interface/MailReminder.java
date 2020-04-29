@@ -21,4 +21,11 @@ public interface MailReminder {
 	 * @return corps du mail
 	 */
 	public String getBody();
+	
+	/**
+	 * Retourne le role à qui doit être envoyé le mail.
+	 * Le role étant associé à plusieurs utilisateurs.
+	 * @return
+	 */
+	public String getRole();
 }

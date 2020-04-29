@@ -2,34 +2,55 @@ grammar org.xtext.metadoodle.MDL with org.eclipse.xtext.common.Terminals
 
 generate mDL "http://www.xtext.org/metadoodle/MDL"
 
-// Parsing
+// Lan => Language
 WorkflowLan:
-	name=ID
+	'MDLWorkflow:' name=ID
 	Desc=STRING
-	(steps+=WorkflowStepLan)+
+	'Roles:' (roles+=RoleLan)+
+	'Steps:' (steps+=WorkflowStepLan)+
 ;
 
 WorkflowStepLan :
-    '{' 'StepName:' name=ID
+    '{' 'StepName:' name=StepIDLan
     'Comment:' comment=STRING
-    userInteraction+=UserInteractionLan
+    'Role:' role=[RoleLan]
+    'NextStep' nextStep=[StepIDLan]
+    ( userInteraction+=UserInteractionLan )?
     synchro=SynchroLan
     ('(' reminders=MailReminderLan ')')? '}'
 ;
 
 UserInteractionLan :
-	interaction = SurveyLan | CalendarLan | FileUploadLan
+	SurveyLan | CalendarLan | FileUploadLan
 ;
 
 SurveyLan:
 	'Survey'
-	'{' (questions+=QuestionLan)+ '}'
+	'{' ('isAnonimousAnswer:' isAnonimousAnswer=BOOLEAN)? 
+	(questions+=StandardQuestionLan)* 
+	questions+=( StandardQuestionLan | GotoQuestionLan ) '}'
+	// IsAnonimous ne sera pas pris en compte tout de suite.
 ;
 
-QuestionLan:
-	'QuestionTitle:' name=ID
-    'QuestionType:' type=AnswerTypeLan
-    ('PossibleAnswers:' (responses+=STRING)+)?
+StandardQuestionLan:
+	'QuestionID:' id=QuestionIDLan
+	'QuestionTitle' title=STRING
+    ('Role:' role=[RoleLan] )?
+    'AnswerType:' answerType=AnswerTypeLan
+    'NextQuestion:' nextQuestion=[QuestionIDLan]
+    ('MaxPossibleAnswer' MaxPossibleAnswer=INT)?
+    ('(' 'PossibleAnswers:' (responses+=STRING)+ ')')?
+	// maxPossibleAnswer ne sera pas pris en compte tout de suite.
+;
+
+GotoQuestionLan:
+	'QuestionID:' id=QuestionIDLan
+	'QuestionTitle' title=STRING
+    ('Role:' role=[RoleLan] )?
+    '(' 'PossibleAnswers:' (
+    	'NextStep:' nextID+=[StepIDLan]
+    	responses+=STRING
+    )+ ')'
 ;
 
 AnswerTypeLan:
@@ -38,35 +59,42 @@ AnswerTypeLan:
 
 CalendarLan:
 	'Calendar'
-    '{' 'StartingDate:' start=DATE
-    'EndingDate:' end=DATE 
-    ('Accuracy:' accuracy=STRING)? '}'
+    '{' 'StartingDate:' startDate=DateIDLan
+    'EndingDate:' endDate=DateIDLan 
+    ('Accuracy:' num=INT ':' unit=UnitLan)?
+    ('MaxPossibleAnswer' maxPossibleAnswer=INT)?
+    ('MaxPeopleBySlot' maxPeopleBySlot=INT)? '}'
+	// maxPossibleAnswer et maxPeopleBySlot ne seront pas pris en compte tout de suite.
+;
+
+UnitLan:
+	unit = ('Minute' | 'Hour' | 'Day' | 'Week' | 'Month')
 ;
 
 FileUploadLan:
 	'FileUpload'
-    '{' (mimeTypes+=STRING)+ '}'
+    '{' ('SizeMaxInOctet:' maxSize=INT)?
+   	'MimeTypes:' (mimeTypes+=STRING)+ '}'
 ;
 
 SynchroLan:
 	'Synchro'
-    endStepDate=DATE
-    waitOtherUsers=BOOLEAN
+    endStepDate=DateIDLan
     // If we have a certain percentage of answer
-    percentageCompletionUse=BOOLEAN
-    percentageCompletion=INT
+    percentageCompletionNeeded=INT
 ;
 
 MailReminderLan:
-    'MailReminder'
-    (dateToSend+=DATE)+
+    '{' 'MailReminder'
     object=STRING
-    body=STRING
+    body=STRING 
+    (dateToSend+=DateIDLan)+ '}'
 ;
+
+StepIDLan: name=STRING;
+QuestionIDLan: name=STRING;
+DateIDLan: id=STRING desc=STRING;
+RoleLan: name=(STRING | 'All');
 
 // Lexing
-terminal DATE:
-    ('0'..'3')('0'..'9')'/'('0'..'1')('0'..'9')'/'(('2'..'9')('0'..'9'))?('0'..'9')('0'..'9')
-;
-
 terminal BOOLEAN: 'true' | 'false';

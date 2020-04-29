@@ -42,4 +42,10 @@ public class MailReminderImpl implements MailReminder {
 		Objects.requireNonNull(date);
 		this.dates.add(date);
 	}
+
+	@Override
+	public String getRole() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
