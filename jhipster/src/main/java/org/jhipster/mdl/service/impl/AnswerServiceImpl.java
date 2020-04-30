@@ -7,7 +7,7 @@ import org.jhipster.mdl.repository.CurrentStepRepository;
 import org.jhipster.mdl.repository.WorkflowInstanceRepository;
 import org.jhipster.mdl.service.dto.AnswerDTO;
 import org.jhipster.mdl.service.mapper.AnswerMapper;
-import org.jhipster.mdl.workflow.to_transfert_data.WorkflowStepData;
+import org.jhipster.mdl.workflow.to_transfert_data.StepDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -96,9 +96,9 @@ public class AnswerServiceImpl implements AnswerService {
 	}
 
 	@Override
-	public Optional<WorkflowStepData> sendNewAnswer(AnswerDTO answerDTO) {
+	public Optional<StepDTO> sendNewAnswer(AnswerDTO answerDTO) {
 		log.debug("Request to send new Answer : {}", answerDTO);
-		return Optional.of(new WorkflowStepData());
+		return Optional.empty();
 	}
 
 }
