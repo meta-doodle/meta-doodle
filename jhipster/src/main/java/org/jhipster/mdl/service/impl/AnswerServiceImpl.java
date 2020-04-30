@@ -115,7 +115,7 @@ public class AnswerServiceImpl implements AnswerService {
 			 * currentStep = optStep.get();
 			 */
 
-			Optional<WorkflowStepData> workflowStepData = InterpreterInterface.getWorkflowStepData(wfi,
+			Optional<StepDTO> workflowStepData = InterpreterInterface.getWorkflowStepData(wfi,
 					answer.getUser(), currentStepRepository, true);
 			// WorkflowStepData workflowStepData = doExec(wfi.getState(), currentStep,
 			// answer.getUser());
