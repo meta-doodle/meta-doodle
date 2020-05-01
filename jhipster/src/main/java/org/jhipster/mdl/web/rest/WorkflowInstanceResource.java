@@ -4,7 +4,7 @@ import org.jhipster.mdl.security.SecurityUtils;
 import org.jhipster.mdl.service.MdlUserService;
 import org.jhipster.mdl.service.WorkflowInstanceService;
 import org.jhipster.mdl.web.rest.errors.BadRequestAlertException;
-import org.jhipster.mdl.workflow.to_transfert_data.WorkflowStepData;
+import org.jhipster.mdl.workflow.to_transfert_data.StepDTO;
 import org.jhipster.mdl.service.dto.MdlUserDTO;
 import org.jhipster.mdl.service.dto.WorkflowInstanceDTO;
 import org.jhipster.mdl.service.dto.WorkflowInstanceParamsDTO;
@@ -139,9 +139,9 @@ public class WorkflowInstanceResource {
 	}
 
 	@GetMapping("/workflow-instances-view/{login}/{idWFI}")
-	public ResponseEntity<WorkflowStepData> getWorkflowStepData(@PathVariable String login, @PathVariable Long idWFI) {
+	public ResponseEntity<StepDTO> getWorkflowStepData(@PathVariable String login, @PathVariable Long idWFI) {
 		log.debug("REST request to get WorkflowStepData : {}", login, idWFI);
-		Optional<WorkflowStepData> data = workflowInstanceService.getWorkflowStep(login, idWFI);
+		Optional<StepDTO> data = workflowInstanceService.getWorkflowStep(login, idWFI);
 		return ResponseUtil.wrapOrNotFound(data);
 	}
 

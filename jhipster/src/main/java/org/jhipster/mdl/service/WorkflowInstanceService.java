@@ -2,7 +2,7 @@ package org.jhipster.mdl.service;
 
 import org.jhipster.mdl.service.dto.WorkflowInstanceDTO;
 import org.jhipster.mdl.service.dto.WorkflowInstanceParamsDTO;
-import org.jhipster.mdl.workflow.to_transfert_data.WorkflowStepData;
+import org.jhipster.mdl.workflow.to_transfert_data.StepDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -51,7 +51,7 @@ public interface WorkflowInstanceService {
      */
     void delete(Long id);
     
-    Optional<WorkflowStepData> getWorkflowStep(String login, Long wfiID);
+    Optional<StepDTO> getWorkflowStep(String login, Long wfiID);
     
     Optional<WorkflowInstanceDTO> create(WorkflowInstanceParamsDTO workflowInstanceParamsDTO);
     
