@@ -5,16 +5,17 @@ generate mDL "http://www.xtext.org/metadoodle/MDL"
 // Lan => Language
 WorkflowLan:
 	'MDLWorkflow:' name=ID
-	Desc=STRING
-	'Roles:' (roles+=RoleLan)+
+	'Description:' Desc=STRING
+	'FirstStep:' firstStep=[StepIDLan]
+	('Roles:' (roles+=RoleLan)+ )?
 	'Steps:' (steps+=WorkflowStepLan)+
 ;
 
 WorkflowStepLan :
     '{' 'StepName:' name=StepIDLan
     'Comment:' comment=STRING
-    'Role:' role=[RoleLan]
-    'NextStep' nextStep=[StepIDLan]
+    ('Role:' role=[RoleLan])?
+    'NextStep:' nextStep=[StepIDLan]
     ( userInteraction+=UserInteractionLan )?
     synchro=SynchroLan
     ('(' reminders=MailReminderLan ')')? '}'
@@ -27,30 +28,33 @@ UserInteractionLan :
 SurveyLan:
 	'Survey'
 	'{' ('isAnonimousAnswer:' isAnonimousAnswer=BOOLEAN)? 
-	(questions+=StandardQuestionLan)* 
+	'Questions:' (questions+=StandardQuestionLan)* 
 	questions+=( StandardQuestionLan | GotoQuestionLan ) '}'
 	// IsAnonimous ne sera pas pris en compte tout de suite.
 ;
 
 StandardQuestionLan:
-	'QuestionID:' id=QuestionIDLan
+	'{' 'QuestionID:' id=QuestionIDLan
 	'QuestionTitle' title=STRING
     ('Role:' role=[RoleLan] )?
     'AnswerType:' answerType=AnswerTypeLan
-    'NextQuestion:' nextQuestion=[QuestionIDLan]
-    ('MaxPossibleAnswer' MaxPossibleAnswer=INT)?
-    ('(' 'PossibleAnswers:' (responses+=STRING)+ ')')?
+    ('NextQuestion:' nextQuestion=[QuestionIDLan])?
+    ('StoreAnAnswer:' nameStore=VariableIDLan)?
+    ('MaxPossibleAnswer:' MaxPossibleAnswer=INT)?
+    ('(' ( 'PossibleAnswers:' (responses+=ResponseLan)+ 
+    	| 'PossibleAnswersVariable:' var=[VariableIDLan]
+    ) ')')? '}'
 	// maxPossibleAnswer ne sera pas pris en compte tout de suite.
 ;
 
 GotoQuestionLan:
-	'QuestionID:' id=QuestionIDLan
-	'QuestionTitle' title=STRING
+	'{' 'QuestionID:' id=QuestionIDLan
+	'QuestionTitle:' title=STRING
     ('Role:' role=[RoleLan] )?
     '(' 'PossibleAnswers:' (
     	'NextStep:' nextID+=[StepIDLan]
     	responses+=STRING
-    )+ ')'
+    )+ ')' '}'
 ;
 
 AnswerTypeLan:
@@ -79,21 +83,24 @@ FileUploadLan:
 
 SynchroLan:
 	'Synchro'
-    endStepDate=DateIDLan
+    '{' 'EndStepDate:' endStepDate=DateIDLan
     // If we have a certain percentage of answer
-    percentageCompletionNeeded=INT
+    'PrcentCompletionNeeded:' percentageCompletionNeeded=INT '}'
 ;
 
 MailReminderLan:
-    '{' 'MailReminder'
-    object=STRING
-    body=STRING 
-    (dateToSend+=DateIDLan)+ '}'
+    'MailReminder'
+    '{' ('Role:' role=[RoleLan])?
+    'Object:' object=STRING
+    'Body:' body=STRING 
+    'Dates:' (dateToSend+=DateIDLan)+ '}'
 ;
 
-StepIDLan: name=STRING;
-QuestionIDLan: name=STRING;
-DateIDLan: id=STRING desc=STRING;
+StepIDLan: name=ID;
+QuestionIDLan: name=ID;
+VariableIDLan: name=STRING;
+ResponseLan: name=STRING;
+DateIDLan: '(' id=ID desc=STRING ')';
 RoleLan: name=(STRING | 'All');
 
 // Lexing

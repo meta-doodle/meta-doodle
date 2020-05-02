@@ -1,0 +1,82 @@
+MDLWorkflow: Projet_M1
+Description: "Edition des sujets de projet de M1."
+FirstStep: etape_1
+Roles: "Etudiant" "Professeur" "Responsable de projet"
+Steps: {
+    StepName: etape_1
+    Comment: "Proposition de sujet."
+    NextStep: etape_2
+    Survey {
+        Questions: {
+            QuestionID: q1
+            QuestionTitle: "Veuillez indiqué ci-dessous un sujet de projet pour un projet de M1"
+            Role: "Professeur"
+            AnswerType: OpenQuestion
+            NextQuestion: q2
+            StoreAnAnswer: "Sujets proposés"
+        }
+    }
+    {
+        Questions: {
+            QuestionID: q2
+            QuestionTitle: "Selectionnez le sujet que vous voulez superviser."
+            Role: "Responsable de projet"
+            AnswerType: RadioButton
+            StoreAnAnswer: "Sujets selectionnés"
+            (
+                PossibleAnswersVariable: "Sujets proposés"
+            )
+        }
+    }
+    Synchro {
+        EndStepDate: (propositionSujet "Date limite pour proposer et selectionner un sujet de Projet")
+        PrcentCompletionNeeded: 100
+    }
+    MailReminder {
+        Object: "Suggestion de sujet de projet de M1."
+        Body: "..."
+        Dates: (MailSugestionSujet "date d'envoi du mail de suggestion de sujet.")
+    }
+}
+{
+    StepName: etape_2
+    Comment: "Selection d'un créneau de 4h pour les réunion de projet."
+    Role: "Responsable de projet"
+    NextStep: etape_3
+    Calendar {
+        StartingDate: (lundi "lundi")
+        EndingDate: (Samedi "Samedi")
+        Accuracy: 1 : Day
+    }
+    Synchro {
+        EndStepDate: (endStep2 "desc")
+        PercentCompletionNeeded: 0
+    }
+}
+{
+    StepName: etape_3
+    Comment: "Dépot du diaporama de présentation du projet."
+    Role: "Responsable de projet"
+    NextStep: etape_4
+    FileUpload {
+        MimeTypes: ".pdf" ".odt"
+    }
+    Synchro {
+        EndStepDate: (step3 "date de fin etape 3.")
+        PercentCompletionNeeded: 0
+    }
+}
+{
+    StepName: etape_4
+    Comment: "Selection par les étudiants des sujet."
+    Role: "Etudiant"
+    Survey {
+        QuestionID: q3
+        QuestionTitle: "Selectionnez les 3 sujets qui vous interesse le plus."
+        AnswerType: CheckBox
+        MaxPossibleAnswer: 3
+        (
+            PossibleAnswersVariable: "Sujets selectionnés"
+        )
+    }
+}
