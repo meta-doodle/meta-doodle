@@ -1,7 +1,14 @@
 package org.xtext.metadoodle.interpreter.Interface;
 
+import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Cette classe décrit l'état actuel du workflow par rapport à un utilisateur
+ * et un workflow.
+ * 
+ * @version 2
+ */
 public interface WorkflowExecutionState {
 	/**
 	 * Cette méthode retourne le nombre total d'utilisateur associé
@@ -15,7 +22,7 @@ public interface WorkflowExecutionState {
 	 * Cette méthode retourne l'id de l'étape courrante.
 	 * @return
 	 */
-	public ID getCurrentStepID();
+	public String getCurrentStepID();
 	
 	/**
 	 * Retourne le nombre de personne qui ont déjà répondu à cette 
@@ -24,7 +31,7 @@ public interface WorkflowExecutionState {
 	 * @param stepID L'ID de l'étape.
 	 * @return Le nombre de personne ayant déjà répondu.
 	 */
-	public int getNumberAnwers(ID stepID);
+	public int getNumberAnwers(String stepID);
 	
 	/**
 	 * Cette méthode retourne la réponse de l'utilisateur à la question 
@@ -35,7 +42,7 @@ public interface WorkflowExecutionState {
 	 * @param stepID L'id de l'étape.
 	 * @return réponse précédente si présente
 	 */
-	public Optional<Answer> getPreviousAnswer(ID reqID, ID stepID);
+	public Optional<Answer> getPreviousAnswer(String reqID, String stepID);
 	
 	/**
 	 * Cette méthode retourne la valeur décidé grace à une question 
@@ -58,4 +65,16 @@ public interface WorkflowExecutionState {
 	 * @return
 	 */
 	public boolean isStepComplete();
+	
+	/**
+	 * Cette méthode retourne vrai si l'utilisateur souhaite modifier l'étape en cours.
+	 * @return
+	 */
+	public boolean wantModifyThisStep();
+	
+	/**
+	 * Retourne une map liant l'id de la date avec sa valeur.
+	 * @return
+	 */
+	public Map<String, String> getDateChoosen();
 }

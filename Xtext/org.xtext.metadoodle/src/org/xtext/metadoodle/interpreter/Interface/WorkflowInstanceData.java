@@ -1,5 +1,12 @@
 package org.xtext.metadoodle.interpreter.Interface;
 
+import java.util.List;
+
+/**
+ * Cette classe permet d'accéder aux informations 
+ * générale sur le workflow.
+ * @version 1.0
+ */
 public interface WorkflowInstanceData {
 	/**
 	 * Retourne le nom du workflow.
@@ -16,4 +23,10 @@ public interface WorkflowInstanceData {
 	 * @return
 	 */
 	public String getIDFirstStep();
+	/**
+	 * Retourne La liste des roles utilisé 
+	 * dans le WF.
+	 * @return 
+	 */
+	public List<String> getRoles();
 }

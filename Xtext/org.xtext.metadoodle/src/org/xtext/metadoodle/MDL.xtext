@@ -41,7 +41,7 @@ StandardQuestionLan:
     ('NextQuestion:' nextQuestion=[QuestionIDLan])?
     ('StoreAnAnswer:' nameStore=VariableIDLan)?
     ('MaxPossibleAnswer:' MaxPossibleAnswer=INT)?
-    ('(' ( 'PossibleAnswers:' (responses+=ResponseLan)+ 
+    ('(' ( 'PossibleAnswers:' (responses+=STRING)+ 
     	| 'PossibleAnswersVariable:' var=[VariableIDLan]
     ) ')')? '}'
 	// maxPossibleAnswer ne sera pas pris en compte tout de suite.
@@ -99,7 +99,6 @@ MailReminderLan:
 StepIDLan: name=ID;
 QuestionIDLan: name=ID;
 VariableIDLan: name=STRING;
-ResponseLan: name=STRING;
 DateIDLan: '(' id=ID desc=STRING ')';
 RoleLan: name=(STRING | 'All');
 

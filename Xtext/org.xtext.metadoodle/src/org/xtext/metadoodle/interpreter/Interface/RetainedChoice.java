@@ -3,15 +3,15 @@ package org.xtext.metadoodle.interpreter.Interface;
 public interface RetainedChoice {
 	/**
 	 * retourne l'id de l'étape regardé
-	 * @return ID  
+	 * @return String  
 	 */
-	public ID getStepID();
+	public String getStepID();
 	
 	/**
 	 * retourne l'id de la question regardé
-	 * @return ID
+	 * @return String
 	 */
-	public ID getRequestID();
+	public String getRequestID();
 	
 	/**
 	 * retourne le nom associé à this pour être utilisé comme variable
@@ -24,5 +24,5 @@ public interface RetainedChoice {
 	 * @param reqID
 	 * @return Réponse
 	 */
-	public String getAnswer(ID reqID);
+	public String getAnswer(String reqID);
 }

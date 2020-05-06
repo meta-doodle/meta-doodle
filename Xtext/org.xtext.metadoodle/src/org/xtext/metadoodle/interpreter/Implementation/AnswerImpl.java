@@ -5,15 +5,14 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.xtext.metadoodle.interpreter.Interface.Answer;
-import org.xtext.metadoodle.interpreter.Interface.ID;
 
 public class AnswerImpl implements Answer{
 	
-	private ID userID;
-	private ID stepID;
-	private Map<ID, List<String>> answers;
+	private String userID;
+	private String stepID;
+	private Map<String, List<String>> answers;
 	
-	public AnswerImpl(ID userID, ID stepID, Map<ID, List<String>> answers ) {
+	public AnswerImpl(String userID, String stepID, Map<String, List<String>> answers ) {
 		Objects.requireNonNull(userID);
 		Objects.requireNonNull(stepID);
 		Objects.requireNonNull(answers);
@@ -23,17 +22,17 @@ public class AnswerImpl implements Answer{
 	}
 
 	@Override
-	public ID getUserID() {
+	public String getUserID() {
 		return this.userID;
 	}
 
 	@Override
-	public ID getStepID() {
+	public String getStepID() {
 		return this.stepID;
 	}
 
 	@Override
-	public List<String> getAnswer(ID reqID) {
+	public List<String> getAnswer(String reqID) {
 		Objects.requireNonNull(reqID);
 		return answers.get(reqID);
 	}

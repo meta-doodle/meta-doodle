@@ -4,8 +4,8 @@ import java.util.List;
 
 public interface Answer {
 	
-	public ID getUserID();
-	public ID getStepID();
+	public String getUserID();
+	public String getStepID();
 	/**
 	 * Cette méthode retourne la réponse de l'utilisateur à la question 
 	 * reqID.
@@ -13,5 +13,5 @@ public interface Answer {
 	 * @param reqID
 	 * @return
 	 */
-	public List<String> getAnswer(ID reqID);
+	public List<String> getAnswer(String reqID);
 }
