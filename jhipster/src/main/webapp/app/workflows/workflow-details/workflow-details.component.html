@@ -1,0 +1,39 @@
+<div>
+    <h2 id="page-heading">
+        <span>Answers</span>
+        <div><h3>Workflow: {{workflow.id}}</h3></div>
+        <div><h3>Description: {{workflow.description}}</h3></div>
+        <button id="jh-create-entity" class="btn btn-primary float-right" [routerLink]="['/workflows/workflow-recap']">
+            <fa-icon icon="back"></fa-icon>
+            <span>
+            Retour
+            </span>
+        </button>
+    </h2>
+    <jhi-alert-error></jhi-alert-error>
+    <jhi-alert></jhi-alert>
+    <br/>
+
+    <div class="table-responsive">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+            <tr>
+            <th scope="col" ><span>ID</span></th>
+            <th scope="col" ><span>questions</span></th>
+            <th scope="col" ><span>Etapes</span></th>
+            <th scope="col" ><span>Reponses</span></th>
+            <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of this.answers">
+                    <td>{{item.id}}</td>
+                    <td>{{item.questionIdent}}</td>
+                    <td>{{item.stepIdent}}</td>
+                    <td>{{item.answer}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>

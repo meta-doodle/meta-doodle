@@ -44,6 +44,10 @@ const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
           path: 'survey',
           loadChildren: () => import('./survey/survey.module').then(m => m.SurveyModule)
         },
+        {
+          path: 'workflows',
+          loadChildren: () => import('./workflows/workflows.module').then(m=> m.WorkflowModule)
+        },
         ...LAYOUT_ROUTES
       ],
       { enableTracing: DEBUG_INFO_ENABLED }
