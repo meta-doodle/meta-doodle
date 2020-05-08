@@ -1,0 +1,43 @@
+<div>
+    <h2 id="page-heading">
+        <span>Answers</span>
+
+    </h2>
+    <jhi-alert-error></jhi-alert-error>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="alert alert-warning" *ngIf="data?.length === 0">
+        <span>No answers found</span>
+    </div>
+    <div class="table-responsive" *ngIf="data?.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+            <tr>
+            <th scope="col" ><span>ID</span></th>
+            <th scope="col" ><span>Workflows Instance</span></th>
+            <th scope="col" ><span>Total Reponses</span></th>
+            <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of this.list">
+                <td><a [routerLink]="['/workflows/workflow-details', item.id, 'details' ]">{{item.id}}</a></td>
+                <td>{{item.description}}</td>
+                <td>{{item.totalAnswer}}</td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button type="submit"
+                                [routerLink]="['/workflows/workflow-details', item.id, 'details']"
+                                class="btn btn-info btn-sm">
+                            <fa-icon icon="eye"></fa-icon>
+                            <span class="d-none d-md-inline">Detail</span>
+                        </button>
+                    </div>
+                </td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+

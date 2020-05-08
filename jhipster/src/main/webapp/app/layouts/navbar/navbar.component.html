@@ -36,6 +36,13 @@
                             <span>Gérer</span>
                         </a>
                     </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="/workflows/workflow-recap" routerLinkActive="active"
+                            (click)="collapseNavbar()">
+                            <fa-icon icon="eye" fixedWidth="true"></fa-icon>
+                            <span>Récapitulatif</span>
+                        </a>
+                    </li>
                 </ul>
             </li>
             <li *ngSwitchCase="true" ngbDropdown class="nav-item dropdown pointer" display="dynamic"
