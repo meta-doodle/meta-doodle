@@ -49,4 +49,7 @@ export class WorkflowInstanceService {
   findAll(): Observable<EntityResponseType>{
     return this.http.get(`${this.resourceUrl}`, {observe: 'response'});
   }
+  findAllInstance(): Observable<EntityArrayResponseType>{
+    return this.http.get<IWorkflowInstance[]>(`${this.resourceUrl}`, {observe: 'response'});
+  }
 }

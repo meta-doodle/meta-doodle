@@ -42,5 +42,9 @@ export class AnswerService {
     return this.http.post<ISurveyView>(this.sendAnswerUrl, answer, { observe: 'response' });
   }
 
- 
+  findAllAnswer():Observable<EntityArrayResponseType>{
+    return this.http.get<IAnswer[]>(`${this.resourceUrl}`, {observe: 'response'});
+  }
+
+
 }
