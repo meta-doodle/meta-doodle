@@ -27,10 +27,12 @@ public class InterpreterInterface {
 
 		WorkflowExecutionStateImpl workflowExecutionStateImpl = new WorkflowExecutionStateImpl(
 				workflowInstance.getState(), mdlUser, endOfStep);
+		
+		String wfModel = workflowInstance.getWfModel().getBody();
 
-		String wfModel = "nomDuWF \"desc\""
-				+ " {StepName:Etape_1 Comment:\"Le commentaire\" Survey {QuestionTitle: Q1 QuestionType: CheckBox PossibleAnswers: \"rep_1\" \"rep_2\"} Synchro 02/07/20 false false 0 }"
-				+ " {StepName:Etape_2 Comment:\"Nouvelle etape\" Survey {QuestionTitle: Q2 QuestionType: CheckBox PossibleAnswers: \"rep_3\" \"rep_4\"} Synchro 02/07/20 false false 0 }";
+//		String wfModel = "nomDuWF \"desc\""
+//				+ " {StepName:Etape_1 Comment:\"Le commentaire\" Survey {QuestionTitle: Q1 QuestionType: CheckBox PossibleAnswers: \"rep_1\" \"rep_2\"} Synchro 02/07/20 false false 0 }"
+//				+ " {StepName:Etape_2 Comment:\"Nouvelle etape\" Survey {QuestionTitle: Q2 QuestionType: CheckBox PossibleAnswers: \"rep_3\" \"rep_4\"} Synchro 02/07/20 false false 0 }";
 
 		WorkflowStep wfStep = INTERPRETER.getStep(wfModel, workflowExecutionStateImpl);
 
