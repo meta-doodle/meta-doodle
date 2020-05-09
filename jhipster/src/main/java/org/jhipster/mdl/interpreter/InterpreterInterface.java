@@ -10,10 +10,14 @@ import org.jhipster.mdl.repository.CurrentStepRepository;
 import org.jhipster.mdl.workflow.to_transfert_data.StepDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xtext.metadoodle.interpreter.Implementation.IDImpl;
 import org.xtext.metadoodle.interpreter.Implementation.InterpreterImpl;
 import org.xtext.metadoodle.interpreter.Implementation.UserInteraction;
+import org.xtext.metadoodle.interpreter.Interface.Answer;
 import org.xtext.metadoodle.interpreter.Interface.ID;
 import org.xtext.metadoodle.interpreter.Interface.Interpreter;
+import org.xtext.metadoodle.interpreter.Interface.RetainedChoice;
+import org.xtext.metadoodle.interpreter.Interface.WorkflowExecutionState;
 import org.xtext.metadoodle.interpreter.Interface.WorkflowStep;
 
 public class InterpreterInterface {
@@ -35,7 +39,7 @@ public class InterpreterInterface {
 //				+ " {StepName:Etape_2 Comment:\"Nouvelle etape\" Survey {QuestionTitle: Q2 QuestionType: CheckBox PossibleAnswers: \"rep_3\" \"rep_4\"} Synchro 02/07/20 false false 0 }";
 
 		WorkflowStep wfStep = INTERPRETER.getStep(wfModel, workflowExecutionStateImpl);
-
+		
 		log.debug("User Interactions {}", wfStep.getUserInteractions());
 
 		Optional<CurrentStep> optCurrentStep = workflowInstance.getState().findCurrentStepContainingMdlUser(mdlUser);
@@ -74,5 +78,47 @@ public class InterpreterInterface {
 		StepDTO stepDTO  = stepDTOFactoryImpl.build();
 		
 		return Optional.of(stepDTO);
+	}
+	
+	public static String getStepIdent(String wfModel) {
+		WorkflowExecutionState workflowExecutionState = new WorkflowExecutionState() {
+			
+			@Override
+			public boolean isStepComplete() {
+				return false;
+			}
+			
+			@Override
+			public RetainedChoice getPreviousRetainedChoice(String arg0) {
+				return null;
+			}
+			
+			@Override
+			public Optional<Answer> getPreviousAnswer(ID arg0, ID arg1) {
+				return Optional.empty();
+			}
+			
+			@Override
+			public int getNumberOfUser() {
+				return 0;
+			}
+			
+			@Override
+			public int getNumberAnwers(ID arg0) {
+				return 0;
+			}
+			
+			@Override
+			public ID getCurrentStepID() {
+				return new IDImpl("test");
+			}
+			
+			@Override
+			public Optional<Answer> getCurrentAnswer() {
+				return Optional.empty();
+			}
+		};
+		WorkflowStep step = INTERPRETER.getStep(wfModel, workflowExecutionState);
+		return step.getIDOfNextStep().orElse(new IDImpl("Etape_1")).getID();
 	}
 }

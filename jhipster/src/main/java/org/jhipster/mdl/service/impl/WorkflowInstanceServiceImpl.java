@@ -191,7 +191,8 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
 		WorkflowInstanceState workflowInstanceState = new WorkflowInstanceState();
 		workflowInstanceState = workflowInstanceStateRepository.save(workflowInstanceState);
 
-		CurrentStep step = createCurrentStep(workflowInstance.getGuests());
+		CurrentStep step = createCurrentStep(workflowInstance.getGuests(),
+				InterpreterInterface.getStepIdent(workflowInstance.getWfModel().getBody()));
 
 		step.setWorkflowInstanceState(workflowInstanceState);
 		workflowInstanceState.addSteps(step);
@@ -203,10 +204,10 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
 		return Optional.of(workflowInstanceMapper.toDto(workflowInstance));
 	}
 
-	private CurrentStep createCurrentStep(Set<MdlUser> guests) {
+	private CurrentStep createCurrentStep(Set<MdlUser> guests, String stepIdent) {
 		CurrentStep step = new CurrentStep();
 
-		step.stepIdent("0").numberOfAnswer(0);
+		step.stepIdent(stepIdent).numberOfAnswer(0);
 
 		for (MdlUser mdlUser : guests) {
 			step.addUsers(mdlUser);
