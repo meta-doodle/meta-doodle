@@ -16,7 +16,7 @@ public interface WorkflowStep extends Serializable{
 	 * Cette méthode retourne l'ID de l'étape en cours.
 	 * @return L'ID de l'étape en cours.
 	 */
-	public ID getId();
+	public String getId();
 	
 	/**
 	 * This method return the ID of the next step.

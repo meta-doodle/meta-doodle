@@ -6,5 +6,5 @@ public interface ID {
 	 * retoune le string de l'ID
 	 * @return nom
 	 */
-	public String toString();
+	public String getID();
 }

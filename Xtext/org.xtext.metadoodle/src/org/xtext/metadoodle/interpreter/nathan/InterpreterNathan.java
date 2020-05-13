@@ -16,6 +16,7 @@ import org.eclipse.xtext.resource.XtextResourceSet;
 import org.eclipse.xtext.util.StringInputStream;
 import org.xtext.metadoodle.MDLStandaloneSetup;
 import org.xtext.metadoodle.interpreter.Implementation.IDImpl;
+import org.xtext.metadoodle.interpreter.Interface.Interpreter;
 import org.xtext.metadoodle.interpreter.Interface.WorkflowExecutionState;
 import org.xtext.metadoodle.interpreter.Interface.WorkflowInstanceData;
 import org.xtext.metadoodle.mDL.SynchroLan;
@@ -25,7 +26,7 @@ import org.xtext.metadoodle.mDL.WorkflowStepLan;
 
 import com.google.inject.Injector;
 
-class InterpreterNathan {
+class InterpreterNathan implements Interpreter{
 
 	/**
 	 * Cette méthode passe le wfString dnas l'interpréteur et retourne la racine de

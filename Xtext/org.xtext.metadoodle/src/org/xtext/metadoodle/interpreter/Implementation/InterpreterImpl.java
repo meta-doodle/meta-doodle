@@ -46,7 +46,7 @@ class InterpreterImpl implements Interpreter {
 	}
 	
 	/**
-	 * Cette méthode passe le wfString dnas l'interpréteur et retourne la racine de l'ast.
+	 * Cette méthode passe le wfString dans l'interpréteur et retourne la racine de l'AST.
 	 * @param wfString Le workflow.
 	 * @return La racine de l'AST.
 	 */
