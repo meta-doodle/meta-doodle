@@ -1,7 +1,6 @@
 workflow_soiree_pizza "Participation pour organiser une soiree pizza"
 {
 	StepName: lieu
-	Comment: "Déterminer où faire la soiree pizza"
 	Survey
 	{
 			QuestionTitle: "Quel est votre nom et prénom?"
@@ -25,7 +24,6 @@ workflow_soiree_pizza "Participation pour organiser une soiree pizza"
 }
 {
 	StepName: date
-	Comment: "Déterminer quand faire la soirée pizza"
 	Calendar
 	{
 		StartingDate: 10/05/2020
