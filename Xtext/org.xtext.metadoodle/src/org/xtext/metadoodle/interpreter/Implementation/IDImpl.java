@@ -9,8 +9,9 @@ public class IDImpl implements ID {
 	public IDImpl(String id) {
 		this.id = id;
 	}
-	
-	public String toString() {
+
+	@Override
+	public String getID() {
 		return this.id;
 	}
 }
