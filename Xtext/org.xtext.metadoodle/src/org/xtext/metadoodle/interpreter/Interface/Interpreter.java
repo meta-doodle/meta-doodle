@@ -11,7 +11,7 @@ public interface Interpreter {
 	 * 			Peut ne pas avoir d'utilitée.
 	 * @return L'étape en cours à afficher.
 	 */
-	public WorkflowStep getStep(String wf, WorkflowExecutionState wfs);
+	public StepDTOFactory getStep(String wf, WorkflowExecutionState wfs);
 	/**
 	 * Cette méthode retourne les informations necessaire au workflow.
 	 * 
