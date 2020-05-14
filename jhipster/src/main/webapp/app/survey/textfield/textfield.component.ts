@@ -13,10 +13,10 @@ export class TextfieldComponent implements OnInit {
   constructor(private surveyService: SurveyService) {}
 
   ngOnInit(): void {
-    this.surveyService.setKey(this.question.intitule, '');
+    this.surveyService.setKey(this.question.title, '');
   }
 
   onChange(value: string): void {
-    this.surveyService.setKey(this.question.intitule, value);
+    this.surveyService.setKey(this.question.title, value);
   }
 }

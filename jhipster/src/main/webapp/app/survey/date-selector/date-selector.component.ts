@@ -15,24 +15,40 @@ export class DateSelectorComponent implements OnInit {
   constructor(private surveyService: SurveyService) {}
 
   ngOnInit(): void {
-    this.surveyService.answers[this.question.id] = [];
+    this.surveyService.answers[this.question.questionId] = [];
   }
 
   onChange(value: string): void {
-    this.surveyService.setKey(this.question.id, value);
+    this.surveyService.setKey(this.question.questionId, value);
   }
 
   dateBegin(): string {
-    if (instanceOfIDateRestriction(this.question.restrictions)) {
-      return this.question.restrictions.dateBegin;
+    /*
+    if (instanceOfIDateRestriction(this.question.options.get())) {
+      return this.question.options.get('dateBegin');
     } else {
       return '';
     }
+
+     */
+    const dateBegin = this.question.options.get('dateBegin');
+    if ( dateBegin != null && dateBegin) {
+      return dateBegin;
+  } else {
+     return '';
+}
   }
 
   dateEnd(): string {
+    /*
     if (instanceOfIDateRestriction(this.question.restrictions)) {
       return this.question.restrictions.dateEnd;
+    } else {
+      return '';
+    }*/
+    let dateEnd = this.question.options.get('dateEnd');
+    if ( dateEnd != null && dateEnd) {
+      return dateEnd;
     } else {
       return '';
     }

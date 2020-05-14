@@ -1,17 +1,15 @@
-/*
-    This file is supposed to be erased soon, since it contains data format which
-    should come from Jhipster. If you need to define an actual and permanent data
-    format, use another file.
-*/
+import {AvailableTypes} from "../model/enumerations/available-types.model";
 
-import { IRestriction, IDateRestriction } from './options';
-
-export interface IQuestion {
-  reponseType: string;
-  intitule: string;
-  id: string;
-  restrictions: Array<IRestriction> | IDateRestriction;
+export interface  IQuestion {
+  alreadyAnswered: boolean,
+  options :Map<string,string>,
+  possibleAnswers: Array<string>,
+  questionID : string,
+  questionType: AvailableTypes,
+  response: string,
+  title: string,
 }
+
 
 export interface IModel {
   id: number;
