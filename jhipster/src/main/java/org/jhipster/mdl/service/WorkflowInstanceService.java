@@ -2,9 +2,9 @@ package org.jhipster.mdl.service;
 
 import org.jhipster.mdl.service.dto.WorkflowInstanceDTO;
 import org.jhipster.mdl.service.dto.WorkflowInstanceParamsDTO;
-import org.jhipster.mdl.workflow.to_transfert_data.StepDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.xtext.metadoodle.interpreter.Interface.StepDTO;
 
 import java.util.List;
 import java.util.Optional;
