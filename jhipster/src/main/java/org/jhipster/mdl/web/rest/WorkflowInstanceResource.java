@@ -4,7 +4,6 @@ import org.jhipster.mdl.security.SecurityUtils;
 import org.jhipster.mdl.service.MdlUserService;
 import org.jhipster.mdl.service.WorkflowInstanceService;
 import org.jhipster.mdl.web.rest.errors.BadRequestAlertException;
-import org.jhipster.mdl.workflow.to_transfert_data.StepDTO;
 import org.jhipster.mdl.service.dto.MdlUserDTO;
 import org.jhipster.mdl.service.dto.WorkflowInstanceDTO;
 import org.jhipster.mdl.service.dto.WorkflowInstanceParamsDTO;
@@ -17,6 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.xtext.metadoodle.interpreter.Interface.StepDTO;
 
 import java.net.URI;
 import java.net.URISyntaxException;

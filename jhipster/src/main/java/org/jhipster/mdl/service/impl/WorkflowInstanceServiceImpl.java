@@ -6,7 +6,6 @@ import org.jhipster.mdl.repository.WorkflowInstanceRepository;
 import org.jhipster.mdl.service.dto.WorkflowInstanceDTO;
 import org.jhipster.mdl.service.dto.WorkflowInstanceParamsDTO;
 import org.jhipster.mdl.service.mapper.WorkflowInstanceMapper;
-import org.jhipster.mdl.workflow.to_transfert_data.StepDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.xtext.metadoodle.interpreter.Interface.StepDTO;
 
 import java.util.LinkedList;
 import java.util.List;
