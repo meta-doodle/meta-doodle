@@ -1,8 +1,8 @@
 package org.jhipster.mdl.service.dto;
-
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Lob;
 
 /**
  * A DTO for the {@link org.jhipster.mdl.domain.WorkflowModel} entity.
@@ -17,7 +17,8 @@ public class WorkflowModelDTO implements Serializable {
 
     private String description;
 
-    @NotNull
+    
+    @Lob
     private String body;
 
 

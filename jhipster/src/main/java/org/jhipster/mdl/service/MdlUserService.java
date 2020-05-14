@@ -21,12 +21,6 @@ public interface MdlUserService {
      * @return the persisted entity.
      */
     MdlUserDTO save(MdlUserDTO mdlUserDTO);
-    
-    /**
-     * Create a mdlUser for a given User
-     * @return Created MdlUser
-     */
-    Optional<MdlUser> create_for(long userId);
 
     /**
      * Get all the mdlUsers.

@@ -6,7 +6,6 @@ import org.jhipster.mdl.repository.WorkflowInstanceRepository;
 import org.jhipster.mdl.service.dto.WorkflowInstanceDTO;
 import org.jhipster.mdl.service.dto.WorkflowInstanceParamsDTO;
 import org.jhipster.mdl.service.mapper.WorkflowInstanceMapper;
-import org.jhipster.mdl.workflow.to_transfert_data.WorkflowStepData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.xtext.metadoodle.interpreter.Interface.StepDTO;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -100,9 +100,9 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
 	}
 
 	@Override
-	public Optional<WorkflowStepData> getWorkflowStep(String login, Long wfiID) {
+	public Optional<StepDTO> getWorkflowStep(String login, Long wfiID) {
 		log.debug("Request wf step : {}", login, wfiID);
-		return Optional.of(new WorkflowStepData());
+		return Optional.empty();
 	}
 
 	@Override
@@ -110,4 +110,13 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
 		return Optional.of(new WorkflowInstanceDTO());
 	}
 
+	@Override
+	public void addGuest(long wfiId, long mdlUserId) {
+		// No implem on this branch
+	}
+
+	@Override
+	public void removeGuest(long wfiId, long mdlUserId) {
+		// No implem on this branch
+	}
 }

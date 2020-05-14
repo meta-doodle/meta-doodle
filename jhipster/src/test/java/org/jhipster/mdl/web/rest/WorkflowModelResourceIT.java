@@ -19,6 +19,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
 import org.springframework.validation.Validator;
 
 import javax.persistence.EntityManager;
@@ -180,25 +181,6 @@ public class WorkflowModelResourceIT {
 
     @Test
     @Transactional
-    public void checkBodyIsRequired() throws Exception {
-        int databaseSizeBeforeTest = workflowModelRepository.findAll().size();
-        // set the field null
-        workflowModel.setBody(null);
-
-        // Create the WorkflowModel, which fails.
-        WorkflowModelDTO workflowModelDTO = workflowModelMapper.toDto(workflowModel);
-
-        restWorkflowModelMockMvc.perform(post("/api/workflow-models")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(workflowModelDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<WorkflowModel> workflowModelList = workflowModelRepository.findAll();
-        assertThat(workflowModelList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void getAllWorkflowModels() throws Exception {
         // Initialize the database
         workflowModelRepository.saveAndFlush(workflowModel);
@@ -210,7 +192,7 @@ public class WorkflowModelResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(workflowModel.getId().intValue())))
             .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE)))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
-            .andExpect(jsonPath("$.[*].body").value(hasItem(DEFAULT_BODY)));
+            .andExpect(jsonPath("$.[*].body").value(hasItem(DEFAULT_BODY.toString())));
     }
     
     @Test
@@ -226,7 +208,7 @@ public class WorkflowModelResourceIT {
             .andExpect(jsonPath("$.id").value(workflowModel.getId().intValue()))
             .andExpect(jsonPath("$.title").value(DEFAULT_TITLE))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
-            .andExpect(jsonPath("$.body").value(DEFAULT_BODY));
+            .andExpect(jsonPath("$.body").value(DEFAULT_BODY.toString()));
     }
 
     @Test

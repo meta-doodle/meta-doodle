@@ -1,8 +1,10 @@
 package org.jhipster.mdl.web.rest;
 
+import org.jhipster.mdl.security.SecurityUtils;
+import org.jhipster.mdl.service.MdlUserService;
 import org.jhipster.mdl.service.WorkflowInstanceService;
 import org.jhipster.mdl.web.rest.errors.BadRequestAlertException;
-import org.jhipster.mdl.workflow.to_transfert_data.WorkflowStepData;
+import org.jhipster.mdl.service.dto.MdlUserDTO;
 import org.jhipster.mdl.service.dto.WorkflowInstanceDTO;
 import org.jhipster.mdl.service.dto.WorkflowInstanceParamsDTO;
 
@@ -11,8 +13,10 @@ import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.xtext.metadoodle.interpreter.Interface.StepDTO;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -35,9 +39,12 @@ public class WorkflowInstanceResource {
 	private String applicationName;
 
 	private final WorkflowInstanceService workflowInstanceService;
+	
+	private final MdlUserService mdlUserService;
 
-	public WorkflowInstanceResource(WorkflowInstanceService workflowInstanceService) {
+	public WorkflowInstanceResource(WorkflowInstanceService workflowInstanceService, MdlUserService mdlUserService) {
 		this.workflowInstanceService = workflowInstanceService;
+		this.mdlUserService = mdlUserService;
 	}
 
 	/**
@@ -132,9 +139,9 @@ public class WorkflowInstanceResource {
 	}
 
 	@GetMapping("/workflow-instances-view/{login}/{idWFI}")
-	public ResponseEntity<WorkflowStepData> getWorkflowStepData(@PathVariable String login, @PathVariable Long idWFI) {
+	public ResponseEntity<StepDTO> getWorkflowStepData(@PathVariable String login, @PathVariable Long idWFI) {
 		log.debug("REST request to get WorkflowStepData : {}", login, idWFI);
-		Optional<WorkflowStepData> data = workflowInstanceService.getWorkflowStep(login, idWFI);
+		Optional<StepDTO> data = workflowInstanceService.getWorkflowStep(login, idWFI);
 		return ResponseUtil.wrapOrNotFound(data);
 	}
 
@@ -152,5 +159,53 @@ public class WorkflowInstanceResource {
 		}
 		Optional<WorkflowInstanceDTO> workflowInstance = workflowInstanceService.create(workflowInstanceParamsDTO);
 		return ResponseUtil.wrapOrNotFound(workflowInstance);
+	}
+	
+	@PutMapping("/workflow-instances/{idWFI}/join/{idMdlUser}")
+	public ResponseEntity<WorkflowInstanceDTO> joinWorkflowInstance(@PathVariable Long idWFI, @PathVariable Long idMdlUser) {
+		// Only the user of the workflow owner are allowed to perform this action
+		
+		Optional<String> currentUserLogin = SecurityUtils.getCurrentUserLogin();
+		if( currentUserLogin.isPresent() ) {
+			Optional<MdlUserDTO> currentMdlUser = mdlUserService.convert(currentUserLogin.get());
+			Optional<MdlUserDTO> userToAdd = mdlUserService.findOne(idMdlUser);
+			Optional<WorkflowInstanceDTO> wfi = workflowInstanceService.findOne(idWFI);
+			if(currentMdlUser.isPresent() && userToAdd.isPresent() && wfi.isPresent()) {
+				// Check if the current user is the one added or the wf instance owner
+				if( currentMdlUser.get().getId().equals(userToAdd.get().getId())
+						|| currentMdlUser.get().getId().equals(wfi.get().getCreatorId()) ) {
+					workflowInstanceService.addGuest(idWFI, idMdlUser);
+					return ResponseEntity.ok(workflowInstanceService.findOne(idWFI).get());
+				} else {
+					log.error("Unauthorized attempt to join a workflow from "+currentMdlUser.get().getUserId());
+					return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+				}
+			}
+		}
+		return ResponseEntity.notFound().build();
+	}
+	
+	@PutMapping("/workflow-instances/{idWFI}/leave/{idMdlUser}")
+	public ResponseEntity<WorkflowInstanceDTO> leaveWorkflowInstance(@PathVariable Long idWFI, @PathVariable Long idMdlUser) {
+		// Only the user of the workflow owner are allowed to perform this action
+		
+		Optional<String> currentUserLogin = SecurityUtils.getCurrentUserLogin();
+		if( currentUserLogin.isPresent() ) {
+			Optional<MdlUserDTO> currentMdlUser = mdlUserService.convert(currentUserLogin.get());
+			Optional<MdlUserDTO> userToAdd = mdlUserService.findOne(idMdlUser);
+			Optional<WorkflowInstanceDTO> wfi = workflowInstanceService.findOne(idWFI);
+			if(currentMdlUser.isPresent() && userToAdd.isPresent() && wfi.isPresent()) {
+				// Check if the current user is the one removed or the wf instance owner
+				if( currentMdlUser.get().getId().equals(userToAdd.get().getId())
+						|| currentMdlUser.get().getId().equals(wfi.get().getCreatorId()) ) {
+					workflowInstanceService.removeGuest(idWFI, idMdlUser);
+					return ResponseEntity.ok(workflowInstanceService.findOne(idWFI).get());
+				} else {
+					log.error("Unauthorized attempt to leave a workflow from "+currentMdlUser.get().getUserId());
+					return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+				}
+			}
+		}
+		return ResponseEntity.notFound().build();
 	}
 }

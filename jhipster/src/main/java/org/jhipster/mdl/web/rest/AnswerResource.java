@@ -2,7 +2,6 @@ package org.jhipster.mdl.web.rest;
 
 import org.jhipster.mdl.service.AnswerService;
 import org.jhipster.mdl.web.rest.errors.BadRequestAlertException;
-import org.jhipster.mdl.workflow.to_transfert_data.WorkflowStepData;
 import org.jhipster.mdl.service.dto.AnswerDTO;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -12,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.xtext.metadoodle.interpreter.Interface.StepDTO;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -118,12 +118,12 @@ public class AnswerResource {
     }
     
     @PostMapping("/send-answer")
-    public ResponseEntity<WorkflowStepData> sendNewAnswer(@RequestBody AnswerDTO answerDTO) throws URISyntaxException {
+    public ResponseEntity<StepDTO> sendNewAnswer(@RequestBody AnswerDTO answerDTO) throws URISyntaxException {
         log.debug("REST request to send Answer : {}", answerDTO);
         if (answerDTO.getId() != null) {
             throw new BadRequestAlertException("A new answer cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        Optional<WorkflowStepData> workflowStepData = answerService.sendNewAnswer(answerDTO);
+        Optional<StepDTO> workflowStepData = answerService.sendNewAnswer(answerDTO);
         return ResponseUtil.wrapOrNotFound(workflowStepData);
     }
 }

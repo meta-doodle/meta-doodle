@@ -1,8 +1,8 @@
 package org.jhipster.mdl.domain;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -32,7 +32,9 @@ public class WorkflowModel implements Serializable {
     @Column(name = "description")
     private String description;
 
-    @NotNull
+    
+    @Lob
+    @Type(type = "org.hibernate.type.TextType")
     @Column(name = "body", nullable = false)
     private String body;
 

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -81,6 +82,7 @@ public class WorkflowModelResource {
     /**
      * {@code GET  /workflow-models} : get all the workflowModels.
      *
+
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of workflowModels in body.
      */
     @GetMapping("/workflow-models")
