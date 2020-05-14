@@ -1,7 +1,6 @@
-<p>{{ this.question.intitule }}</p>
-
-<div class="custom-control custom-checkbox" *ngFor="let item of this.question.restrictions">
+<p>{{ this.question.title }} : </p>
+<div class="custom-control custom-checkbox" *ngFor="let item of this.question.possibleAnswers">
   <input class="custom-control-input" type="checkbox" id="{{ item }}" name="checkbox"
-    (click)="onChange(item.label)" />
+    (click)="onChange(item)">
   <label class="custom-control-label" for="{{ item }}">{{ item }}</label>
 </div>

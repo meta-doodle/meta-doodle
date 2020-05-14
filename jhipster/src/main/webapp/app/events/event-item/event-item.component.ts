@@ -21,19 +21,25 @@ export class EventItemComponent implements OnInit {
 
   description!: string;
   mdlUser: MdlUser | undefined | null;
+  userLogin! : String;
 
-  constructor(
+    constructor(
     private workflowInstanceService: WorkflowInstanceService,
     private workflowModelService: WorkflowModelService,
     private accountService: AccountService
   ) {}
 
   ngOnInit(): void {
-    this.workflowModelService.find(this.event.wfModelId!).subscribe( x => {
-      x.body ? this.description = x.body.description! : "Description empty";
-    })
-    this.mdlUser  = this.accountService.getMdlUser();
-  }
+      this.workflowModelService.find(this.event.wfModelId!).subscribe( x => {
+        x.body ? this.description = x.body.description! : "Description empty";
+      });
+      this.accountService.identity().subscribe( value => {
+        value ?  this.userLogin = value.login : '';
+      });
+      this.mdlUser  = this.accountService.getMdlUser();
+    }
+
+
 
   details(): void {
     alert('details for ' + this.event.description);
