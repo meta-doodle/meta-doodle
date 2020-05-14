@@ -15,9 +15,7 @@ Steps: {
             NextQuestion: q2
             StoreAnAnswer: "Sujets proposés"
         }
-    }
-    {
-        Questions: {
+	{
             QuestionID: q2
             QuestionTitle: "Selectionnez le sujet que vous voulez superviser."
             Role: "Responsable de projet"

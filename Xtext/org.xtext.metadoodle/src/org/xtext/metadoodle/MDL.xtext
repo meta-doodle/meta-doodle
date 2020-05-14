@@ -1,21 +1,21 @@
 grammar org.xtext.metadoodle.MDL with org.eclipse.xtext.common.Terminals
 
-generate mDL "http://www.xtext.org/metadoodle/MDL"
+generate mDL "http//www.xtext.org/metadoodle/MDL"
 
 // Lan => Language
 WorkflowLan:
-	'MDLWorkflow:' name=ID
-	'Description:' Desc=STRING
-	'FirstStep:' firstStep=[StepIDLan]
-	('Roles:' (roles+=RoleLan)+ )?
-	'Steps:' (steps+=WorkflowStepLan)+
+	'MDLWorkflow' name=ID
+	'Description' Desc=STRING
+	'FirstStep' firstStep=[WorkflowStepLan]
+	('Roles' (roles+=RoleLan)+ )?
+	'Steps' (steps+=WorkflowStepLan)+
 ;
 
 WorkflowStepLan :
-    '{' 'StepName:' name=StepIDLan
-    'Comment:' comment=STRING
-    ('Role:' role=[RoleLan])?
-    'NextStep:' nextStep=[StepIDLan]
+    '{' 'StepName' name=ID
+    'Comment' comment=STRING
+    ('Role' role=[RoleLan])?
+    ('NextStep' nextStep=[WorkflowStepLan])?
     ( userInteraction+=UserInteractionLan )?
     synchro=SynchroLan
     ('(' reminders=MailReminderLan ')')? '}'
@@ -27,32 +27,31 @@ UserInteractionLan :
 
 SurveyLan:
 	'Survey'
-	'{' ('isAnonimousAnswer:' isAnonimousAnswer=BOOLEAN)? 
-	'Questions:' (questions+=StandardQuestionLan)* 
+	'{' ('isAnonimousAnswer' isAnonimousAnswer=BOOLEAN)? 
+	'Questions' (questions+=StandardQuestionLan)* 
 	questions+=( StandardQuestionLan | GotoQuestionLan ) '}'
 	// IsAnonimous ne sera pas pris en compte tout de suite.
 ;
 
+AbrstractQuest:
+	StandardQuestionLan | GotoQuestionLan
+;
+
 StandardQuestionLan:
-	'{' 'QuestionID:' id=QuestionIDLan
+	'{' 'QuestionID' id=ID
 	'QuestionTitle' title=STRING
-    ('Role:' role=[RoleLan] )?
-    'AnswerType:' answerType=AnswerTypeLan
-    ('NextQuestion:' nextQuestion=[QuestionIDLan])?
-    ('StoreAnAnswer:' nameStore=VariableIDLan)?
-    ('MaxPossibleAnswer:' MaxPossibleAnswer=INT)?
-    ('(' ( 'PossibleAnswers:' (responses+=STRING)+ 
-    	| 'PossibleAnswersVariable:' var=[VariableIDLan]
-    ) ')')? '}'
+    'AnswerType' answerType=AnswerTypeLan
+    ('NextQuestion' nextQuestion=[AbrstractQuest])?
+    ('MaxPossibleAnswer' MaxPossibleAnswer=INT)?
+    ('(' ( 'PossibleAnswers' (responses+=STRING)+ ) ')')? '}'
 	// maxPossibleAnswer ne sera pas pris en compte tout de suite.
 ;
 
 GotoQuestionLan:
-	'{' 'QuestionID:' id=QuestionIDLan
-	'QuestionTitle:' title=STRING
-    ('Role:' role=[RoleLan] )?
-    '(' 'PossibleAnswers:' (
-    	'NextStep:' nextID+=[StepIDLan]
+	'{' 'QuestionID' id=ID
+	'QuestionTitle' title=STRING
+    '(' 'PossibleAnswers' (
+    	'NextStep' nextStep+=[WorkflowStepLan]
     	responses+=STRING
     )+ ')' '}'
 ;
@@ -63,9 +62,9 @@ AnswerTypeLan:
 
 CalendarLan:
 	'Calendar'
-    '{' 'StartingDate:' startDate=DateIDLan
-    'EndingDate:' endDate=DateIDLan 
-    ('Accuracy:' num=INT ':' unit=UnitLan)?
+    '{' 'StartingDate' startDate=DateIDLan
+    'EndingDate' endDate=DateIDLan 
+    ('Accuracy' num=INT ':' unit=UnitLan)?
     ('MaxPossibleAnswer' maxPossibleAnswer=INT)?
     ('MaxPeopleBySlot' maxPeopleBySlot=INT)? '}'
 	// maxPossibleAnswer et maxPeopleBySlot ne seront pas pris en compte tout de suite.
@@ -77,28 +76,24 @@ UnitLan:
 
 FileUploadLan:
 	'FileUpload'
-    '{' ('SizeMaxInOctet:' maxSize=INT)?
-   	'MimeTypes:' (mimeTypes+=STRING)+ '}'
+    '{' ('SizeMaxInOctet' maxSize=INT)?
+   	'MimeTypes' (mimeTypes+=STRING)+ '}'
 ;
 
 SynchroLan:
 	'Synchro'
-    '{' 'EndStepDate:' endStepDate=DateIDLan
+    '{' 'EndStepDate' endStepDate=DateIDLan
     // If we have a certain percentage of answer
-    'PrcentCompletionNeeded:' percentageCompletionNeeded=INT '}'
+    'PrcentCompletionNeeded' percentageCompletionNeeded=INT '}'
 ;
 
 MailReminderLan:
     'MailReminder'
-    '{' ('Role:' role=[RoleLan])?
-    'Object:' object=STRING
-    'Body:' body=STRING 
-    'Dates:' (dateToSend+=DateIDLan)+ '}'
+    '{' 'Object' object=STRING
+    'Body' body=STRING 
+    'Dates' (dateToSend+=DateIDLan)+ '}'
 ;
 
-StepIDLan: name=ID;
-QuestionIDLan: name=ID;
-VariableIDLan: name=STRING;
 DateIDLan: '(' id=ID desc=STRING ')';
 RoleLan: name=(STRING | 'All');
 
