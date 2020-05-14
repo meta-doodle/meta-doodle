@@ -208,4 +208,10 @@ public class WorkflowInstanceResource {
 		}
 		return ResponseEntity.notFound().build();
 	}
+	
+	@GetMapping("/workflow-instances-roles/{idWFI}")
+	public ResponseEntity<List<String>> getRolesInWFI(@PathVariable Long idWFI){
+		List<String> roles = workflowInstanceService.getRoles(idWFI);
+		return ResponseEntity.ok(roles);
+	}
 }
