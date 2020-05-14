@@ -4,17 +4,19 @@ import org.jhipster.mdl.service.AnswerService;
 import org.jhipster.mdl.domain.Answer;
 import org.jhipster.mdl.domain.WorkflowInstance;
 import org.jhipster.mdl.interpreter.InterpreterInterface;
+import org.jhipster.mdl.interpreter.WorkflowExecutionStateImpl;
 import org.jhipster.mdl.repository.AnswerRepository;
 import org.jhipster.mdl.repository.CurrentStepRepository;
 import org.jhipster.mdl.repository.WorkflowInstanceRepository;
 import org.jhipster.mdl.service.dto.AnswerDTO;
 import org.jhipster.mdl.service.mapper.AnswerMapper;
-import org.jhipster.mdl.workflow.to_transfert_data.StepDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.xtext.metadoodle.interpreter.Interface.StepDTO;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -115,8 +117,11 @@ public class AnswerServiceImpl implements AnswerService {
 			 * currentStep = optStep.get();
 			 */
 
-			Optional<StepDTO> workflowStepData = InterpreterInterface.getWorkflowStepData(wfi,
-					answer.getUser(), currentStepRepository, true);
+			WorkflowExecutionStateImpl workflowExecutionStateImpl = new WorkflowExecutionStateImpl(wfi,
+					answer.getUser(), currentStepRepository, answerRepository);
+			workflowExecutionStateImpl.setEndOfStep(true);
+
+			Optional<StepDTO> workflowStepData = InterpreterInterface.getWorkflowStepData(workflowExecutionStateImpl);
 			// WorkflowStepData workflowStepData = doExec(wfi.getState(), currentStep,
 			// answer.getUser());
 
@@ -131,28 +136,23 @@ public class AnswerServiceImpl implements AnswerService {
 		return Optional.empty();
 	}
 
-	/*private WorkflowStepData doExec(WorkflowInstanceState workflowInstanceState, CurrentStep currentStep,
-			MdlUser mdlUser) {
-
-		try {
-			int ident = Integer.parseInt(currentStep.getStepIdent());
-			FakeReturnExec ret = FakeInterpreter.INTERPRETER.exec("", new FakeState(ident, 0, 0));
-
-			if (!currentStep.getStepIdent().equals(ret.nextStep + "")) {
-				currentStep.removeUsers(mdlUser);
-				CurrentStep newCurrentStep = workflowInstanceState.putMdlUserInRightCurrentStep(mdlUser,
-						ret.nextStep + "");
-				if (!currentStep.equals(newCurrentStep)) {
-					currentStepRepository.saveAndFlush(newCurrentStep);
-				}
-			}
-
-			// TODO : clean up
-			ret = FakeInterpreter.INTERPRETER.exec("", new FakeState(ret.nextStep, 0, 0));
-			return ret.stepData;
-
-		} catch (NumberFormatException e) {
-			return new WorkflowStepData();
-		}
-	}*/
+	/*
+	 * private WorkflowStepData doExec(WorkflowInstanceState workflowInstanceState,
+	 * CurrentStep currentStep, MdlUser mdlUser) {
+	 * 
+	 * try { int ident = Integer.parseInt(currentStep.getStepIdent());
+	 * FakeReturnExec ret = FakeInterpreter.INTERPRETER.exec("", new
+	 * FakeState(ident, 0, 0));
+	 * 
+	 * if (!currentStep.getStepIdent().equals(ret.nextStep + "")) {
+	 * currentStep.removeUsers(mdlUser); CurrentStep newCurrentStep =
+	 * workflowInstanceState.putMdlUserInRightCurrentStep(mdlUser, ret.nextStep +
+	 * ""); if (!currentStep.equals(newCurrentStep)) {
+	 * currentStepRepository.saveAndFlush(newCurrentStep); } }
+	 * 
+	 * // TODO : clean up ret = FakeInterpreter.INTERPRETER.exec("", new
+	 * FakeState(ret.nextStep, 0, 0)); return ret.stepData;
+	 * 
+	 * } catch (NumberFormatException e) { return new WorkflowStepData(); } }
+	 */
 }

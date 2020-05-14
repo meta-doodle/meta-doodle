@@ -1,7 +1,7 @@
 package org.jhipster.mdl.service;
 
 import org.jhipster.mdl.service.dto.AnswerDTO;
-import org.jhipster.mdl.workflow.to_transfert_data.StepDTO;
+import org.xtext.metadoodle.interpreter.Interface.StepDTO;
 
 import java.util.List;
 import java.util.Optional;

@@ -280,7 +280,7 @@ dependencies {
     liquibaseRuntime "com.h2database:h2"
     //jhipster-needle-gradle-dependency - JHipster will add additional dependencies here
     
-    compile files("libs/org.xtext.metadoodle-1.0.0-SNAPSHOT.jar")
+    compile files("libs/org.xtext.metadoodle-1.1.0-SNAPSHOT.jar")
     ext.xtextVersion = '2.20.0'
     compile "org.eclipse.xtext:org.eclipse.xtext:${xtextVersion}"
 	compile "org.eclipse.xtext:org.eclipse.xtext.xbase:${xtextVersion}"

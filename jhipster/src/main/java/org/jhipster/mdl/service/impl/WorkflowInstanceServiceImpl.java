@@ -8,6 +8,8 @@ import org.jhipster.mdl.domain.WorkflowInstance;
 import org.jhipster.mdl.domain.WorkflowInstanceState;
 import org.jhipster.mdl.domain.WorkflowModel;
 import org.jhipster.mdl.interpreter.InterpreterInterface;
+import org.jhipster.mdl.interpreter.WorkflowExecutionStateImpl;
+import org.jhipster.mdl.repository.AnswerRepository;
 import org.jhipster.mdl.repository.CurrentStepRepository;
 import org.jhipster.mdl.repository.MdlUserRepository;
 import org.jhipster.mdl.repository.WorkflowInstanceRepository;
@@ -16,7 +18,6 @@ import org.jhipster.mdl.repository.WorkflowModelRepository;
 import org.jhipster.mdl.service.dto.WorkflowInstanceDTO;
 import org.jhipster.mdl.service.dto.WorkflowInstanceParamsDTO;
 import org.jhipster.mdl.service.mapper.WorkflowInstanceMapper;
-import org.jhipster.mdl.workflow.to_transfert_data.StepDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,6 +25,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.xtext.metadoodle.interpreter.Interface.StepDTO;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -51,16 +54,19 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
 
 	private CurrentStepRepository currentStepRepository;
 
+	private AnswerRepository answerRepository;
+
 	public WorkflowInstanceServiceImpl(WorkflowInstanceRepository workflowInstanceRepository,
 			WorkflowInstanceMapper workflowInstanceMapper, WorkflowModelRepository workflowModelRepository,
 			MdlUserRepository mdlUserRepository, WorkflowInstanceStateRepository workflowInstanceStateRepository,
-			CurrentStepRepository currentStepRepository) {
+			CurrentStepRepository currentStepRepository, AnswerRepository answerRepository) {
 		this.workflowInstanceRepository = workflowInstanceRepository;
 		this.workflowInstanceMapper = workflowInstanceMapper;
 		this.workflowModelRepository = workflowModelRepository;
 		this.mdlUserRepository = mdlUserRepository;
 		this.workflowInstanceStateRepository = workflowInstanceStateRepository;
 		this.currentStepRepository = currentStepRepository;
+		this.answerRepository = answerRepository;
 	}
 
 	/**
@@ -146,8 +152,12 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
 			log.debug("MdlUser {} not found in WorkflowInstance guests", login);
 			return Optional.empty();
 		}
+		
+		WorkflowExecutionStateImpl workflowExecutionStateImpl = new WorkflowExecutionStateImpl(wfi,
+				mdlUser.get(), currentStepRepository, answerRepository);
+		workflowExecutionStateImpl.setEndOfStep(true);
 
-		return InterpreterInterface.getWorkflowStepData(wfi, mdlUser.get(), currentStepRepository, false);
+		return InterpreterInterface.getWorkflowStepData(workflowExecutionStateImpl);
 
 		/*
 		 * FakeReturnExec ret = FakeInterpreter.INTERPRETER.exec(
@@ -191,7 +201,8 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
 		WorkflowInstanceState workflowInstanceState = new WorkflowInstanceState();
 		workflowInstanceState = workflowInstanceStateRepository.save(workflowInstanceState);
 
-		CurrentStep step = createCurrentStep(workflowInstance.getGuests());
+		CurrentStep step = createCurrentStep(workflowInstance.getGuests(),
+				InterpreterInterface.getStepIdent(workflowInstance.getWfModel().getBody()));
 
 		step.setWorkflowInstanceState(workflowInstanceState);
 		workflowInstanceState.addSteps(step);
@@ -203,10 +214,10 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
 		return Optional.of(workflowInstanceMapper.toDto(workflowInstance));
 	}
 
-	private CurrentStep createCurrentStep(Set<MdlUser> guests) {
+	private CurrentStep createCurrentStep(Set<MdlUser> guests, String stepIdent) {
 		CurrentStep step = new CurrentStep();
 
-		step.stepIdent("0").numberOfAnswer(0);
+		step.stepIdent(stepIdent).numberOfAnswer(0);
 
 		for (MdlUser mdlUser : guests) {
 			step.addUsers(mdlUser);
