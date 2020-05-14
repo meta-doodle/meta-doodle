@@ -15,11 +15,11 @@ export class DateSelectorComponent implements OnInit {
   constructor(private surveyService: SurveyService) {}
 
   ngOnInit(): void {
-    this.surveyService.answers[this.question.questionId] = [];
+    this.surveyService.answers[this.question.questionID] = [];
   }
 
   onChange(value: string): void {
-    this.surveyService.setKey(this.question.questionId, value);
+    this.surveyService.setKey(this.question.questionID, value);
   }
 
   dateBegin(): string {
