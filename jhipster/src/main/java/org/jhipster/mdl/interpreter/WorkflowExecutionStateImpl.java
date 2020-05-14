@@ -1,10 +1,14 @@
 package org.jhipster.mdl.interpreter;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.jhipster.mdl.domain.CurrentStep;
 import org.jhipster.mdl.domain.MdlUser;
-import org.jhipster.mdl.domain.WorkflowInstanceState;
+import org.jhipster.mdl.domain.WorkflowInstance;
+import org.jhipster.mdl.repository.AnswerRepository;
+import org.jhipster.mdl.repository.CurrentStepRepository;
 import org.xtext.metadoodle.interpreter.Implementation.IDImpl;
 import org.xtext.metadoodle.interpreter.Interface.Answer;
 import org.xtext.metadoodle.interpreter.Interface.ID;
@@ -13,49 +17,113 @@ import org.xtext.metadoodle.interpreter.Interface.WorkflowExecutionState;
 
 public class WorkflowExecutionStateImpl implements WorkflowExecutionState {
 
-	private WorkflowInstanceState workflowInstanceState;
+	private WorkflowInstance workflowInstance;
 	private MdlUser mdlUser;
-	private boolean endOfStep;
 
-	public WorkflowExecutionStateImpl(WorkflowInstanceState workflowInstanceState, MdlUser mdlUser, boolean endOfStep) {
-		this.workflowInstanceState = workflowInstanceState;
+	private CurrentStepRepository currentStepRepository;
+	private AnswerRepository answerRepository;
+
+	private boolean endOfStep = false;
+
+	public WorkflowExecutionStateImpl(WorkflowInstance workflowInstance, MdlUser mdlUser,
+			CurrentStepRepository currentStepRepository, AnswerRepository answerRepository) {
+		this.workflowInstance = workflowInstance;
 		this.mdlUser = mdlUser;
+		this.currentStepRepository = currentStepRepository;
+		this.answerRepository = answerRepository;
+	}
+
+	public WorkflowExecutionStateImpl setEndOfStep(boolean endOfStep) {
 		this.endOfStep = endOfStep;
+		return this;
+	}
+
+	public WorkflowInstance getWorkflowInstance() {
+		return workflowInstance;
+	}
+	
+	public Optional<CurrentStep> findCurrentStep() {
+		for (CurrentStep currentStep : currentStepRepository.findAllWithEagerRelationships()) {
+			if (currentStep.getUsers().contains(mdlUser)
+					&& currentStep.getWorkflowInstanceState().getId() == workflowInstance.getState().getId()) {
+				return Optional.of(currentStep);
+			}
+		}
+		return Optional.empty();
+	}
+	
+	public CurrentStepRepository getCurrentStepRepository() {
+		return currentStepRepository;
+	}
+	
+	public MdlUser getMdlUser() {
+		return mdlUser;
+	}
+	
+	public boolean isEndOfStep() {
+		return endOfStep;
+	}
+
+	private List<org.jhipster.mdl.domain.Answer> getListAnswer(String stepIdent) {
+		return answerRepository
+				.findAll().parallelStream().filter(a -> a.getWorkflowInstance().equals(workflowInstance)
+						&& a.getStepIdent().equals(stepIdent) && a.getUser().equals(mdlUser))
+				.collect(Collectors.toList());
 	}
 
 	@Override
 	public Optional<Answer> getCurrentAnswer() {
+		Optional<CurrentStep> currentStep = findCurrentStep();
+		if (currentStep.isPresent()) {
+			Answer answer = new Answer() {
+
+				@Override
+				public ID getUserID() {
+					return new IDImpl(mdlUser.getUser().getLogin());
+				}
+
+				@Override
+				public ID getStepID() {
+					return new IDImpl(currentStep.get().getStepIdent());
+				}
+
+				@Override
+				public List<String> getAnswer(ID id) {
+					String answerID = id.getID();
+					List<String> list = answerRepository.findAll().parallelStream()
+							.filter(a -> a.getQuestionIdent().equals(answerID)
+									&& a.getStepIdent().equals(currentStep.get().getStepIdent())
+									&& a.getUser().equals(mdlUser))
+							.map(a -> a.getAnswer()).collect(Collectors.toList());
+					return list;
+				}
+			};
+			return Optional.of(answer);
+		}
 		return Optional.empty();
 	}
 
 	@Override
 	public ID getCurrentStepID() {
-		Optional<CurrentStep> optStep = workflowInstanceState.findCurrentStepContainingMdlUser(mdlUser);
-		if(optStep.isPresent()) {
-			CurrentStep step = optStep.get();
-			return new IDImpl(step.getStepIdent());
+		String id = "Error";
+		if (findCurrentStep().isPresent()) {
+			id = findCurrentStep().get().getStepIdent();
 		}
-		return new IDImpl("Etape_1");
+		return new IDImpl(id);
 	}
 
 	@Override
 	public int getNumberAnwers(ID id) {
-//		Optional<CurrentStep> optStep = workflowInstanceState.findCurrentStepContainingMdlUser(mdlUser);
-//		if(optStep.isPresent()) {
-//			CurrentStep step = optStep.get();
-//			return step.getNumberOfAnswer();
-//		}
+		Optional<CurrentStep> currentStep = findCurrentStep();
+		if (currentStep.isPresent()) {
+			return getListAnswer(currentStep.get().getStepIdent()).size();
+		}
 		return 0;
 	}
 
 	@Override
 	public int getNumberOfUser() {
-//		Optional<Integer> nbUsers = workflowInstanceState.getSteps().parallelStream()
-//				.map(step -> step.getUsers().size()).reduce((x, y) -> x + y);
-//		if(nbUsers.isPresent()) {
-//			return nbUsers.get();
-//		}
-		return 0;
+		return workflowInstance.getGuests().size();
 	}
 
 	@Override

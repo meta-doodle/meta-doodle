@@ -8,6 +8,8 @@ import org.jhipster.mdl.domain.WorkflowInstance;
 import org.jhipster.mdl.domain.WorkflowInstanceState;
 import org.jhipster.mdl.domain.WorkflowModel;
 import org.jhipster.mdl.interpreter.InterpreterInterface;
+import org.jhipster.mdl.interpreter.WorkflowExecutionStateImpl;
+import org.jhipster.mdl.repository.AnswerRepository;
 import org.jhipster.mdl.repository.CurrentStepRepository;
 import org.jhipster.mdl.repository.MdlUserRepository;
 import org.jhipster.mdl.repository.WorkflowInstanceRepository;
@@ -52,16 +54,19 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
 
 	private CurrentStepRepository currentStepRepository;
 
+	private AnswerRepository answerRepository;
+
 	public WorkflowInstanceServiceImpl(WorkflowInstanceRepository workflowInstanceRepository,
 			WorkflowInstanceMapper workflowInstanceMapper, WorkflowModelRepository workflowModelRepository,
 			MdlUserRepository mdlUserRepository, WorkflowInstanceStateRepository workflowInstanceStateRepository,
-			CurrentStepRepository currentStepRepository) {
+			CurrentStepRepository currentStepRepository, AnswerRepository answerRepository) {
 		this.workflowInstanceRepository = workflowInstanceRepository;
 		this.workflowInstanceMapper = workflowInstanceMapper;
 		this.workflowModelRepository = workflowModelRepository;
 		this.mdlUserRepository = mdlUserRepository;
 		this.workflowInstanceStateRepository = workflowInstanceStateRepository;
 		this.currentStepRepository = currentStepRepository;
+		this.answerRepository = answerRepository;
 	}
 
 	/**
@@ -147,8 +152,12 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
 			log.debug("MdlUser {} not found in WorkflowInstance guests", login);
 			return Optional.empty();
 		}
+		
+		WorkflowExecutionStateImpl workflowExecutionStateImpl = new WorkflowExecutionStateImpl(wfi,
+				mdlUser.get(), currentStepRepository, answerRepository);
+		workflowExecutionStateImpl.setEndOfStep(true);
 
-		return InterpreterInterface.getWorkflowStepData(wfi, mdlUser.get(), currentStepRepository, false);
+		return InterpreterInterface.getWorkflowStepData(workflowExecutionStateImpl);
 
 		/*
 		 * FakeReturnExec ret = FakeInterpreter.INTERPRETER.exec(
