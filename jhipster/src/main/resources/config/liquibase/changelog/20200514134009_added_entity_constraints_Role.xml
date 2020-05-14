@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <!--
+        Added the constraints for entity Role.
+    -->
+    <changeSet id="20200514134009-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="role"
+                                 constraintName="fk_role_user_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="mdl_user"/>
+
+        <addForeignKeyConstraint baseColumnNames="workflow_instance_id"
+                                 baseTableName="role"
+                                 constraintName="fk_role_workflow_instance_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="workflow_instance"/>
+
+    </changeSet>
+</databaseChangeLog>

@@ -59,6 +59,7 @@ public class CacheConfiguration {
             createCache(cm, org.jhipster.mdl.domain.CurrentStep.class.getName() + ".users");
             createCache(cm, org.jhipster.mdl.domain.Answer.class.getName());
             createCache(cm, org.jhipster.mdl.domain.MdlUser.class.getName() + ".steps");
+            createCache(cm, org.jhipster.mdl.domain.Role.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }
