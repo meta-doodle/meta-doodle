@@ -1,5 +1,6 @@
 package org.jhipster.mdl.service.impl;
 
+import org.jhipster.mdl.service.MailService;
 import org.jhipster.mdl.service.WorkflowInstanceService;
 import org.jhipster.mdl.domain.CurrentStep;
 import org.jhipster.mdl.domain.MdlUser;
@@ -55,11 +56,13 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
 	private CurrentStepRepository currentStepRepository;
 
 	private AnswerRepository answerRepository;
+	
+	private MailService mailService;
 
 	public WorkflowInstanceServiceImpl(WorkflowInstanceRepository workflowInstanceRepository,
 			WorkflowInstanceMapper workflowInstanceMapper, WorkflowModelRepository workflowModelRepository,
 			MdlUserRepository mdlUserRepository, WorkflowInstanceStateRepository workflowInstanceStateRepository,
-			CurrentStepRepository currentStepRepository, AnswerRepository answerRepository) {
+			CurrentStepRepository currentStepRepository, AnswerRepository answerRepository, MailService mailService) {
 		this.workflowInstanceRepository = workflowInstanceRepository;
 		this.workflowInstanceMapper = workflowInstanceMapper;
 		this.workflowModelRepository = workflowModelRepository;
@@ -67,6 +70,7 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
 		this.workflowInstanceStateRepository = workflowInstanceStateRepository;
 		this.currentStepRepository = currentStepRepository;
 		this.answerRepository = answerRepository;
+		this.mailService = mailService;
 	}
 
 	/**
@@ -210,6 +214,19 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
 		workflowInstance.setState(workflowInstanceState);
 
 		workflowInstance = workflowInstanceRepository.save(workflowInstance);
+
+		// TODO: Placeholder invite e-mail for localhost:8080 testing, replace this
+		for (MdlUser mdlUser : mdlUserRepository.findAll()) {
+			for (String mails : workflowInstanceParamsDTO.getGuests()) {
+				User user = mdlUser.getUser();
+				if (user != null && mails.equalsIgnoreCase(user.getEmail())) {
+					String emailContent = "Hello "+user.getEmail()+", you have been invited to the following workflow: "
+							+ "http://localhost:8080/workflow-instance/"+workflowInstance.getId()+"/view";
+					
+					mailService.sendEmail(user.getEmail(), "MetaDoodle - New invitation", emailContent, false, false);
+				}
+			}
+		}
 
 		return Optional.of(workflowInstanceMapper.toDto(workflowInstance));
 	}
