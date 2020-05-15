@@ -1,27 +1,17 @@
 package org.jhipster.mdl.interpreter;
 
-import java.io.IOException;
-import java.net.Socket;
-import java.net.UnknownHostException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Date;
 import java.util.Optional;
-import java.util.Properties;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 
 import org.jhipster.mdl.domain.CurrentStep;
 import org.jhipster.mdl.domain.MdlUser;
 import org.jhipster.mdl.domain.WorkflowInstanceState;
+import org.jhipster.mdl.service.MailService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xtext.metadoodle.interpreter.Interface.Interpreter;
@@ -30,18 +20,16 @@ import org.xtext.metadoodle.interpreter.Interface.StepDTO;
 import org.xtext.metadoodle.interpreter.Interface.StepDTOFactory;
 import org.xtext.metadoodle.interpreteur.implementation.InterpreterImpl;
 
-import com.sun.mail.smtp.SMTPTransport;
-
 public class InterpreterInterface {
 	private static final Logger log = LoggerFactory.getLogger(InterpreterInterface.class);
 
 	private static final Interpreter INTERPRETER = new InterpreterImpl();
 	
-	private static final String smtpHost = "smtp.gmail.com";
-	private static final String auth = "false";
-	private static final int port = 587;
-	private static final String sender = "metadoodle2020@gmail.com";
+	private static MailService mailService;
 	
+	public InterpreterInterface(MailService mailservice) {
+		InterpreterInterface.mailService = mailservice;
+	}
 
 	public static Optional<StepDTO> getWorkflowStepData(WorkflowExecutionStateImpl workflowExecutionStateImpl) {
 		log.debug("Resquest WorkflowStepData");
@@ -93,12 +81,8 @@ public class InterpreterInterface {
 					@Override
 					public void run() {
 						log.info("send mail");
-						try {
-							sendMail(mailReminder.getObject(), mailReminder.getBody(), mdlUser.getUser().getEmail());
-						} catch (MessagingException | IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+						mailService.sendEmail(mdlUser.getUser().getEmail(), mailReminder.getObject(), mailReminder.getBody(), false, false);
+//						sendMail(mailReminder.getObject(), mailReminder.getBody(), mdlUser.getUser().getEmail());
 					}
 				}, d);
 			}
@@ -108,24 +92,10 @@ public class InterpreterInterface {
 		}
 		
 	}
-
-	private static void sendMail(String object, String body, String mailAddress) throws AddressException, MessagingException, UnknownHostException, IOException {
-		Properties props = System.getProperties();
-		props.put("mail.smtp.host", smtpHost);
-		props.put("mail.smtp.auth", auth);
-		Session session = Session.getInstance(props, null);
-		Message msg = new MimeMessage(session);
-		msg.setFrom(new InternetAddress(sender));
-		msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(mailAddress, false));
-		msg.setSubject(object);
-		msg.setText(body);
-		msg.setSentDate(new Date());
-		Socket socket = new Socket(smtpHost, port);
-		SMTPTransport t = (SMTPTransport)session.getTransport("smtp");
-		t.connect(socket);
-		t.sendMessage(msg, msg.getAllRecipients());
-		t.close();
-	}
+	
+//	private static void sendMail(String object, String body, String mailAddress) {
+//		//TODO
+//	}
 
 	public static String getStepIdent(String wfModel) {
 		return INTERPRETER.getWorkflowData(wfModel).getIDFirstStep();
