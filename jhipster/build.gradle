@@ -284,6 +284,8 @@ dependencies {
     ext.xtextVersion = '2.20.0'
     compile "org.eclipse.xtext:org.eclipse.xtext:${xtextVersion}"
 	compile "org.eclipse.xtext:org.eclipse.xtext.xbase:${xtextVersion}"
+	// https://mvnrepository.com/artifact/javax.mail/mail
+compile group: 'javax.mail', name: 'mail', version: '1.4.1'
 }
 
 if (project.hasProperty("gae")) {
