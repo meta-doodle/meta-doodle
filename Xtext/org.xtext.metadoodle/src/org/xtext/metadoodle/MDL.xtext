@@ -15,7 +15,7 @@ WorkflowStepLan :
     '{' 'StepName' name=ID
     'Comment' comment=STRING
     ('Role' role=[RoleLan])?
-    ('NextStep' nextStep+=[WorkflowStepLan])?
+    ('NextStep' nextStep=[WorkflowStepLan])?
     ( userInteraction+=UserInteractionLan )?
     synchro=SynchroLan
     (reminders=MailReminderLan)? '}'
@@ -42,17 +42,18 @@ StandardQuestionLan:
 	'QuestionTitle' title=STRING
     'AnswerType' answerType=AnswerTypeLan
     ('MaxPossibleAnswer' MaxPossibleAnswer=INT)?
-    ('PossibleAnswers' ('(' (responses+=STRING)+ ) ')')? '}'
+    ('PossibleAnswers' '(' (responses+=STRING)+ ')')? '}'
 	// maxPossibleAnswer ne sera pas pris en compte tout de suite.
 ;
 
 GotoQuestionLan:
 	'{' 'QuestionID' id=ID
 	'QuestionTitle' title=STRING
-    '(' 'PossibleAnswers' (
-    	'NextStep' nextStep+=[WorkflowStepLan]
-    	responses+=STRING
-    )+ ')' '}'
+    'PossibleAnswers' '(' gotoNextStep+=PossibleAnswerLan ')' '}'
+;
+
+PossibleAnswerLan:
+	('NextStep' nextStep=[WorkflowStepLan])? responses=STRING
 ;
 
 AnswerTypeLan:

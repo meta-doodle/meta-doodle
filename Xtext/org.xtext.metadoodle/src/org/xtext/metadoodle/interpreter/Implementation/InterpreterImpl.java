@@ -12,6 +12,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.logging.Logger;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -43,9 +44,13 @@ public class InterpreterImpl implements Interpreter {
 	 * Liste des ast déjà calculé lié avec le model.
 	 */
 	private Map<String, EObject> astList;
+	private String errorMessage;
+	private boolean haveProblem;
 	
 	public InterpreterImpl() {
 		astList = new HashMap<>();
+		errorMessage = "";
+		haveProblem = false;
 	}
 	
 	@Override
@@ -106,7 +111,6 @@ public class InterpreterImpl implements Interpreter {
 		String date;
 		boolean isFind = false;
 		WorkflowStepLan curStepLan = null;
-		List<WorkflowStepLan> nextSteps;
 		
 		// Récupération de l'ancienne étape courrante.
 		for(WorkflowStepLan stepLan : root.getSteps()) {
@@ -128,15 +132,7 @@ public class InterpreterImpl implements Interpreter {
 
 				LOG.info("CurDate : " + curDate + " | stepDate : " + endStepDate);
 				if(endStepDate.before(curDate)) { // Si l'étape est passée,
-					nextSteps = curStepLan.getNextStep();
-					
-					if(nextSteps.size() == 1) {
-						curStepLan = nextSteps.get(0);
-					} else if(nextSteps.size() == 0) {
-						return new NoStepDTOFact(curStepLan.getName(), "Il n'y a plus d'étape suivante.");
-					}else {
-						// TODO : si plusieurs next step.
-					}
+					curStepLan = getNextStepLan(curStepLan);
 					continue;
 				}
 			} catch (ParseException e) {
@@ -160,12 +156,33 @@ public class InterpreterImpl implements Interpreter {
 			isFind = true;
 		}
 		
+		if(this.haveProblem) {
+			return new NoStepDTOFact(curStepLan.getName(), this.errorMessage);
+		}
+		
 		return new StepDTOFactoryImpl(
 				getStepDTO(curStepLan), 
 				getMailReminder(curStepLan, wes), 
 				curStepLan.getName());
 	}
 
+	private WorkflowStepLan getNextStepLan(WorkflowStepLan curStepLan) {
+		EList<WorkflowStepLan> nextSteps = curStepLan.getNextStep();
+		
+		if(nextSteps.size() == 1) {
+			curStepLan = nextSteps.get(0);
+		} else if(nextSteps.size() == 0) {
+			this.haveProblem = true;
+			this.errorMessage += "Workflow terminé.";
+			return curStepLan;
+		}else {
+			for(int i = 0; i < nextSteps.size(); i++) {
+				
+			}
+		}
+		return curStepLan;
+	}
+	
 	private StepDTOImpl getStepDTO(WorkflowStepLan stepLan) {
 		// TODO Auto-generated method stub
 		return null;
