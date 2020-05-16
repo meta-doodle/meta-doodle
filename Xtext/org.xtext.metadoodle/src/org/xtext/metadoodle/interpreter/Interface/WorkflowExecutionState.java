@@ -1,5 +1,6 @@
 package org.xtext.metadoodle.interpreter.Interface;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -19,10 +20,12 @@ public interface WorkflowExecutionState {
 	public int getNumberOfUser();
 	
 	/**
-	 * Cette méthode retourne l'id de l'étape courrante.
+	 * Cette méthode retourne la liste des id des étapes jusqu'à 
+	 * l'étape courrante.
+	 * La liste est vide si l'étape en cours est la première étape.
 	 * @return
 	 */
-	public String getCurrentStepID();
+	public List<String> getPathCurrentStep();
 	
 	/**
 	 * Retourne le nombre de personne qui ont déjà répondu à cette 

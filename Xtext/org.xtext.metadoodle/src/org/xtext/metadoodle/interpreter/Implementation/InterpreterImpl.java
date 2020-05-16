@@ -102,47 +102,36 @@ public class InterpreterImpl implements Interpreter {
 	 * à StepDTOFactory (géré par nous).
 	 * @param root
 	 * @return Ne peut pas être null.
-	 */
+	 */	
 	private StepDTOFactory getStepDTOFactory(WorkflowLan root, WorkflowExecutionState wes) {
-		
-		// Récupération de la bonne étape.
-		WorkflowStepLan stepLan = getStepLanID(root, wes);
-		
-		return new StepDTOFactoryImpl(getStepDTO(stepLan), getMailReminder(stepLan, wes), stepLan.getName());
-	}
-	
-	private WorkflowStepLan getStepLanID(WorkflowLan root, WorkflowExecutionState wes) {
 		Date curDate = new Date(), endStepDate;
 		String date;
-		boolean isFind = false, isQuestFind;
-		WorkflowStepLan curStepLan = root.getFirstStep();
-		AbrstractQuest quest = null;
+		boolean isFind = false, isQuestFind = false;
+		WorkflowStepLan curStepLan = root.getFirstStep(), oldStepLan;
+		StandardQuestionLan quest = null;
+		GotoQuestionLan gotoQuest = null;
 		SurveyLan survey = null;
+		List<WorkflowStepLan> nextSteps;
 		
-		// Récupération de l'étape courrante.
-		while(!isFind) {
-
-			if(!curStepLan.getName().equals(wes.getCurrentStepID())) {
-				if(curStepLan.getNextStep() == null) {
-					if(curStepLan.getUserInteraction().get(0).getClass().getName().equals("SurveyLan")) {
-						survey = (SurveyLan) curStepLan.getUserInteraction().get(0);
-						quest = survey.getQuestions().get(0);
-						
-					} else {
-						// C'était la dernière étape.
-					}
-				} else {
-					curStepLan = curStepLan.getNextStep();
+		// Récupération de l'ancienne étape courrante.
+		for(String id : wes.getPathCurrentStep()) { // Parcour des anciennes étapes.
+			oldStepLan = curStepLan;
+			
+			for(WorkflowStepLan step : curStepLan.getNextStep()) {
+				if(step.getName().equals(id)) {
+					curStepLan = step;
+					continue;
 				}
-			} else {
-				isFind = true;
+			}
+			
+			// Pas sur de cette vérification.
+			if(oldStepLan.getName().equals(curStepLan.getName())) {
+				throw new IllegalArgumentException("Erreur dans la récupération de l'étape courrante.");
 			}
 		}
-			
-		isFind = false;
 		
+		// récupération de la nouvelle étape courrante
 		while(!isFind) {
-			
 			
 			// ********** Vérification de la date **********
 			SynchroLan synchro = curStepLan.getSynchro();
@@ -154,7 +143,15 @@ public class InterpreterImpl implements Interpreter {
 
 				LOG.info("CurDate : " + curDate + " | stepDate : " + endStepDate);
 				if(endStepDate.before(curDate)) { // Si l'étape est passée,
-					curStepLan = curStepLan.getNextStep();
+					nextSteps = curStepLan.getNextStep();
+					
+					if(nextSteps.size() == 1) {
+						curStepLan = nextSteps.get(0);
+					} else if(nextSteps.size() == 0) {
+						return new NoStepDTOFact(curStepLan.getName(), "Il n'y a plus d'étape suivante.");
+					}else {
+						// TODO : si plusieurs next stap.
+					}
 					continue;
 				}
 			} catch (ParseException e) {
@@ -173,7 +170,10 @@ public class InterpreterImpl implements Interpreter {
 			// TODO
 		}
 		
-		return curStepLan;
+		return new StepDTOFactoryImpl(
+				getStepDTO(curStepLan), 
+				getMailReminder(curStepLan, wes), 
+				curStepLan.getName());
 	}
 
 	private StepDTOImpl getStepDTO(WorkflowStepLan stepLan) {
@@ -242,8 +242,8 @@ public class InterpreterImpl implements Interpreter {
 				return 0;
 			}
 			@Override
-			public String getCurrentStepID() {
-				return "Etape_1";
+			public List<String> getPathCurrentStep() {
+				return null;
 			}
 			@Override
 			public Optional<Answer> getCurrentAnswer() {
