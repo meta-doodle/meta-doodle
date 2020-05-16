@@ -166,7 +166,16 @@ public class InterpreterImpl implements Interpreter {
 				curStepLan.getName());
 	}
 
-	private WorkflowStepLan getNextStepLan(WorkflowStepLan curStepLan) {
+	private WorkflowStepLan getNextStepLan(WorkflowStepLan curStepLan, WorkflowExecutionState wes) {
+		WorkflowStepLan defaultNextStep = curStepLan.getNextStep();
+		
+		if(defaultNextStep == null) {
+			// TODO dernière étape.
+		}
+		
+		
+		
+		
 		EList<WorkflowStepLan> nextSteps = curStepLan.getNextStep();
 		
 		if(nextSteps.size() == 1) {
