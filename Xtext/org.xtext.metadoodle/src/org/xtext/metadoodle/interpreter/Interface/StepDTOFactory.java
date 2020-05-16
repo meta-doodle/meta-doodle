@@ -24,5 +24,5 @@ public interface StepDTOFactory {
 	 */
 	public void addResponses(String questionID, String response);
 	
-	public Optional<String> getMessage();
+	public Optional<String> getError();
 }

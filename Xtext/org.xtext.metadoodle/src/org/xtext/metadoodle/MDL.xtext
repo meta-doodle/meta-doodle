@@ -15,7 +15,7 @@ WorkflowStepLan :
     '{' 'StepName' name=ID
     'Comment' comment=STRING
     ('Role' role=[RoleLan])?
-    'NextStep' nextStep+=[WorkflowStepLan]
+    ('NextStep' nextStep+=[WorkflowStepLan])?
     ( userInteraction+=UserInteractionLan )?
     synchro=SynchroLan
     (reminders=MailReminderLan)? '}'

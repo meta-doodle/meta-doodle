@@ -106,27 +106,14 @@ public class InterpreterImpl implements Interpreter {
 	private StepDTOFactory getStepDTOFactory(WorkflowLan root, WorkflowExecutionState wes) {
 		Date curDate = new Date(), endStepDate;
 		String date;
-		boolean isFind = false, isQuestFind = false;
-		WorkflowStepLan curStepLan = root.getFirstStep(), oldStepLan;
-		StandardQuestionLan quest = null;
-		GotoQuestionLan gotoQuest = null;
-		SurveyLan survey = null;
+		boolean isFind = false;
+		WorkflowStepLan curStepLan = null;
 		List<WorkflowStepLan> nextSteps;
 		
 		// Récupération de l'ancienne étape courrante.
-		for(String id : wes.getPathCurrentStep()) { // Parcour des anciennes étapes.
-			oldStepLan = curStepLan;
-			
-			for(WorkflowStepLan step : curStepLan.getNextStep()) {
-				if(step.getName().equals(id)) {
-					curStepLan = step;
-					continue;
-				}
-			}
-			
-			// Pas sur de cette vérification.
-			if(oldStepLan.getName().equals(curStepLan.getName())) {
-				throw new IllegalArgumentException("Erreur dans la récupération de l'étape courrante.");
+		for(WorkflowStepLan stepLan : root.getSteps()) {
+			if(stepLan.getName().equals(wes.getCurrentStepID())) {
+				curStepLan = stepLan;
 			}
 		}
 		
@@ -150,7 +137,7 @@ public class InterpreterImpl implements Interpreter {
 					} else if(nextSteps.size() == 0) {
 						return new NoStepDTOFact(curStepLan.getName(), "Il n'y a plus d'étape suivante.");
 					}else {
-						// TODO : si plusieurs next stap.
+						// TODO : si plusieurs next step.
 					}
 					continue;
 				}
@@ -167,7 +154,9 @@ public class InterpreterImpl implements Interpreter {
 			}
 			
 			// ********** Vérification du role **********
-			// TODO
+			if(!curStepLan.getRole().getName().equals(wes.getRole())) {
+				return new NoStepDTOFact(curStepLan.getName(), "L'utilisateur n'a pas acces à cette étape.");
+			}
 		}
 		
 		return new StepDTOFactoryImpl(
@@ -242,10 +231,6 @@ public class InterpreterImpl implements Interpreter {
 				return 0;
 			}
 			@Override
-			public List<String> getPathCurrentStep() {
-				return null;
-			}
-			@Override
 			public Optional<Answer> getCurrentAnswer() {
 				return null;
 			}
@@ -256,6 +241,14 @@ public class InterpreterImpl implements Interpreter {
 			@Override
 			public boolean wantModifyThisStep() {
 				return false;
+			}
+			@Override
+			public String getCurrentStepID() {
+				return null;
+			}
+			@Override
+			public String getRole() {
+				return null;
 			}
 		};
 		

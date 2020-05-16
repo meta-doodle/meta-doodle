@@ -42,7 +42,7 @@ public class NoStepDTOFact implements StepDTOFactory {
 	}
 
 	@Override
-	public Optional<String> getMessage() {
+	public Optional<String> getError() {
 		return Optional.of(this.desc);
 	}
 }
