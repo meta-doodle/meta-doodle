@@ -18,7 +18,7 @@ WorkflowStepLan :
     'NextStep' nextStep+=[WorkflowStepLan]
     ( userInteraction+=UserInteractionLan )?
     synchro=SynchroLan
-    ('(' reminders=MailReminderLan ')')? '}'
+    (reminders=MailReminderLan)? '}'
 ;
 
 UserInteractionLan :
@@ -41,9 +41,8 @@ StandardQuestionLan:
 	'{' 'QuestionID' id=ID
 	'QuestionTitle' title=STRING
     'AnswerType' answerType=AnswerTypeLan
-    ('NextQuestion' nextQuestion=[AbrstractQuest])?
     ('MaxPossibleAnswer' MaxPossibleAnswer=INT)?
-    ('(' ( 'PossibleAnswers' (responses+=STRING)+ ) ')')? '}'
+    ('PossibleAnswers' ('(' (responses+=STRING)+ ) ')')? '}'
 	// maxPossibleAnswer ne sera pas pris en compte tout de suite.
 ;
 
@@ -84,7 +83,7 @@ SynchroLan:
 	'Synchro'
     '{' 'EndStepDate' endStepDate=DateIDLan
     // If we have a certain percentage of answer
-    'PrcentCompletionNeeded' percentageCompletionNeeded=INT '}'
+    'PercentCompletionNeeded' percentageCompletionNeeded=INT '}'
 ;
 
 MailReminderLan:

@@ -1,0 +1,71 @@
+MDLWorkflow Projet_M1
+Description "Edition des sujets de projet de M1."
+FirstStep etape_1
+Roles Professeur All Etudiant Responsable_projet
+Steps {
+	StepName etape_1
+	Comment "Proposition de sujet."
+	Role Professeur
+	Survey {
+		Questions{
+			QuestionID q1
+			QuestionTitle "Veuillez indiqué ci-dessous un sujet de projet pour un projet de M1"
+			AnswerType OpenQuestion
+		}
+	}
+	Synchro {
+		EndStepDate (propositionSujet "Date limite pour proposer et selectionner un sujet de Projet")
+		PercentCompletionNeeded 100
+	}
+	MailReminder {
+		Object "Suggestion de sujet de projet de M1."
+        Body "..."
+        Dates (MailSugestionSujet "date d'envoi du mail de suggestion de sujet.")
+    }
+}
+{
+	StepName etape_1
+	Comment "Selection d'un créneau de 4h pour les réunion de projet."
+	Role Responsable_projet
+	NextStep etape_2
+	Calendar {
+		StartingDate(lundi "lundi")
+		EndingDate (Samedi "Samedi")
+		Accuracy 1 : Hour
+	}
+	Synchro {
+		EndStepDate (endStepreunionprojet "")
+		PercentCompletionNeeded 0
+	}
+}
+{
+	StepName etape_2
+    Comment "Dépot du diaporama de présentation des projets."
+    Role Responsable_projet
+    FileUpload {
+        MimeTypes ".pdf" ".odt"
+    }
+    Synchro {
+        EndStepDate (step3 "date de fin etape 2 pour Responsable_projet")
+        PercentCompletionNeeded 0
+    }
+}
+{
+	StepName etape_1
+    Comment "Selection par les étudiants des sujet."
+    Role Etudiant
+    Survey {
+    	Questions {
+    		QuestionID q3
+    		QuestionTitle "Selectionnez les 3 sujets qui vous interesse le plus."
+    		AnswerType CheckBox
+    		PossibleAnswers ( "Reponse 1" "Reponse 2" "Reponse 3" "Reponse 4" "Reponse 4" "Reponse 5" "Reponse 6" "Reponse 7")
+		}        
+	}
+	Synchro {
+		EndStepDate ( finstepetudiant "date limite pour choisir un sujet")
+		PercentCompletionNeeded 0
+	}
+}
+
+
