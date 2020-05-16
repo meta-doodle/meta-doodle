@@ -16,7 +16,7 @@ WorkflowStepLan :
     'Comment' comment=STRING
     ('Role' role=[RoleLan])?
     ('NextStep' nextStep=[WorkflowStepLan])?
-    ( userInteraction+=UserInteractionLan )?
+    (userInteraction+=UserInteractionLan)*
     synchro=SynchroLan
     (reminders=MailReminderLan)? '}'
 ;
@@ -26,7 +26,7 @@ UserInteractionLan :
 ;
 
 SurveyLan:
-	'Survey'
+	'Survey' id=ID
 	'{' ('isAnonimousAnswer' isAnonimousAnswer=BOOLEAN)? 
 	'Questions' (questions+=StandardQuestionLan)* 
 	questions+=( StandardQuestionLan | GotoQuestionLan ) '}'
@@ -61,7 +61,7 @@ AnswerTypeLan:
 ;
 
 CalendarLan:
-	'Calendar'
+	'Calendar' id=ID
     '{' 'StartingDate' startDate=DATE
     'EndingDate' endDate=DATE 
     ('Accuracy' num=INT ':' unit=UnitLan)?
@@ -75,7 +75,7 @@ UnitLan:
 ;
 
 FileUploadLan:
-	'FileUpload'
+	'FileUpload' id=ID
     '{' ('SizeMaxInOctet' maxSize=INT)?
    	'MimeTypes' (mimeTypes+=STRING)+ '}'
 ;

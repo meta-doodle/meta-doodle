@@ -4,7 +4,7 @@ FirstStep choisir_date
 Steps {
 	StepName choisir_date
 	Comment ""
-	Survey {
+	Survey semaine {
 		Questions {
 			QuestionID disponibilite
 			QuestionTitle "Quand voulez-vous manger?"
@@ -24,7 +24,7 @@ Steps {
 {
 	StepName semaine_1
 	Comment "horaire"
-	Calendar {
+	Calendar s1 {
 		StartingDate 01/06/2020
 		EndingDate 06/06/2020
 		Accuracy 1 : Day
@@ -37,7 +37,7 @@ Steps {
 {
 	StepName semaine_2
 	Comment "horaire"
-	Calendar {
+	Calendar s2 {
 		StartingDate 08/06/2020
 		EndingDate 13/06/2020
 		Accuracy 1 : Day
@@ -50,7 +50,7 @@ Steps {
 {
 	StepName semaine_3
 	Comment "horaire"
-	Calendar {
+	Calendar s3 {
 		StartingDate 15/06/2020
 		EndingDate 20/06/2020
 		Accuracy 1 : Day
@@ -63,7 +63,7 @@ Steps {
 {
 	StepName semaine_4
 	Comment "horaire"
-	Calendar {
+	Calendar s4 {
 		StartingDate 22/06/2020
 		EndingDate 29/06/2020
 		Accuracy 1 : Day

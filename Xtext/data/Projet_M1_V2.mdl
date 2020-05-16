@@ -7,7 +7,7 @@ Steps {
 	Comment "Proposition de sujet."
 	Role Professeur
 	NextStep etape_2
-	Survey {
+	Survey sujet {
 		Questions{
 			QuestionID q1
 			QuestionTitle "Veuillez indiqué ci-dessous un sujet de projet pour un projet de M1"
@@ -29,7 +29,7 @@ Steps {
 	Comment "Selection d'un créneau de 4h pour les réunion de projet."
 	Role Responsable_projet
 	NextStep etape_3
-	Calendar {
+	Calendar creneau {
 		StartingDate 01/06/2020
 		EndingDate 08/06/2020
 		Accuracy 1 : Hour
@@ -44,7 +44,7 @@ Steps {
     Comment "Dépot du diaporama de présentation des projets."
     Role Responsable_projet
     NextStep etape_4
-    FileUpload {
+    FileUpload diapo {
         MimeTypes ".pdf" ".odt"
     }
     Synchro {
@@ -56,7 +56,7 @@ Steps {
 	StepName etape_4
     Comment "Selection par les étudiants des sujet."
     Role Etudiant
-    Survey {
+    Survey attribution {
     	Questions {
     		QuestionID q3
     		QuestionTitle "Selectionnez les 3 sujets qui vous interesse le plus."
