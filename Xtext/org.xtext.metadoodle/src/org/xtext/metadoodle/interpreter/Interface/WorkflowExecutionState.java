@@ -73,14 +73,8 @@ public interface WorkflowExecutionState {
 	public boolean isStepComplete();
 	
 	/**
-	 * Cette méthode retourne vrai si l'utilisateur souhaite modifier l'étape en cours.
-	 * @return
-	 */
-	public boolean wantModifyThisStep();
-	
-	/**
 	 * Retourne une map liant l'id de la date avec sa valeur.
 	 * @return
 	 */
-	public Map<String, String> getDateChoosen();
+	//public Map<String, String> getDateChoosen();
 }

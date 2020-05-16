@@ -61,8 +61,8 @@ AnswerTypeLan:
 
 CalendarLan:
 	'Calendar'
-    '{' 'StartingDate' startDate=DateIDLan
-    'EndingDate' endDate=DateIDLan 
+    '{' 'StartingDate' startDate=DATE
+    'EndingDate' endDate=DATE 
     ('Accuracy' num=INT ':' unit=UnitLan)?
     ('MaxPossibleAnswer' maxPossibleAnswer=INT)?
     ('MaxPeopleBySlot' maxPeopleBySlot=INT)? '}'
@@ -81,7 +81,7 @@ FileUploadLan:
 
 SynchroLan:
 	'Synchro'
-    '{' 'EndStepDate' endStepDate=DateIDLan
+    '{' 'EndStepDate' endStepDate=DATE
     // If we have a certain percentage of answer
     'PercentCompletionNeeded' percentageCompletionNeeded=INT '}'
 ;
@@ -90,11 +90,14 @@ MailReminderLan:
     'MailReminder'
     '{' 'Object' object=STRING
     'Body' body=STRING 
-    'Dates' (dateToSend+=DateIDLan)+ '}'
+    'Dates' (dateToSend+=DATE)+ '}'
 ;
 
-DateIDLan: '(' id=ID desc=STRING ')';
+//DateIDLan: '(' id=ID desc=STRING ')';
 RoleLan: name=(ID | 'All');
 
 // Lexing
 terminal BOOLEAN: 'true' | 'false';
+terminal DATE :
+	('0'..'3')('0'..'9')'/'('0'..'1')('0'..'9')'/'(('2'..'9')('0'..'9'))?('0'..'9')('0'..'9')
+;

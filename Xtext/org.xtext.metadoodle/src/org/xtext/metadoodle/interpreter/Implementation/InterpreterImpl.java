@@ -1,19 +1,17 @@
 package org.xtext.metadoodle.interpreter.Implementation;
 
-	import java.io.InputStream;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.logging.Logger;
 
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -122,7 +120,7 @@ public class InterpreterImpl implements Interpreter {
 			
 			// ********** Vérification de la date **********
 			SynchroLan synchro = curStepLan.getSynchro();
-			date = wes.getDateChoosen().get(synchro.getEndStepDate().getId());
+			date = synchro.getEndStepDate();
 			
 			LOG.info("Parse : " + date);
 			try {
@@ -144,19 +142,22 @@ public class InterpreterImpl implements Interpreter {
 			} catch (ParseException e) {
 				LOG.severe(e.getMessage());
 			}
-
-			// ********** Vérification du taux de réponse **********
-			// Si l'étape a déjà été complété et que l'utilisateur ne veut pas 
-			// la modifier.
-			if(wes.isStepComplete() && !wes.wantModifyThisStep()) { 
-				// Vérifier si possibilité de passer à l'étape suivante.
-				// TODO
-			}
 			
 			// ********** Vérification du role **********
 			if(!curStepLan.getRole().getName().equals(wes.getRole())) {
 				return new NoStepDTOFact(curStepLan.getName(), "L'utilisateur n'a pas acces à cette étape.");
+				// TODO : peut-étre passer à l'étape suivante.
 			}
+
+			// ********** Vérification du taux de réponse **********
+			// Si l'étape a déjà été complété et que l'utilisateur ne veut pas 
+			// la modifier.
+			if(wes.isStepComplete()) { 
+				// Vérifier si possibilité de passer à l'étape suivante.
+				// TODO
+			}
+			
+			isFind = true;
 		}
 		
 		return new StepDTOFactoryImpl(
@@ -177,8 +178,8 @@ public class InterpreterImpl implements Interpreter {
 		if(mail != null) {
 			ret = new MailReminderImpl(mail.getObject(), mail.getBody());
 			
-			for(DateIDLan date : mail.getDateToSend())
-				ret.addDate(wes.getDateChoosen().get(date.getId()));
+			for(String date : mail.getDateToSend())
+				ret.addDate(date);
 		}
 		return ret;
 	}
@@ -233,14 +234,6 @@ public class InterpreterImpl implements Interpreter {
 			@Override
 			public Optional<Answer> getCurrentAnswer() {
 				return null;
-			}
-			@Override
-			public Map<String, String> getDateChoosen() {
-				return null;
-			}
-			@Override
-			public boolean wantModifyThisStep() {
-				return false;
 			}
 			@Override
 			public String getCurrentStepID() {
