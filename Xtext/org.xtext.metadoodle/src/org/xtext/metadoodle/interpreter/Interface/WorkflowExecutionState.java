@@ -48,7 +48,9 @@ public interface WorkflowExecutionState {
 	 * @param stepID L'id de l'étape.
 	 * @return réponse précédente si présente
 	 */
-	public Optional<Answer> getPreviousAnswer(String reqID, String stepID);
+	//public Optional<Answer> getPreviousAnswer(String reqID, String stepID);
+	
+	public Optional<String> getPreviousAnswer(String reqID, String stepID);
 	
 	/**
 	 * Cette méthode retourne la valeur décidé grace à une question 

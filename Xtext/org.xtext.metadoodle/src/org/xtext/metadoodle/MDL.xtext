@@ -49,11 +49,11 @@ StandardQuestionLan:
 GotoQuestionLan:
 	'{' 'QuestionID' id=ID
 	'QuestionTitle' title=STRING
-    'PossibleAnswers' '(' gotoNextStep+=PossibleAnswerLan ')' '}'
+    'PossibleAnswers' '(' (gotoNextStep+=PossibleAnswerLan)+ ')' '}'
 ;
 
 PossibleAnswerLan:
-	('NextStep' nextStep=[WorkflowStepLan])? responses=STRING
+	('NextStep' nextStep=[WorkflowStepLan])? response=STRING
 ;
 
 AnswerTypeLan:

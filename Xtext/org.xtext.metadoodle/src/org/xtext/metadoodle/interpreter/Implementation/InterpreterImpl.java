@@ -168,28 +168,22 @@ public class InterpreterImpl implements Interpreter {
 
 	private WorkflowStepLan getNextStepLan(WorkflowStepLan curStepLan, WorkflowExecutionState wes) {
 		WorkflowStepLan defaultNextStep = curStepLan.getNextStep();
+		Optional<WorkflowStepLan> ret = null;
 		
 		if(defaultNextStep == null) {
 			// TODO dernière étape.
 		}
 		
+		StepSwitch ss = new StepSwitch(wes, curStepLan.getName());
 		
-		
-		
-		EList<WorkflowStepLan> nextSteps = curStepLan.getNextStep();
-		
-		if(nextSteps.size() == 1) {
-			curStepLan = nextSteps.get(0);
-		} else if(nextSteps.size() == 0) {
-			this.haveProblem = true;
-			this.errorMessage += "Workflow terminé.";
-			return curStepLan;
-		}else {
-			for(int i = 0; i < nextSteps.size(); i++) {
-				
+		for(UserInteractionLan i : curStepLan.getUserInteraction()) {
+			ret = ss.doSwitch(i);
+			if(ret.isPresent()) {
+				return ret.get();
 			}
 		}
-		return curStepLan;
+		
+		return defaultNextStep;
 	}
 	
 	private StepDTOImpl getStepDTO(WorkflowStepLan stepLan) {
@@ -246,10 +240,6 @@ public class InterpreterImpl implements Interpreter {
 				return null;
 			}
 			@Override
-			public Optional<Answer> getPreviousAnswer(String reqID, String stepID) {
-				return null;
-			}
-			@Override
 			public int getNumberOfUser() {
 				return 3;
 			}
@@ -267,6 +257,10 @@ public class InterpreterImpl implements Interpreter {
 			}
 			@Override
 			public String getRole() {
+				return null;
+			}
+			@Override
+			public Optional<String> getPreviousAnswer(String reqID, String stepID) {
 				return null;
 			}
 		};
