@@ -53,7 +53,7 @@ GotoQuestionLan:
 ;
 
 PossibleAnswerLan:
-	('NextStep' nextStep=[WorkflowStepLan])? responses=STRING
+	('NextStep' nextStep=[WorkflowStepLan])? response=STRING
 ;
 
 AnswerTypeLan:
