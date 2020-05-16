@@ -1,0 +1,75 @@
+MDLWorkflow soiree_pizza
+Description "choisir la date de la soirée pizza"
+FirstStep choisir_date
+Steps {
+	StepName choisir_date
+	Comment ""
+	Survey {
+		Questions {
+			QuestionID disponibilite
+			QuestionTitle "Quand voulez-vous manger?"
+			PossibleAnswers ( 
+				NextStep semaine_1 "dans une semaine"
+				NextStep semaine_2 "dans deux semaine"
+				NextStep semaine_3 "dans trois semaine"
+				NextStep semaine_4 "dans quatre semaine"
+				)
+		}
+	}
+	Synchro {
+		EndStepDate 30/05/2020
+		PercentCompletionNeeded 0
+	}
+}
+{
+	StepName semaine_1
+	Comment "horaire"
+	Calendar {
+		StartingDate 01/06/2020
+		EndingDate 06/06/2020
+		Accuracy 1 : Day
+	}
+	Synchro {
+		EndStepDate 30/05/2020
+		PercentCompletionNeeded 0
+	}
+}
+{
+	StepName semaine_2
+	Comment "horaire"
+	Calendar {
+		StartingDate 08/06/2020
+		EndingDate 13/06/2020
+		Accuracy 1 : Day
+	}
+	Synchro {
+		EndStepDate 30/05/2020
+		PercentCompletionNeeded 0
+	}
+}
+{
+	StepName semaine_3
+	Comment "horaire"
+	Calendar {
+		StartingDate 15/06/2020
+		EndingDate 20/06/2020
+		Accuracy 1 : Day
+	}
+	Synchro {
+		EndStepDate 30/05/2020
+		PercentCompletionNeeded 0
+	}
+}
+{
+	StepName semaine_4
+	Comment "horaire"
+	Calendar {
+		StartingDate 22/06/2020
+		EndingDate 29/06/2020
+		Accuracy 1 : Day
+	}
+	Synchro {
+		EndStepDate 30/05/2020
+		PercentCompletionNeeded 0
+	}
+}

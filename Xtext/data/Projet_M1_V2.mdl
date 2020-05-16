@@ -6,6 +6,7 @@ Steps {
 	StepName etape_1
 	Comment "Proposition de sujet."
 	Role Professeur
+	NextStep etape_2
 	Survey {
 		Questions{
 			QuestionID q1
@@ -14,44 +15,45 @@ Steps {
 		}
 	}
 	Synchro {
-		EndStepDate (propositionSujet "Date limite pour proposer et selectionner un sujet de Projet")
+		EndStepDate 20/05/2020
 		PercentCompletionNeeded 100
 	}
 	MailReminder {
 		Object "Suggestion de sujet de projet de M1."
         Body "..."
-        Dates (MailSugestionSujet "date d'envoi du mail de suggestion de sujet.")
+        Dates 18/05/2020 19/05/2020
     }
 }
 {
-	StepName etape_1
+	StepName etape_2
 	Comment "Selection d'un créneau de 4h pour les réunion de projet."
 	Role Responsable_projet
-	NextStep etape_2
+	NextStep etape_3
 	Calendar {
-		StartingDate(lundi "lundi")
-		EndingDate (Samedi "Samedi")
+		StartingDate 01/06/2020
+		EndingDate 08/06/2020
 		Accuracy 1 : Hour
 	}
 	Synchro {
-		EndStepDate (endStepreunionprojet "")
+		EndStepDate 25/05/2020
 		PercentCompletionNeeded 0
 	}
 }
 {
-	StepName etape_2
+	StepName etape_3
     Comment "Dépot du diaporama de présentation des projets."
     Role Responsable_projet
+    NextStep etape_4
     FileUpload {
         MimeTypes ".pdf" ".odt"
     }
     Synchro {
-        EndStepDate (step3 "date de fin etape 2 pour Responsable_projet")
+        EndStepDate 26/05/2020
         PercentCompletionNeeded 0
     }
 }
 {
-	StepName etape_1
+	StepName etape_4
     Comment "Selection par les étudiants des sujet."
     Role Etudiant
     Survey {
@@ -63,9 +65,8 @@ Steps {
 		}        
 	}
 	Synchro {
-		EndStepDate ( finstepetudiant "date limite pour choisir un sujet")
+		EndStepDate 10/06/2020
 		PercentCompletionNeeded 0
 	}
 }
-
 
