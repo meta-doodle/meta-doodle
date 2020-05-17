@@ -1,6 +1,5 @@
 package org.xtext.metadoodle.interpreter.Interface;
 
-import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -52,27 +51,27 @@ public interface WorkflowExecutionState {
 	
 	public Optional<String> getPreviousAnswer(String reqID, String stepID);
 	
-	/**
-	 * Cette méthode retourne la valeur décidé grace à une question 
-	 * précédente. Celle-ci étant associée à un nom "name".
-	 * 
-	 * @param name Le nom de la variable.
-	 * @return La valeur de la variable.
-	 */
-	public RetainedChoice getPreviousRetainedChoice(String name);
+//	/**
+//	 * Cette méthode retourne la valeur décidé grace à une question 
+//	 * précédente. Celle-ci étant associée à un nom "name".
+//	 * 
+//	 * @param name Le nom de la variable.
+//	 * @return La valeur de la variable.
+//	 */
+//	public RetainedChoice getPreviousRetainedChoice(String name);
 	
-	/**
-	 * Cette méthode retourne la précédente réponse de l'utilisateur 
-	 * (ou réponses par défault) ce cet utilisateur à la question courrante.
-	 * @return
-	 */
-	public Optional<Answer> getCurrentAnswer();
+//	/**
+//	 * Cette méthode retourne la précédente réponse de l'utilisateur 
+//	 * (ou réponses par défault) ce cet utilisateur à la question courrante.
+//	 * @return
+//	 */
+//	public Optional<Answer> getCurrentAnswer();
 	
-	/**
-	 * Méthode permettant de savoir si l'utilisateur a répondu à l'étape en cours.
-	 * @return
-	 */
-	public boolean isStepComplete();
+//	/**
+//	 * Méthode permettant de savoir si l'utilisateur a répondu à l'étape en cours.
+//	 * @return
+//	 */
+//	public boolean isStepComplete();
 	
 	/**
 	 * Retourne une map liant l'id de la date avec sa valeur.

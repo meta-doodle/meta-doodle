@@ -32,7 +32,7 @@ public class NoStepDTOFact implements StepDTOFactory {
 	}
 
 	@Override
-	public StepDTO Build() {
+	public StepDTO build() {
 		return null;
 	}
 

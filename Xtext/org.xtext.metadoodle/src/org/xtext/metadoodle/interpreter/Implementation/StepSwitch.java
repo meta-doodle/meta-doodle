@@ -1,6 +1,7 @@
 package org.xtext.metadoodle.interpreter.Implementation;
 
 import java.util.Optional;
+import java.util.logging.Logger;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
@@ -13,6 +14,9 @@ import org.xtext.metadoodle.mDL.WorkflowStepLan;
 import org.xtext.metadoodle.mDL.util.MDLSwitch;
 
 public class StepSwitch extends MDLSwitch<Optional<WorkflowStepLan>> {
+	
+	private static final Logger LOG = Logger.getLogger(StepSwitch.class.getName());
+	
 	private WorkflowExecutionState wes;
 	private String curStepID = null;
 	
@@ -23,6 +27,8 @@ public class StepSwitch extends MDLSwitch<Optional<WorkflowStepLan>> {
 	
 	@Override
 	public Optional<WorkflowStepLan> caseSurveyLan(SurveyLan object) {
+		LOG.info("Checking Survey Interaction");
+		
 		Optional<WorkflowStepLan> res;
 		
 		for(AbrstractQuest q : object.getQuestions()) {
@@ -37,17 +43,21 @@ public class StepSwitch extends MDLSwitch<Optional<WorkflowStepLan>> {
 	
 	@Override
 	public Optional<WorkflowStepLan> caseGotoQuestionLan(GotoQuestionLan object) {
+		LOG.info("Checking GotoQuestionLan Interaction");
 		EList<PossibleAnswerLan> steps = object.getGotoNextStep();
-		String rep = null;
 		
 		if(wes.getPreviousAnswer(object.getId(), curStepID).isPresent()) {
-			rep = wes.getPreviousAnswer(object.getId(), curStepID).get();
-		}
-		
-		for(PossibleAnswerLan pa : steps) {
-			if(pa.getResponse().equals(rep) && pa.getNextStep() != null) {
-				return Optional.of(pa.getNextStep());
+			LOG.info("One answer found for Interaction '"+ object.getId()+"'");
+			
+			String rep = wes.getPreviousAnswer(object.getId(), curStepID).get();
+			
+			for(PossibleAnswerLan pa : steps) {
+				if(pa.getResponse().equals(rep) && pa.getNextStep() != null) {
+					return Optional.of(pa.getNextStep());
+				}
 			}
+		} else {
+			LOG.info("No answer found for Interaction '"+ object.getId()+"'");
 		}
 		
 		return Optional.empty();

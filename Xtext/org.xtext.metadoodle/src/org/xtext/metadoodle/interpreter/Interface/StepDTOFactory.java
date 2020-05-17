@@ -15,7 +15,7 @@ public interface StepDTOFactory {
 	
 	public String getCurrentStepID();
 	
-	public StepDTO Build();
+	public StepDTO build();
 	
 	/**
 	 * Permet d'ajouter des réponses aux question déjà répondu.

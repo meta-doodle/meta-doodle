@@ -1,10 +1,8 @@
 package org.xtext.metadoodle.interpreter.Interface;
 
-import java.util.List;
-
-public interface Answer {
+public interface StepAnswer {
 	
-	public String getUserID();
+//	public String getUserID();
 	public String getStepID();
 	/**
 	 * Cette méthode retourne la réponse de l'utilisateur à la question 
@@ -13,5 +11,5 @@ public interface Answer {
 	 * @param reqID
 	 * @return
 	 */
-	public List<String> getAnswer(String reqID);
+	public String getAnswer(String reqID);
 }

@@ -4,22 +4,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import org.xtext.metadoodle.interpreter.Interface.UserInteractionDTO;
 
 public class UserInteractionDTOImpl implements UserInteractionDTO {
 
-	private String title, questionType, responses;
+	private String title, questionType, response = "";
 	private String questionID;
-	private boolean alreadyAnswered;
-	private List<String> possibleAnswer;
-	private Map<String, String> options;
+	private boolean alreadyAnswered = false;
+	private List<String> possibleAnswer = new ArrayList<>();
+	private Map<String, String> options = new HashMap<>();
 	
-	public UserInteractionDTOImpl() {
-		this.possibleAnswer = new ArrayList<>();
-		this.options = new HashMap<String, String>();
-		this.responses = null;
+	public UserInteractionDTOImpl(String id, String title, String type) {
+		this.questionID = id;
+		this.title = title;
+		this.questionType = type;
 	}
 	
 	@Override
@@ -29,7 +28,7 @@ public class UserInteractionDTOImpl implements UserInteractionDTO {
 
 	@Override
 	public String getQuestionID() {
-		return this.questionID.toString();
+		return this.questionID;
 	}
 
 	@Override
@@ -54,16 +53,13 @@ public class UserInteractionDTOImpl implements UserInteractionDTO {
 
 	@Override
 	public String getResponses() {
-		return this.responses;
+		return this.response;
 	}
 	
-	public void addResponse(String response) {
-		Objects.requireNonNull(response);
-		
-		if(this.responses == null) {
-			this.responses = "";
+	public void setResponse(String response) {
+		if(response != null && !response.isBlank()) {
+			this.response = response;
+			alreadyAnswered = true;
 		}
-		
-		this.responses += response + ",";
 	}
 }

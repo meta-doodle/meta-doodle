@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.xtext.metadoodle.interpreter.Interface.MailReminder;
+import org.xtext.metadoodle.mDL.MailReminderLan;
 
 public class MailReminderImpl implements MailReminder {
 
@@ -16,6 +17,12 @@ public class MailReminderImpl implements MailReminder {
 		this.objectMail = object;
 		this.bodyMail = body;
 		this.dates = new ArrayList<>();
+	}
+	
+	public MailReminderImpl(MailReminderLan mailReminderLan) {
+		objectMail = mailReminderLan.getObject();
+		bodyMail = mailReminderLan.getBody();
+		dates = mailReminderLan.getDateToSend();
 	}
 	
 	@Override
@@ -43,9 +50,9 @@ public class MailReminderImpl implements MailReminder {
 		this.dates.add(date);
 	}
 
-	@Override
-	public String getRole() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	public String getRole() {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 }

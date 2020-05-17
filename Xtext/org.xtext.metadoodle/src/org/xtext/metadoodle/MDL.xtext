@@ -16,7 +16,7 @@ WorkflowStepLan :
     'Comment' comment=STRING
     ('Role' role=[RoleLan])?
     ('NextStep' nextStep=[WorkflowStepLan])?
-    (userInteraction+=UserInteractionLan)*
+    (userInteraction+=UserInteractionLan)?
     synchro=SynchroLan
     (reminders=MailReminderLan)? '}'
 ;
@@ -26,10 +26,10 @@ UserInteractionLan :
 ;
 
 SurveyLan:
-	'Survey' id=ID
-	'{' ('isAnonimousAnswer' isAnonimousAnswer=BOOLEAN)? 
+	'Survey'
+	'{' //('isAnonimousAnswer' isAnonimousAnswer=BOOLEAN)? 
 	'Questions' (questions+=StandardQuestionLan)* 
-	questions+=( StandardQuestionLan | GotoQuestionLan ) '}'
+	questions+=( AbrstractQuest ) '}'
 	// IsAnonimous ne sera pas pris en compte tout de suite.
 ;
 
@@ -41,7 +41,7 @@ StandardQuestionLan:
 	'{' 'QuestionID' id=ID
 	'QuestionTitle' title=STRING
     'AnswerType' answerType=AnswerTypeLan
-    ('MaxPossibleAnswer' MaxPossibleAnswer=INT)?
+    //('MaxPossibleAnswer' MaxPossibleAnswer=INT)?
     ('PossibleAnswers' '(' (responses+=STRING)+ ')')? '}'
 	// maxPossibleAnswer ne sera pas pris en compte tout de suite.
 ;
@@ -65,8 +65,8 @@ CalendarLan:
     '{' 'StartingDate' startDate=DATE
     'EndingDate' endDate=DATE 
     ('Accuracy' num=INT ':' unit=UnitLan)?
-    ('MaxPossibleAnswer' maxPossibleAnswer=INT)?
-    ('MaxPeopleBySlot' maxPeopleBySlot=INT)? '}'
+    //('MaxPossibleAnswer' maxPossibleAnswer=INT)?
+    /*('MaxPeopleBySlot' maxPeopleBySlot=INT)?*/ '}'
 	// maxPossibleAnswer et maxPeopleBySlot ne seront pas pris en compte tout de suite.
 ;
 
