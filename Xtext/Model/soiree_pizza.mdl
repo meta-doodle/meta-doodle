@@ -10,12 +10,16 @@ workflow_soiree_pizza "Participation pour organiser une soiree pizza"
 			QuestionType: CheckBox
 			PossibleAnswers: "LA CUCINA" "DI TREVI" "Chez Geppetto" "Pizzeria la Pimprenelle""Amour de Pizza"
 		
+			QuestionTitle: "Quel est votre pizzeria preferee parmis ceux liste?"
+			QuestionType: RadioButton
+			PossibleAnswers:"LA CUCINA" "DI TREVI" "Chez Geppetto" "Pizzeria la Pimprenelle""Amour de Pizza"
+			
 			QuestionTitle: "Avez-vous des remarques?"
 			QuestionType: OpenQuestion
 	}
 	Synchro
 		//EndStepDate
-		14/05/2020
+		16/05/2020
 		0
 	(MailReminder 30/04/2020 02/05/2020 04/05/2020
 		"Participation Soirée Pizza!!!"
