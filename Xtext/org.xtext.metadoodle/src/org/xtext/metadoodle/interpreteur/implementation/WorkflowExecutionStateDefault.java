@@ -2,7 +2,6 @@ package org.xtext.metadoodle.interpreteur.implementation;
 
 import java.util.Optional;
 
-import org.xtext.metadoodle.interpreter.Implementation.IDImpl;
 import org.xtext.metadoodle.interpreter.Interface.Answer;
 import org.xtext.metadoodle.interpreter.Interface.ID;
 import org.xtext.metadoodle.interpreter.Interface.RetainedChoice;

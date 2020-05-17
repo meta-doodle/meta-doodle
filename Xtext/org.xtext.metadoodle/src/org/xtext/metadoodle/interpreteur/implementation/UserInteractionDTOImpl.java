@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.xtext.metadoodle.interpreter.Implementation.IDImpl;
 import org.xtext.metadoodle.interpreter.Interface.Answer;
 import org.xtext.metadoodle.interpreter.Interface.UserInteractionDTO;
 import org.xtext.metadoodle.interpreter.Interface.WorkflowExecutionState;
