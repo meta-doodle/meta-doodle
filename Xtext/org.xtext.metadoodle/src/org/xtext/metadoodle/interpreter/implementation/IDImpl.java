@@ -1,4 +1,4 @@
-package org.xtext.metadoodle.interpreteur.implementation;
+package org.xtext.metadoodle.interpreter.implementation;
 
 import org.xtext.metadoodle.interpreter.Interface.ID;
 
