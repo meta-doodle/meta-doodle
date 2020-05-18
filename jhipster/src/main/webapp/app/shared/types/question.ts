@@ -2,7 +2,10 @@ import {AvailableTypes} from "../model/enumerations/available-types.model";
 
 export interface  IQuestion {
   alreadyAnswered: boolean,
-  options :Map<string,string>,
+  options : {
+    dateBegin : string,
+    dateEnd : string,
+  },
   possibleAnswers: Array<string>,
   questionID : string,
   questionType: AvailableTypes,

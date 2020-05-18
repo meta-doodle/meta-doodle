@@ -54,7 +54,7 @@ private fb: FormBuilder
     const form = this.uploadModel;
     this.titre = form.value['titre'];
     this.description = form.value['description'];
-    this.body = form.value['body'];
+    this.body = form.get(['body'])!.value;
 
     this.post =   {
       title: this.titre,
