@@ -15,8 +15,8 @@
       <label for="body">
        Model :
       </label>
-    <input id="body" class="form-control" name="body" formControlName="body">
-    <div *ngIf="!uploadModel.valid" class="invalid-feedback">Please enter a valid email address</div>
+        <textarea id="body" class="form-control" name="body" formControlName="body"></textarea>
+    <div *ngIf="!uploadModel.valid" class="invalid-feedback">Champs requis</div>
   </div>
   <button type="submit" class="btn btn-primary" [disabled]="uploadModel.invalid">Créer</button>
 </form>
