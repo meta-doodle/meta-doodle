@@ -1,8 +1,7 @@
 package org.jhipster.mdl.service;
 
-import org.jhipster.mdl.domain.MdlUser;
-import org.jhipster.mdl.domain.User;
 import org.jhipster.mdl.service.dto.MdlUserDTO;
+import org.jhipster.mdl.service.dto.UserDTO;
 import org.jhipster.mdl.service.dto.WorkflowInstanceDTO;
 
 import java.util.List;
@@ -46,6 +45,8 @@ public interface MdlUserService {
     void delete(Long id);
 	
 	Optional<MdlUserDTO> convert(String login);
+	
+	Optional<UserDTO> getUser(long mdlId);
 	
 	Set<WorkflowInstanceDTO> getWorkflows(MdlUserDTO mdlUserDTO);
 }

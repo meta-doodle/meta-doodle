@@ -1,84 +1,78 @@
 <div>
     <h2 id="page-heading">
         <span>Workflow Instances</span>
-
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-workflow-instance" [routerLink]="['/workflow-instance/new']">
-            <fa-icon icon="plus"></fa-icon>
-            <span>
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span >
             Create a new Workflow Instance
             </span>
         </button>
     </h2>
-
     <jhi-alert-error></jhi-alert-error>
-
     <jhi-alert></jhi-alert>
-
-    <div class="alert alert-warning" id="no-result" *ngIf="workflowInstances?.length === 0">
+    <br/>
+    <div class="alert alert-warning" *ngIf="workflowInstances?.length === 0">
         <span>No workflowInstances found</span>
     </div>
-
-    <div class="table-responsive" id="entities" *ngIf="workflowInstances?.length > 0">
+    <div class="table-responsive" *ngIf="workflowInstances?.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
-                <tr>
-                    <th scope="col" ><span>ID</span></th>
-                    <th scope="col" ><span>Description</span></th>
-                    <th scope="col" ><span>State</span></th>
-                    <th scope="col" ><span>Wf Model</span></th>
-                    <th scope="col" ><span>Guests</span></th>
-                    <th scope="col" ><span>Creator</span></th>
-                    <th scope="col"></th>
-                </tr>
+            <tr>
+            <th scope="col" ><span>ID</span></th>
+            <th scope="col" ><span>Description</span></th>
+            <th scope="col" ><span>State</span></th>
+            <th scope="col" ><span>Wf Model</span></th>
+            <th scope="col" ><span>Guests</span></th>
+            <th scope="col" ><span>Creator</span></th>
+            <th scope="col"></th>
+            </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let workflowInstance of workflowInstances ;trackBy: trackId">
-                    <td><a [routerLink]="['/workflow-instance', workflowInstance.id, 'view']">{{ workflowInstance.id }}</a></td>
-                    <td>{{ workflowInstance.description }}</td>
-                    <td>
-                        <div *ngIf="workflowInstance.stateId">
-                            <a [routerLink]="['/workflow-instance-state', workflowInstance.stateId , 'view']" >{{ workflowInstance.stateId }}</a>
-                        </div>
-                    </td>
-                    <td>
-                        <div *ngIf="workflowInstance.wfModelId">
-                            <a [routerLink]="['/workflow-model', workflowInstance.wfModelId , 'view']" >{{ workflowInstance.wfModelId }}</a>
-                        </div>
-                    </td>
-                    <td>
-                        <span *ngFor="let guests of workflowInstance.guests; let last = last">
-                            <a class="form-control-static" [routerLink]="['/mdl-user', guests?.id, 'view']">{{ guests.id }}</a>{{ last ? '' : ', ' }}
+            <tr *ngFor="let workflowInstance of workflowInstances ;trackBy: trackId">
+                <td><a [routerLink]="['/workflow-instance', workflowInstance.id, 'view' ]">{{workflowInstance.id}}</a></td>
+                <td>{{workflowInstance.description}}</td>
+                <td>
+                    <div *ngIf="workflowInstance.stateId">
+                        <a [routerLink]="['/workflow-instance-state', workflowInstance.stateId , 'view' ]" >{{workflowInstance.stateId}}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="workflowInstance.wfModelId">
+                        <a [routerLink]="['/workflow-model', workflowInstance.wfModelId , 'view' ]" >{{workflowInstance.wfModelId}}</a>
+                    </div>
+                </td>
+                <td>
+                    <span *ngFor="let guests of workflowInstance.guests; let last = last">
+                            <a class="form-control-static" [routerLink]="['/mdl-user', guests?.id, 'view' ]">{{guests.id}}</a>{{last ? '' : ', '}}
                         </span>
-                    </td>
-                    <td>
-                        <div *ngIf="workflowInstance.creatorId">
-                            <a [routerLink]="['/mdl-user', workflowInstance.creatorId , 'view']" >{{ workflowInstance.creatorId }}</a>
-                        </div>
-                    </td>
-                    <td class="text-right">
-                        <div class="btn-group">
-                            <button type="submit"
-                                    [routerLink]="['/workflow-instance', workflowInstance.id, 'view']"
-                                    class="btn btn-info btn-sm">
-                                <fa-icon icon="eye"></fa-icon>
-                                <span class="d-none d-md-inline">View</span>
-                            </button>
-
-                            <button type="submit"
-                                    [routerLink]="['/workflow-instance', workflowInstance.id, 'edit']"
-                                    class="btn btn-primary btn-sm">
-                                <fa-icon icon="pencil-alt"></fa-icon>
-                                <span class="d-none d-md-inline">Edit</span>
-                            </button>
-
-                            <button type="submit" (click)="delete(workflowInstance)"
-                                    class="btn btn-danger btn-sm">
-                                <fa-icon icon="times"></fa-icon>
-                                <span class="d-none d-md-inline">Delete</span>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
+                </td>
+                <td>
+                    <div *ngIf="workflowInstance.creatorId">
+                        <a [routerLink]="['/mdl-user', workflowInstance.creatorId , 'view' ]" >{{workflowInstance.creatorId}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button type="submit"
+                                [routerLink]="['/workflow-instance', workflowInstance.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/workflow-instance', workflowInstance.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit" (click)="delete(workflowInstance)"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
             </tbody>
         </table>
     </div>
