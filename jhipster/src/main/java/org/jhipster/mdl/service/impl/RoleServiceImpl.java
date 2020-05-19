@@ -90,6 +90,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Optional<RoleDTO> getUsersRoleInWorkflow(Long userId, Long wfId) {
-    	return Optional.empty();
+	log.debug("Request to get user's Role in a workflow : {}", userId, wfId);
+    	return roleRepository.findUsersRoleInWorkflow(userId, wfId).map(roleMapper::toDto);
     }
 }
