@@ -204,12 +204,17 @@ public class InterpreterInterface {
 
 	}
 
-	private void createDataForNewGuest(MdlUser mdlUser, CurrentStep currentStep, WorkflowInstance workflowInstance) {
+	private void createDataForNewGuest(MdlUser mdlUser, CurrentStep currentStep, WorkflowInstance workflowInstance, String wfModel) {
 		currentStep.addUsers(mdlUser);
 		
 		Role role = new Role();
 		role.setUser(mdlUser);
 		role.setWorkflowInstance(workflowInstance);
+		
+		List<String> roles = getAllRoles(wfModel);
+		if(roles.size() > 0) {
+			role.setRole(roles.get(0));
+		}
 		
 		roleRepository.save(role);
 	}
@@ -233,7 +238,7 @@ public class InterpreterInterface {
 		
 		CurrentStep currentStep = createNewCurrentStep(stepIdent, workflowInstanceState);
 		
-		workflowInstance.getGuests().forEach(u -> createDataForNewGuest(u, currentStep, workflowInstance));
+		workflowInstance.getGuests().forEach(u -> createDataForNewGuest(u, currentStep, workflowInstance, wfModel));
 		
 		currentStepRepository.save(currentStep);
 	}

@@ -16,7 +16,7 @@ public class EmptyStep implements StepDTO {
 	}
 
 	@Override
-	public List<UserInteractionDTO> getInteractions() {
+	public List<? extends UserInteractionDTO> getUserInteractionDTOs() {
 		return userInteractionDTOs;
 	}
 
