@@ -6,6 +6,7 @@ import org.jhipster.mdl.domain.MdlUser;
 import org.jhipster.mdl.repository.MdlUserRepository;
 import org.jhipster.mdl.repository.UserRepository;
 import org.jhipster.mdl.service.dto.MdlUserDTO;
+import org.jhipster.mdl.service.dto.UserDTO;
 import org.jhipster.mdl.service.dto.WorkflowInstanceDTO;
 import org.jhipster.mdl.service.mapper.MdlUserMapper;
 import org.jhipster.mdl.service.mapper.WorkflowInstanceMapper;
