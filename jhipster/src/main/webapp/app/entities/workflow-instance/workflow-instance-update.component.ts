@@ -14,8 +14,10 @@ import { IWorkflowModel } from 'app/shared/model/workflow-model.model';
 import { WorkflowModelService } from 'app/entities/workflow-model/workflow-model.service';
 import { IMdlUser } from 'app/shared/model/mdl-user.model';
 import { MdlUserService } from 'app/entities/mdl-user/mdl-user.service';
+import { IRole } from 'app/shared/model/role.model';
+import { RoleService } from 'app/entities/role/role.service';
 
-type SelectableEntity = IWorkflowInstanceState | IWorkflowModel | IMdlUser;
+type SelectableEntity = IWorkflowInstanceState | IWorkflowModel | IMdlUser | IRole;
 
 @Component({
   selector: 'jhi-workflow-instance-update',
@@ -23,9 +25,14 @@ type SelectableEntity = IWorkflowInstanceState | IWorkflowModel | IMdlUser;
 })
 export class WorkflowInstanceUpdateComponent implements OnInit {
   isSaving = false;
+
   states: IWorkflowInstanceState[] = [];
+
   workflowmodels: IWorkflowModel[] = [];
+
   mdlusers: IMdlUser[] = [];
+
+  roles: IRole[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -33,7 +40,8 @@ export class WorkflowInstanceUpdateComponent implements OnInit {
     stateId: [],
     wfModelId: [],
     guests: [],
-    creatorId: []
+    creatorId: [],
+    roleId: []
   });
 
   constructor(
@@ -41,6 +49,7 @@ export class WorkflowInstanceUpdateComponent implements OnInit {
     protected workflowInstanceStateService: WorkflowInstanceStateService,
     protected workflowModelService: WorkflowModelService,
     protected mdlUserService: MdlUserService,
+    protected roleService: RoleService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -53,7 +62,7 @@ export class WorkflowInstanceUpdateComponent implements OnInit {
         .query({ filter: 'workflowinstance-is-null' })
         .pipe(
           map((res: HttpResponse<IWorkflowInstanceState[]>) => {
-            return res.body || [];
+            return res.body ? res.body : [];
           })
         )
         .subscribe((resBody: IWorkflowInstanceState[]) => {
@@ -67,13 +76,38 @@ export class WorkflowInstanceUpdateComponent implements OnInit {
                   return subRes.body ? [subRes.body].concat(resBody) : resBody;
                 })
               )
-              .subscribe((concatRes: IWorkflowInstanceState[]) => (this.states = concatRes));
+              .subscribe((concatRes: IWorkflowInstanceState[]) => {
+                this.states = concatRes;
+              });
           }
         });
 
-      this.workflowModelService.query().subscribe((res: HttpResponse<IWorkflowModel[]>) => (this.workflowmodels = res.body || []));
+      this.workflowModelService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IWorkflowModel[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IWorkflowModel[]) => (this.workflowmodels = resBody));
 
-      this.mdlUserService.query().subscribe((res: HttpResponse<IMdlUser[]>) => (this.mdlusers = res.body || []));
+      this.mdlUserService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IMdlUser[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IMdlUser[]) => (this.mdlusers = resBody));
+
+      this.roleService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IRole[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IRole[]) => (this.roles = resBody));
     });
   }
 
@@ -84,7 +118,8 @@ export class WorkflowInstanceUpdateComponent implements OnInit {
       stateId: workflowInstance.stateId,
       wfModelId: workflowInstance.wfModelId,
       guests: workflowInstance.guests,
-      creatorId: workflowInstance.creatorId
+      creatorId: workflowInstance.creatorId,
+      roleId: workflowInstance.roleId
     });
   }
 
@@ -110,7 +145,8 @@ export class WorkflowInstanceUpdateComponent implements OnInit {
       stateId: this.editForm.get(['stateId'])!.value,
       wfModelId: this.editForm.get(['wfModelId'])!.value,
       guests: this.editForm.get(['guests'])!.value,
-      creatorId: this.editForm.get(['creatorId'])!.value
+      creatorId: this.editForm.get(['creatorId'])!.value,
+      roleId: this.editForm.get(['roleId'])!.value
     };
   }
 

@@ -1,0 +1,33 @@
+{
+    "name": "Role",
+    "fields": [
+        {
+            "fieldName": "role",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "mdlUser",
+            "otherEntityRelationshipName": "role",
+            "relationshipName": "user"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "workflowInstance",
+            "otherEntityRelationshipName": "role",
+            "relationshipName": "workflowInstance"
+        }
+    ],
+    "changelogDate": "20200514134009",
+    "entityTableName": "role",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": "*"
+}

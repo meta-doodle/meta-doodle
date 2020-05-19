@@ -33,10 +33,15 @@ entity Answer {
     answer String
 }
 
+entity Role {
+  role String
+}
 
 relationship OneToOne {
     MdlUser{user} to User{juser} with jpaDerivedIdentifier
     WorkflowInstance{state} to WorkflowInstanceState{workflowInstance}
+    
+    
 }
 
 relationship OneToMany {
@@ -47,6 +52,9 @@ relationship OneToMany {
   WorkflowInstanceState{steps} to CurrentStep
 
   WorkflowInstance{answers} to Answer
+  
+  Role{user} to MdlUser
+  Role{workflowInstance} to WorkflowInstance
 
 }
 

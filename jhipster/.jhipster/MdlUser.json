@@ -24,6 +24,13 @@
             "relationshipName": "workflows"
         },
         {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "role",
+            "otherEntityRelationshipName": "user",
+            "relationshipName": "role",
+            "otherEntityField": "id"
+        },
+        {
             "relationshipType": "many-to-many",
             "otherEntityName": "currentStep",
             "otherEntityRelationshipName": "users",

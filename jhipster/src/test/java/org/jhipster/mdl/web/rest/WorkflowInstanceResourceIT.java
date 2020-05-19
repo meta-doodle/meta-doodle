@@ -126,7 +126,7 @@ public class WorkflowInstanceResourceIT {
         // Create the WorkflowInstance
         WorkflowInstanceDTO workflowInstanceDTO = workflowInstanceMapper.toDto(workflowInstance);
         restWorkflowInstanceMockMvc.perform(post("/api/workflow-instances")
-            .contentType(TestUtil.APPLICATION_JSON)
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(workflowInstanceDTO)))
             .andExpect(status().isCreated());
 
@@ -148,7 +148,7 @@ public class WorkflowInstanceResourceIT {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restWorkflowInstanceMockMvc.perform(post("/api/workflow-instances")
-            .contentType(TestUtil.APPLICATION_JSON)
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(workflowInstanceDTO)))
             .andExpect(status().isBadRequest());
 
@@ -167,7 +167,7 @@ public class WorkflowInstanceResourceIT {
         // Get all the workflowInstanceList
         restWorkflowInstanceMockMvc.perform(get("/api/workflow-instances?sort=id,desc"))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(workflowInstance.getId().intValue())))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)));
     }
@@ -214,7 +214,7 @@ public class WorkflowInstanceResourceIT {
         // Get the workflowInstance
         restWorkflowInstanceMockMvc.perform(get("/api/workflow-instances/{id}", workflowInstance.getId()))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(workflowInstance.getId().intValue()))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION));
     }
@@ -244,7 +244,7 @@ public class WorkflowInstanceResourceIT {
         WorkflowInstanceDTO workflowInstanceDTO = workflowInstanceMapper.toDto(updatedWorkflowInstance);
 
         restWorkflowInstanceMockMvc.perform(put("/api/workflow-instances")
-            .contentType(TestUtil.APPLICATION_JSON)
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(workflowInstanceDTO)))
             .andExpect(status().isOk());
 
@@ -265,7 +265,7 @@ public class WorkflowInstanceResourceIT {
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restWorkflowInstanceMockMvc.perform(put("/api/workflow-instances")
-            .contentType(TestUtil.APPLICATION_JSON)
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(workflowInstanceDTO)))
             .andExpect(status().isBadRequest());
 
@@ -284,7 +284,7 @@ public class WorkflowInstanceResourceIT {
 
         // Delete the workflowInstance
         restWorkflowInstanceMockMvc.perform(delete("/api/workflow-instances/{id}", workflowInstance.getId())
-            .accept(TestUtil.APPLICATION_JSON))
+            .accept(TestUtil.APPLICATION_JSON_UTF8))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item

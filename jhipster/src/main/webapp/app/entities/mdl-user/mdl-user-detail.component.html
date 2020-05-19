@@ -9,6 +9,12 @@
                 <dd>
                     {{mdlUser.userId}}
                 </dd>
+                <dt><span>Role</span></dt>
+                <dd>
+                    <div *ngIf="mdlUser.roleId">
+                        <a [routerLink]="['/role', mdlUser.roleId, 'view']">{{mdlUser.roleId}}</a>
+                    </div>
+                </dd>
             </dl>
 
             <button type="submit"

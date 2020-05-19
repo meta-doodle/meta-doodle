@@ -28,6 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.xtext.metadoodle.interpreter.Interface.StepDTO;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -253,5 +254,11 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
 	public void removeGuest(long wfiId, long mdlUserId) {
 		MdlUser user = mdlUserRepository.getOne(mdlUserId);
 		workflowInstanceRepository.save(workflowInstanceRepository.getOne(wfiId).removeGuests(user));
+	}
+	
+	@Override
+	public List<String> getRoles(Long idWFI) {
+		// No implem on this branch
+		return new ArrayList<String>();
 	}
 }

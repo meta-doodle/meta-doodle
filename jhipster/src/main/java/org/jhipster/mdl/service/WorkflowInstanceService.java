@@ -68,4 +68,11 @@ public interface WorkflowInstanceService {
      * @param mdlUserId MdlUser id
      */
     void removeGuest(long wfiId, long mdlUserId);
+
+	/**
+	 * @param idWFI
+	 * @return All Roles in the workflowInstance given
+	 */
+	List<String> getRoles(Long idWFI);
+	
 }

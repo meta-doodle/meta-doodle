@@ -1,5 +1,4 @@
 package org.jhipster.mdl.service.dto;
-
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -22,6 +21,8 @@ public class WorkflowInstanceDTO implements Serializable {
     private Set<MdlUserDTO> guests = new HashSet<>();
 
     private Long creatorId;
+
+    private Long roleId;
 
     public Long getId() {
         return id;
@@ -71,6 +72,14 @@ public class WorkflowInstanceDTO implements Serializable {
         this.creatorId = mdlUserId;
     }
 
+    public Long getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -100,6 +109,7 @@ public class WorkflowInstanceDTO implements Serializable {
             ", stateId=" + getStateId() +
             ", wfModelId=" + getWfModelId() +
             ", creatorId=" + getCreatorId() +
+            ", roleId=" + getRoleId() +
             "}";
     }
 }

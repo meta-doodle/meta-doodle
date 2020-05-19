@@ -1,5 +1,4 @@
 package org.jhipster.mdl.domain;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -51,6 +50,10 @@ public class WorkflowInstance implements Serializable {
     @ManyToOne
     @JsonIgnoreProperties("creatorWfInstances")
     private MdlUser creator;
+
+    @ManyToOne
+    @JsonIgnoreProperties("workflowInstances")
+    private Role role;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -161,6 +164,19 @@ public class WorkflowInstance implements Serializable {
 
     public void setCreator(MdlUser mdlUser) {
         this.creator = mdlUser;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public WorkflowInstance role(Role role) {
+        this.role = role;
+        return this;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
     
