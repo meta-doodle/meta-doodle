@@ -13,6 +13,6 @@ import org.springframework.stereotype.Repository;
 public interface RoleRepository extends JpaRepository<Role, Long> {
 
 	@Query("SELECT DISTINCT role FROM Role r WHERE r.user = userId and r.workflowInstance = wfId")
-	Optional<Role> findUsersRoleInWorkflow(@Param("userId") userId, @Param("wfId") wfId);
+	Optional<Role> findUsersRoleInWorkflow(@Param("userId") Long userId, @Param("wfId") Long wfId);
 
 }
