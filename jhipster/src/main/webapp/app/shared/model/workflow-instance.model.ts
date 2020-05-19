@@ -9,7 +9,6 @@ export interface IWorkflowInstance {
   wfModelId?: number;
   guests?: IMdlUser[];
   creatorId?: number;
-  roleId?: number;
 }
 
 export class WorkflowInstance implements IWorkflowInstance {
@@ -20,7 +19,6 @@ export class WorkflowInstance implements IWorkflowInstance {
     public answers?: IAnswer[],
     public wfModelId?: number,
     public guests?: IMdlUser[],
-    public creatorId?: number,
-    public roleId?: number
+    public creatorId?: number
   ) {}
 }

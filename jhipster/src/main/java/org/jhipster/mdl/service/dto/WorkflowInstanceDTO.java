@@ -22,8 +22,6 @@ public class WorkflowInstanceDTO implements Serializable {
 
     private Long creatorId;
 
-    private Long roleId;
-
     public Long getId() {
         return id;
     }
@@ -72,14 +70,6 @@ public class WorkflowInstanceDTO implements Serializable {
         this.creatorId = mdlUserId;
     }
 
-    public Long getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -109,7 +99,6 @@ public class WorkflowInstanceDTO implements Serializable {
             ", stateId=" + getStateId() +
             ", wfModelId=" + getWfModelId() +
             ", creatorId=" + getCreatorId() +
-            ", roleId=" + getRoleId() +
             "}";
     }
 }

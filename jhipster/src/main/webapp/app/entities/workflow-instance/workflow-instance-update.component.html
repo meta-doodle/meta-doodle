@@ -42,13 +42,6 @@
                         <option [ngValue]="mdlUserOption.id" *ngFor="let mdlUserOption of mdlusers; trackBy: trackById">{{mdlUserOption.id}}</option>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_role">Role</label>
-                    <select class="form-control" id="field_role" name="role" formControlName="roleId">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="roleOption.id" *ngFor="let roleOption of roles; trackBy: trackById">{{roleOption.id}}</option>
-                    </select>
-                </div>
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">

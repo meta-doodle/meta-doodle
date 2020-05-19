@@ -5,7 +5,6 @@ import org.jhipster.mdl.domain.MdlUser;
 import org.jhipster.mdl.repository.MdlUserRepository;
 import org.jhipster.mdl.repository.UserRepository;
 import org.jhipster.mdl.service.dto.MdlUserDTO;
-import org.jhipster.mdl.service.dto.WorkflowInstanceDTO;
 import org.jhipster.mdl.service.mapper.MdlUserMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,11 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -96,14 +93,4 @@ public class MdlUserServiceImpl implements MdlUserService {
         log.debug("Request to delete MdlUser : {}", id);
         mdlUserRepository.deleteById(id);
     }
-	
-	@Override
-	public Optional<MdlUserDTO> convert(String login) {
-		return Optional.of(new MdlUserDTO());
-	}
-
-	@Override
-	public Set<WorkflowInstanceDTO> getWorkflows(MdlUserDTO mdlUserDTO) {
-		return Collections.emptySet(); // Unimplemented
-	}
 }

@@ -24,7 +24,6 @@
             <th scope="col" ><span>Wf Model</span></th>
             <th scope="col" ><span>Guests</span></th>
             <th scope="col" ><span>Creator</span></th>
-            <th scope="col" ><span>Role</span></th>
             <th scope="col"></th>
             </tr>
             </thead>
@@ -50,11 +49,6 @@
                 <td>
                     <div *ngIf="workflowInstance.creatorId">
                         <a [routerLink]="['/mdl-user', workflowInstance.creatorId , 'view' ]" >{{workflowInstance.creatorId}}</a>
-                    </div>
-                </td>
-                <td>
-                    <div *ngIf="workflowInstance.roleId">
-                        <a [routerLink]="['/role', workflowInstance.roleId , 'view' ]" >{{workflowInstance.roleId}}</a>
                     </div>
                 </td>
                 <td class="text-right">

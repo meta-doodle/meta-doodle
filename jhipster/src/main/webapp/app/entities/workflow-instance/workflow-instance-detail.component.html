@@ -33,12 +33,6 @@
                         <a [routerLink]="['/mdl-user', workflowInstance.creatorId, 'view']">{{workflowInstance.creatorId}}</a>
                     </div>
                 </dd>
-                <dt><span>Role</span></dt>
-                <dd>
-                    <div *ngIf="workflowInstance.roleId">
-                        <a [routerLink]="['/role', workflowInstance.roleId, 'view']">{{workflowInstance.roleId}}</a>
-                    </div>
-                </dd>
             </dl>
 
             <button type="submit"
