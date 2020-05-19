@@ -1,8 +1,10 @@
 package org.jhipster.mdl.web.rest;
 
 import org.jhipster.mdl.service.MdlUserService;
+import org.jhipster.mdl.service.UserService;
 import org.jhipster.mdl.web.rest.errors.BadRequestAlertException;
 import org.jhipster.mdl.service.dto.MdlUserDTO;
+import org.jhipster.mdl.service.dto.UserDTO;
 import org.jhipster.mdl.service.dto.WorkflowInstanceDTO;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -144,5 +146,16 @@ public class MdlUserResource {
         	res = Optional.of( mdlUserService.getWorkflows(mdlUserDTO.get()) );
         
         return ResponseUtil.wrapOrNotFound(res);
+    }
+
+    /**
+     * Get the JUser of a given MdlUser
+     * @param id
+     * @return
+     */
+	@GetMapping("/mdl-users/{id}/get-user")
+    public ResponseEntity<UserDTO> getJUser(@PathVariable long id) {
+        log.debug("REST request to get JUser from MdlUser : {}", id);
+        return ResponseUtil.wrapOrNotFound(mdlUserService.getUser(id));
     }
 }
