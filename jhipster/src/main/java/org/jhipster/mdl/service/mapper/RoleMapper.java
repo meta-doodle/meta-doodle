@@ -8,14 +8,15 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity {@link Role} and its DTO {@link RoleDTO}.
  */
-@Mapper(componentModel = "spring", uses = {})
+@Mapper(componentModel = "spring", uses = {MdlUserMapper.class, WorkflowInstanceMapper.class})
 public interface RoleMapper extends EntityMapper<RoleDTO, Role> {
 
+    @Mapping(source = "user.id", target = "userId")
+    @Mapping(source = "workflowInstance.id", target = "workflowInstanceId")
+    RoleDTO toDto(Role role);
 
-    @Mapping(target = "users", ignore = true)
-    @Mapping(target = "removeUser", ignore = true)
-    @Mapping(target = "workflowInstances", ignore = true)
-    @Mapping(target = "removeWorkflowInstance", ignore = true)
+    @Mapping(source = "userId", target = "user")
+    @Mapping(source = "workflowInstanceId", target = "workflowInstance")
     Role toEntity(RoleDTO roleDTO);
 
     default Role fromId(Long id) {

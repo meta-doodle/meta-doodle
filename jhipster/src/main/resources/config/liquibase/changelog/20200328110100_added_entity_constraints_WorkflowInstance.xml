@@ -38,11 +38,5 @@
                                  referencedColumnNames="id"
                                  referencedTableName="mdl_user"/>
 
-        <addForeignKeyConstraint baseColumnNames="role_id"
-                                 baseTableName="workflow_instance"
-                                 constraintName="fk_workflow_instance_role_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="role"/>
-
     </changeSet>
 </databaseChangeLog>

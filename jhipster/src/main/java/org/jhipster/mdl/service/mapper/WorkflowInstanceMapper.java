@@ -8,13 +8,12 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity {@link WorkflowInstance} and its DTO {@link WorkflowInstanceDTO}.
  */
-@Mapper(componentModel = "spring", uses = {WorkflowInstanceStateMapper.class, WorkflowModelMapper.class, MdlUserMapper.class, RoleMapper.class})
+@Mapper(componentModel = "spring", uses = {WorkflowInstanceStateMapper.class, WorkflowModelMapper.class, MdlUserMapper.class})
 public interface WorkflowInstanceMapper extends EntityMapper<WorkflowInstanceDTO, WorkflowInstance> {
 
     @Mapping(source = "state.id", target = "stateId")
     @Mapping(source = "wfModel.id", target = "wfModelId")
     @Mapping(source = "creator.id", target = "creatorId")
-    @Mapping(source = "role.id", target = "roleId")
     WorkflowInstanceDTO toDto(WorkflowInstance workflowInstance);
 
     @Mapping(source = "stateId", target = "state")
@@ -23,7 +22,6 @@ public interface WorkflowInstanceMapper extends EntityMapper<WorkflowInstanceDTO
     @Mapping(source = "wfModelId", target = "wfModel")
     @Mapping(target = "removeGuests", ignore = true)
     @Mapping(source = "creatorId", target = "creator")
-    @Mapping(source = "roleId", target = "role")
     WorkflowInstance toEntity(WorkflowInstanceDTO workflowInstanceDTO);
 
     default WorkflowInstance fromId(Long id) {

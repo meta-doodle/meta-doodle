@@ -8,16 +8,18 @@
     ],
     "relationships": [
         {
-            "relationshipType": "one-to-many",
+            "relationshipType": "many-to-one",
             "otherEntityName": "mdlUser",
             "otherEntityRelationshipName": "role",
-            "relationshipName": "user"
+            "relationshipName": "user",
+            "otherEntityField": "id"
         },
         {
-            "relationshipType": "one-to-many",
+            "relationshipType": "many-to-one",
             "otherEntityName": "workflowInstance",
             "otherEntityRelationshipName": "role",
-            "relationshipName": "workflowInstance"
+            "relationshipName": "workflowInstance",
+            "otherEntityField": "id"
         }
     ],
     "changelogDate": "20200514134009",

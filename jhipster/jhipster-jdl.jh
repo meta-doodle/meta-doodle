@@ -53,8 +53,6 @@ relationship OneToMany {
 
   WorkflowInstance{answers} to Answer
   
-  Role{user} to MdlUser
-  Role{workflowInstance} to WorkflowInstance
 
 }
 
@@ -64,6 +62,8 @@ WorkflowInstance{wfModel} to WorkflowModel
 
 Answer{user} to MdlUser
 
+Role{user} to MdlUser
+Role{workflowInstance} to WorkflowInstance
 
 }
 

@@ -42,13 +42,6 @@
             "otherEntityRelationshipName": "creatorWfInstances",
             "relationshipName": "creator",
             "otherEntityField": "id"
-        },
-        {
-            "relationshipType": "many-to-one",
-            "otherEntityName": "role",
-            "otherEntityRelationshipName": "workflowInstance",
-            "relationshipName": "role",
-            "otherEntityField": "id"
         }
     ],
     "changelogDate": "20200328110100",

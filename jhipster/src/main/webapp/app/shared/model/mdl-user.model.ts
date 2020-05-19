@@ -7,7 +7,6 @@ export interface IMdlUser {
   userId?: number;
   creatorWfInstances?: IWorkflowInstance[];
   workflows?: IWorkflowModel[];
-  roleId?: number;
   steps?: ICurrentStep[];
   workflowInstances?: IWorkflowInstance[];
 }
@@ -18,7 +17,6 @@ export class MdlUser implements IMdlUser {
     public userId?: number,
     public creatorWfInstances?: IWorkflowInstance[],
     public workflows?: IWorkflowModel[],
-    public roleId?: number,
     public steps?: ICurrentStep[],
     public workflowInstances?: IWorkflowInstance[]
   ) {}

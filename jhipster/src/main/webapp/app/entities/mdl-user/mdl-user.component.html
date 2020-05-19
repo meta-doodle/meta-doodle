@@ -20,7 +20,6 @@
             <tr>
             <th scope="col" ><span>ID</span></th>
             <th scope="col" ><span>User</span></th>
-            <th scope="col" ><span>Role</span></th>
             <th scope="col"></th>
             </tr>
             </thead>
@@ -29,11 +28,6 @@
                 <td><a [routerLink]="['/mdl-user', mdlUser.id, 'view' ]">{{mdlUser.id}}</a></td>
                 <td>
                     {{mdlUser.userId}}
-                </td>
-                <td>
-                    <div *ngIf="mdlUser.roleId">
-                        <a [routerLink]="['/role', mdlUser.roleId , 'view' ]" >{{mdlUser.roleId}}</a>
-                    </div>
                 </td>
                 <td class="text-right">
                     <div class="btn-group">
