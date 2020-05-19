@@ -21,7 +21,6 @@ export class EventItemComponent implements OnInit {
 
 
   description!: string;
-  mdlUser: MdlUser | undefined | null;
   creatorLogin! : String;
 
     constructor(
@@ -37,14 +36,9 @@ export class EventItemComponent implements OnInit {
         x.body ? this.description = x.body.description! : "Description empty";
         x.body? creatorId = x.body.creatorId! : -1;
       });
-      this.mdlUserService.find(creatorId).subscribe( x => {
-        x.body ? this.creatorLogin = x.body.
-      })
-      this.accountService.
       this.accountService.identity().subscribe( value => {
         value ?  this.creatorLogin = value.login : '';
       });
-      this.mdlUser  = this.accountService.getMdlUser();
     }
 
 

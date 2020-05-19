@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
 import { IWorkflowInstance } from 'app/shared/model/workflow-instance.model';
+import { ISurveyView } from "../../shared/model/survey-view";
+import { PostWorkFlowInstance } from "../../shared/model/postWorkFlowInstance";
 
 type EntityResponseType = HttpResponse<IWorkflowInstance>;
 type EntityArrayResponseType = HttpResponse<IWorkflowInstance[]>;
