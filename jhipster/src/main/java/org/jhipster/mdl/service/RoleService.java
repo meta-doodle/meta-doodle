@@ -40,4 +40,13 @@ public interface RoleService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+    
+    /**
+     * Get the role of the "userId" user in the "wfId" workflow.
+     * 
+     * @param userId the id of the user.
+     * @param wfId the id of the workflow.
+     * @return the entity of the role.
+     */
+    Optional<RoleDTO> getUsersRoleInWorkflow(Long userId, Long wfId);
 }

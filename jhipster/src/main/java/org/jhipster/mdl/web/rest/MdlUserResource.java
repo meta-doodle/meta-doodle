@@ -3,6 +3,7 @@ package org.jhipster.mdl.web.rest;
 import org.jhipster.mdl.service.MdlUserService;
 import org.jhipster.mdl.web.rest.errors.BadRequestAlertException;
 import org.jhipster.mdl.service.dto.MdlUserDTO;
+import org.jhipster.mdl.service.dto.WorkflowInstanceDTO;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -18,6 +19,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * REST controller for managing {@link org.jhipster.mdl.domain.MdlUser}.
@@ -118,5 +120,29 @@ public class MdlUserResource {
         log.debug("REST request to delete MdlUser : {}", id);
         mdlUserService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
+    }
+	
+	@GetMapping("/mdl-users/convert/{login}")
+    public ResponseEntity<MdlUserDTO> convertJUserToMdlUser(@PathVariable String login) {
+        log.debug("REST request to convert JUser to MdlUser : {}", login);
+        Optional<MdlUserDTO> mdlUserDTO = mdlUserService.convert(login);
+        return ResponseUtil.wrapOrNotFound(mdlUserDTO);
+    }
+	
+	/**
+     * {@code GET  /mdl-users/:id/workflows} : get active workflows for a mdlUser "id".
+     *
+     * @param id the id of the mdlUserDTO.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the set of WorkflowInstanceDTO, or with status {@code 404 (Not Found)}.
+     */
+    @GetMapping("/mdl-users/{id}/workflows")
+    public ResponseEntity<Set<WorkflowInstanceDTO>> getMdlUserWorkflows(@PathVariable Long id) {
+        log.debug("REST request to get MdlUser's workflows : {}", id);
+        Optional<Set<WorkflowInstanceDTO>> res = Optional.empty();
+        Optional<MdlUserDTO> mdlUserDTO = mdlUserService.findOne(id);
+        if(mdlUserDTO.isPresent())
+        	res = Optional.of( mdlUserService.getWorkflows(mdlUserDTO.get()) );
+        
+        return ResponseUtil.wrapOrNotFound(res);
     }
 }
