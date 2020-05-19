@@ -40,7 +40,7 @@ public interface RoleService {
      * @param id the id of the entity.
      */
     void delete(Long id);
-    
+
     /**
      * Get the role of the "userId" user in the "wfId" workflow.
      * 
