@@ -1,6 +1,5 @@
 package org.jhipster.mdl.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -36,10 +35,6 @@ public class MdlUser implements Serializable {
     @OneToMany(mappedBy = "creator")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<WorkflowModel> workflows = new HashSet<>();
-
-    @ManyToOne
-    @JsonIgnoreProperties("users")
-    private Role role;
 
     @ManyToMany(mappedBy = "users")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -121,19 +116,6 @@ public class MdlUser implements Serializable {
 
     public void setWorkflows(Set<WorkflowModel> workflowModels) {
         this.workflows = workflowModels;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public MdlUser role(Role role) {
-        this.role = role;
-        return this;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
     }
 
     public Set<CurrentStep> getSteps() {

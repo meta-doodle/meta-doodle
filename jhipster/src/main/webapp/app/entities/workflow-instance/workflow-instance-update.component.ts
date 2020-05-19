@@ -14,10 +14,8 @@ import { IWorkflowModel } from 'app/shared/model/workflow-model.model';
 import { WorkflowModelService } from 'app/entities/workflow-model/workflow-model.service';
 import { IMdlUser } from 'app/shared/model/mdl-user.model';
 import { MdlUserService } from 'app/entities/mdl-user/mdl-user.service';
-import { IRole } from 'app/shared/model/role.model';
-import { RoleService } from 'app/entities/role/role.service';
 
-type SelectableEntity = IWorkflowInstanceState | IWorkflowModel | IMdlUser | IRole;
+type SelectableEntity = IWorkflowInstanceState | IWorkflowModel | IMdlUser;
 
 @Component({
   selector: 'jhi-workflow-instance-update',
@@ -32,16 +30,13 @@ export class WorkflowInstanceUpdateComponent implements OnInit {
 
   mdlusers: IMdlUser[] = [];
 
-  roles: IRole[] = [];
-
   editForm = this.fb.group({
     id: [],
     description: [],
     stateId: [],
     wfModelId: [],
     guests: [],
-    creatorId: [],
-    roleId: []
+    creatorId: []
   });
 
   constructor(
@@ -49,7 +44,6 @@ export class WorkflowInstanceUpdateComponent implements OnInit {
     protected workflowInstanceStateService: WorkflowInstanceStateService,
     protected workflowModelService: WorkflowModelService,
     protected mdlUserService: MdlUserService,
-    protected roleService: RoleService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -99,15 +93,6 @@ export class WorkflowInstanceUpdateComponent implements OnInit {
           })
         )
         .subscribe((resBody: IMdlUser[]) => (this.mdlusers = resBody));
-
-      this.roleService
-        .query()
-        .pipe(
-          map((res: HttpResponse<IRole[]>) => {
-            return res.body ? res.body : [];
-          })
-        )
-        .subscribe((resBody: IRole[]) => (this.roles = resBody));
     });
   }
 
@@ -118,8 +103,7 @@ export class WorkflowInstanceUpdateComponent implements OnInit {
       stateId: workflowInstance.stateId,
       wfModelId: workflowInstance.wfModelId,
       guests: workflowInstance.guests,
-      creatorId: workflowInstance.creatorId,
-      roleId: workflowInstance.roleId
+      creatorId: workflowInstance.creatorId
     });
   }
 
@@ -145,8 +129,7 @@ export class WorkflowInstanceUpdateComponent implements OnInit {
       stateId: this.editForm.get(['stateId'])!.value,
       wfModelId: this.editForm.get(['wfModelId'])!.value,
       guests: this.editForm.get(['guests'])!.value,
-      creatorId: this.editForm.get(['creatorId'])!.value,
-      roleId: this.editForm.get(['roleId'])!.value
+      creatorId: this.editForm.get(['creatorId'])!.value
     };
   }
 

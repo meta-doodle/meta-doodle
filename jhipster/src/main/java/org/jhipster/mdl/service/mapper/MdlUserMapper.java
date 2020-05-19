@@ -8,11 +8,10 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity {@link MdlUser} and its DTO {@link MdlUserDTO}.
  */
-@Mapper(componentModel = "spring", uses = {UserMapper.class, RoleMapper.class})
+@Mapper(componentModel = "spring", uses = {UserMapper.class})
 public interface MdlUserMapper extends EntityMapper<MdlUserDTO, MdlUser> {
 
     @Mapping(source = "user.id", target = "userId")
-    @Mapping(source = "role.id", target = "roleId")
     MdlUserDTO toDto(MdlUser mdlUser);
 
     @Mapping(source = "userId", target = "user")
@@ -20,7 +19,6 @@ public interface MdlUserMapper extends EntityMapper<MdlUserDTO, MdlUser> {
     @Mapping(target = "removeCreatorWfInstances", ignore = true)
     @Mapping(target = "workflows", ignore = true)
     @Mapping(target = "removeWorkflows", ignore = true)
-    @Mapping(source = "roleId", target = "role")
     @Mapping(target = "steps", ignore = true)
     @Mapping(target = "removeSteps", ignore = true)
     @Mapping(target = "workflowInstances", ignore = true)

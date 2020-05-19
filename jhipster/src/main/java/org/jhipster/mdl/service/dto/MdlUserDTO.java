@@ -12,8 +12,6 @@ public class MdlUserDTO implements Serializable {
 
     private Long userId;
 
-    private Long roleId;
-
     public Long getId() {
         return id;
     }
@@ -28,14 +26,6 @@ public class MdlUserDTO implements Serializable {
 
     public void setUserId(Long userId) {
         this.userId = userId;
-    }
-
-    public Long getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
     }
 
     @Override
@@ -64,7 +54,6 @@ public class MdlUserDTO implements Serializable {
         return "MdlUserDTO{" +
             "id=" + getId() +
             ", userId=" + getUserId() +
-            ", roleId=" + getRoleId() +
             "}";
     }
 }
