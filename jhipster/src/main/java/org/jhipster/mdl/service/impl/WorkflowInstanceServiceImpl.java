@@ -1,20 +1,13 @@
 package org.jhipster.mdl.service.impl;
 
-import org.jhipster.mdl.service.MailService;
 import org.jhipster.mdl.service.WorkflowInstanceService;
-import org.jhipster.mdl.domain.CurrentStep;
 import org.jhipster.mdl.domain.MdlUser;
 import org.jhipster.mdl.domain.User;
 import org.jhipster.mdl.domain.WorkflowInstance;
-import org.jhipster.mdl.domain.WorkflowInstanceState;
 import org.jhipster.mdl.domain.WorkflowModel;
 import org.jhipster.mdl.interpreter.InterpreterInterface;
-import org.jhipster.mdl.interpreter.WorkflowExecutionStateImpl;
-import org.jhipster.mdl.repository.AnswerRepository;
-import org.jhipster.mdl.repository.CurrentStepRepository;
 import org.jhipster.mdl.repository.MdlUserRepository;
 import org.jhipster.mdl.repository.WorkflowInstanceRepository;
-import org.jhipster.mdl.repository.WorkflowInstanceStateRepository;
 import org.jhipster.mdl.repository.WorkflowModelRepository;
 import org.jhipster.mdl.service.dto.WorkflowInstanceDTO;
 import org.jhipster.mdl.service.dto.WorkflowInstanceParamsDTO;
@@ -32,7 +25,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -52,29 +44,15 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
 
 	private MdlUserRepository mdlUserRepository;
 
-	private WorkflowInstanceStateRepository workflowInstanceStateRepository;
-
-	private CurrentStepRepository currentStepRepository;
-
-	private AnswerRepository answerRepository;
-
-	private MailService mailService;
-
 	private InterpreterInterface interpreterInterface;
 
 	public WorkflowInstanceServiceImpl(WorkflowInstanceRepository workflowInstanceRepository,
 			WorkflowInstanceMapper workflowInstanceMapper, WorkflowModelRepository workflowModelRepository,
-			MdlUserRepository mdlUserRepository, WorkflowInstanceStateRepository workflowInstanceStateRepository,
-			CurrentStepRepository currentStepRepository, AnswerRepository answerRepository, MailService mailService,
-			InterpreterInterface interpreterInterface) {
+			MdlUserRepository mdlUserRepository, InterpreterInterface interpreterInterface) {
 		this.workflowInstanceRepository = workflowInstanceRepository;
 		this.workflowInstanceMapper = workflowInstanceMapper;
 		this.workflowModelRepository = workflowModelRepository;
 		this.mdlUserRepository = mdlUserRepository;
-		this.workflowInstanceStateRepository = workflowInstanceStateRepository;
-		this.currentStepRepository = currentStepRepository;
-		this.answerRepository = answerRepository;
-		this.mailService = mailService;
 		this.interpreterInterface = interpreterInterface;
 	}
 
@@ -202,51 +180,19 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
 			for (String mails : workflowInstanceParamsDTO.getGuests()) {
 				User user = mdlUser.getUser();
 				if (user != null && mails.equalsIgnoreCase(user.getEmail())) {
+					log.info("New user add in workflowinstance : {}", user.getLogin());
 					workflowInstance.addGuests(mdlUser);
 				}
 			}
 		}
 
-		WorkflowInstanceState workflowInstanceState = new WorkflowInstanceState();
-		workflowInstanceState = workflowInstanceStateRepository.save(workflowInstanceState);
+		workflowInstance = workflowInstanceRepository.save(workflowInstance);
 
-		CurrentStep step = createCurrentStep(workflowInstance.getGuests(),
-				InterpreterInterface.getStepIdent(workflowInstance.getWfModel().getBody()));
-
-		step.setWorkflowInstanceState(workflowInstanceState);
-		workflowInstanceState.addSteps(step);
-
-		workflowInstance.setState(workflowInstanceState);
+		interpreterInterface.initNewWorkflowData(optWFM.get().getBody(), workflowInstance);
 
 		workflowInstance = workflowInstanceRepository.save(workflowInstance);
 
-		// TODO: Placeholder invite e-mail for localhost:8080 testing, replace this
-		for (MdlUser mdlUser : mdlUserRepository.findAll()) {
-			for (String mails : workflowInstanceParamsDTO.getGuests()) {
-				User user = mdlUser.getUser();
-				if (user != null && mails.equalsIgnoreCase(user.getEmail())) {
-					String emailContent = "Hello " + user.getEmail()
-							+ ", you have been invited to the following workflow: "
-							+ "http://localhost:8080/workflow-instance/" + workflowInstance.getId() + "/view";
-
-					mailService.sendEmail(user.getEmail(), "MetaDoodle - New invitation", emailContent, false, false);
-				}
-			}
-		}
-
 		return Optional.of(workflowInstanceMapper.toDto(workflowInstance));
-	}
-
-	private CurrentStep createCurrentStep(Set<MdlUser> guests, String stepIdent) {
-		CurrentStep step = new CurrentStep();
-
-		step.stepIdent(stepIdent).numberOfAnswer(0);
-
-		for (MdlUser mdlUser : guests) {
-			step.addUsers(mdlUser);
-		}
-
-		return currentStepRepository.save(step);
 	}
 
 	@Override

@@ -59,7 +59,7 @@ public class InterpreterInterface {
 	private Optional<String> getRole(WorkflowInstance workflowInstance, MdlUser mdlUser) {
 
 		for (Role role : roleRepository.findAll()) {
-			if (role.getWorkflowInstance().equals(workflowInstance) && role.getUser().equals(mdlUser)) {
+			if (role.getWorkflowInstance().equals(workflowInstance) && role.getUser().equals(mdlUser) && role.getRole() != null) {
 				return Optional.of(role.getRole());
 			}
 		}
@@ -77,7 +77,7 @@ public class InterpreterInterface {
 		newCurrentStep.setNumberOfAnswer(0);
 		newCurrentStep.setStepIdent(stepIdent);
 
-		newCurrentStep = currentStepRepository.saveAndFlush(newCurrentStep);
+		newCurrentStep = currentStepRepository.save(newCurrentStep);
 
 		workflowInstanceState.addSteps(newCurrentStep);
 		workflowInstanceState = workflowInstanceStateRepository.saveAndFlush(workflowInstanceState);
@@ -88,7 +88,7 @@ public class InterpreterInterface {
 	private CurrentStep changeCurrentStep(CurrentStep oldCurrentStep, MdlUser mdlUser, String newStepIdent) {
 
 		oldCurrentStep.removeUsers(mdlUser);
-		oldCurrentStep = currentStepRepository.saveAndFlush(oldCurrentStep);
+		oldCurrentStep = currentStepRepository.save(oldCurrentStep);
 
 		WorkflowInstanceState workflowInstanceState = oldCurrentStep.getWorkflowInstanceState();
 
@@ -112,6 +112,28 @@ public class InterpreterInterface {
 		}
 		return Optional.empty();
 	}
+	
+	private Optional<String> valideRole(String wfModel, Optional<String> role) {
+		List<String> roles = INTERPRETER.getWorkflowData(wfModel).getRoles();
+		if(role.isPresent()) {
+			if(roles.contains(role.get())) {
+				LOG.info("Find role : {}", role.get());
+				return role;
+			}
+		}
+		
+		LOG.info("Role doesn't exist");
+		
+		if(roles.size() > 0) {
+			String oneRole = roles.get(0);
+			LOG.info("Take role : {}", oneRole);
+			return Optional.of(oneRole);
+		}
+		
+		LOG.error("Impossible to find a role");
+		
+		return Optional.empty();
+	}
 
 	public Optional<StepDTO> getStepDTO(WorkflowInstance workflowInstance, MdlUser mdlUser) {
 		LOG.debug("Request StepDTO with {}", workflowInstance, mdlUser);
@@ -126,11 +148,11 @@ public class InterpreterInterface {
 
 		WorkflowExecutionStateImpl workflowExecutionStateImpl = new WorkflowExecutionStateImpl(workflowInstance,
 				answerRepository, currentStep);
+		
+		String model = workflowInstance.getWfModel().getBody();
 
 		Optional<String> role = getRole(workflowInstance, mdlUser);
-		role.ifPresent(str -> workflowExecutionStateImpl.setRole(str));
-
-		String model = workflowInstance.getWfModel().getBody();
+		valideRole(model, role).ifPresent(r -> workflowExecutionStateImpl.setRole(r));
 
 		StepDTOFactory wfStepFactory = INTERPRETER.getStep(model, workflowExecutionStateImpl);
 
@@ -155,43 +177,6 @@ public class InterpreterInterface {
 
 		return Optional.of(wfStepFactory.build());
 	}
-
-//	public static Optional<StepDTO> getWorkflowStepData(WorkflowExecutionStateImpl workflowExecutionStateImpl,
-//			MailService mailService) {
-//		LOG.debug("Resquest WorkflowStepData");
-//
-//		String wfModel = workflowExecutionStateImpl.getWorkflowInstance().getWfModel().getBody();
-//		WorkflowInstanceState workflowInstanceState = workflowExecutionStateImpl.getWorkflowInstance().getState();
-//		MdlUser mdlUser = workflowExecutionStateImpl.getMdlUser();
-//
-//		StepDTOFactory wfStepFactory = INTERPRETER.getStep(wfModel, workflowExecutionStateImpl);
-//
-//		Optional<CurrentStep> optCurrentStep = workflowExecutionStateImpl.findCurrentStep();
-//		if (!optCurrentStep.isPresent()) {
-//			LOG.debug("Current Step not found for MdlUser {}", mdlUser);
-//			return Optional.empty();
-//		}
-//		CurrentStep currentStep = optCurrentStep.get();
-//
-//		String nextStepID = wfStepFactory.getCurrentStepID();
-//
-//		if (!currentStep.getStepIdent().equals(nextStepID)) {
-//			currentStep.removeUsers(mdlUser);
-//			CurrentStep newCurrentStep = workflowInstanceState.putMdlUserInRightCurrentStep(mdlUser, nextStepID);
-//
-//			if (!currentStep.equals(newCurrentStep)) {
-//				workflowExecutionStateImpl.getCurrentStepRepository().saveAndFlush(newCurrentStep);
-//			}
-//
-//		}
-//
-//		if (wfStepFactory.getMailReminder().isPresent()) {
-//			MailReminder mailReminder = wfStepFactory.getMailReminder().get();
-//			mailReminder.getNextDateToSend().forEach(date -> newMailSender(date, mailReminder, mdlUser, mailService));
-//		}
-//
-//		return Optional.of(wfStepFactory.build());
-//	}
 
 	private void newMailSender(String date, MdlUser mdlUser, String mailObject, String mailBody) {
 		LOG.info("Prepare to send mail at {}", date);
@@ -219,12 +204,37 @@ public class InterpreterInterface {
 
 	}
 
-//	private static void sendMail(String object, String body, String mailAddress) {
-//		//TODO
-//	}
+	private void createDataForNewGuest(MdlUser mdlUser, CurrentStep currentStep, WorkflowInstance workflowInstance) {
+		currentStep.addUsers(mdlUser);
+		
+		Role role = new Role();
+		role.setUser(mdlUser);
+		role.setWorkflowInstance(workflowInstance);
+		
+		roleRepository.save(role);
+	}
 
-	public static String getStepIdent(String wfModel) {
-		LOG.info(wfModel);
-		return INTERPRETER.getWorkflowData(wfModel).getIDFirstStep();
+	/**
+	 * Create all entities in the database for the {@link WorkflowInstance}
+	 * @param wfModel
+	 * @param workflowInstance
+	 */
+	public void initNewWorkflowData(String wfModel, WorkflowInstance workflowInstance) {
+		LOG.info("Creating new CurrentStep for workflowModel {}", wfModel);
+		
+		WorkflowInstanceState workflowInstanceState = new WorkflowInstanceState();
+		workflowInstanceState.setWorkflowInstance(workflowInstance);
+		
+		workflowInstance.setState(workflowInstanceState);
+		
+		workflowInstanceState = workflowInstanceStateRepository.save(workflowInstanceState);
+		
+		String stepIdent = INTERPRETER.getWorkflowData(wfModel).getIDFirstStep();
+		
+		CurrentStep currentStep = createNewCurrentStep(stepIdent, workflowInstanceState);
+		
+		workflowInstance.getGuests().forEach(u -> createDataForNewGuest(u, currentStep, workflowInstance));
+		
+		currentStepRepository.save(currentStep);
 	}
 }
