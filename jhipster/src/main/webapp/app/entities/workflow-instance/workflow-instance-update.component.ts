@@ -23,8 +23,11 @@ type SelectableEntity = IWorkflowInstanceState | IWorkflowModel | IMdlUser;
 })
 export class WorkflowInstanceUpdateComponent implements OnInit {
   isSaving = false;
+
   states: IWorkflowInstanceState[] = [];
+
   workflowmodels: IWorkflowModel[] = [];
+
   mdlusers: IMdlUser[] = [];
 
   editForm = this.fb.group({
@@ -53,7 +56,7 @@ export class WorkflowInstanceUpdateComponent implements OnInit {
         .query({ filter: 'workflowinstance-is-null' })
         .pipe(
           map((res: HttpResponse<IWorkflowInstanceState[]>) => {
-            return res.body || [];
+            return res.body ? res.body : [];
           })
         )
         .subscribe((resBody: IWorkflowInstanceState[]) => {
@@ -67,13 +70,29 @@ export class WorkflowInstanceUpdateComponent implements OnInit {
                   return subRes.body ? [subRes.body].concat(resBody) : resBody;
                 })
               )
-              .subscribe((concatRes: IWorkflowInstanceState[]) => (this.states = concatRes));
+              .subscribe((concatRes: IWorkflowInstanceState[]) => {
+                this.states = concatRes;
+              });
           }
         });
 
-      this.workflowModelService.query().subscribe((res: HttpResponse<IWorkflowModel[]>) => (this.workflowmodels = res.body || []));
+      this.workflowModelService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IWorkflowModel[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IWorkflowModel[]) => (this.workflowmodels = resBody));
 
-      this.mdlUserService.query().subscribe((res: HttpResponse<IMdlUser[]>) => (this.mdlusers = res.body || []));
+      this.mdlUserService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IMdlUser[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IMdlUser[]) => (this.mdlusers = resBody));
     });
   }
 

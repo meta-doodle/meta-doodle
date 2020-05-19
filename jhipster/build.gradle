@@ -235,7 +235,7 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-undertow"
     implementation "org.springframework.boot:spring-boot-starter-thymeleaf"
     implementation "org.zalando:problem-spring-web"
-    implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
+    //implementation "org.springframework.cloud:spring-cloud-starter-netflix-eureka-client"
     implementation "org.springframework.cloud:spring-cloud-starter-config"
     implementation "org.springframework.boot:spring-boot-starter-cloud-connectors"
     implementation "org.springframework.security:spring-security-config"
@@ -280,10 +280,10 @@ dependencies {
     liquibaseRuntime "com.h2database:h2"
     //jhipster-needle-gradle-dependency - JHipster will add additional dependencies here
     
-    compile files("libs/org.xtext.metadoodle-1.1.0-SNAPSHOT.jar")
+    compile files("libs/org.xtext.metadoodle-2.0.0-SNAPSHOT.jar")
     ext.xtextVersion = '2.20.0'
     compile "org.eclipse.xtext:org.eclipse.xtext:${xtextVersion}"
-	compile "org.eclipse.xtext:org.eclipse.xtext.xbase:${xtextVersion}"
+	//compile "org.eclipse.xtext:org.eclipse.xtext.xbase:${xtextVersion}"
 }
 
 if (project.hasProperty("gae")) {

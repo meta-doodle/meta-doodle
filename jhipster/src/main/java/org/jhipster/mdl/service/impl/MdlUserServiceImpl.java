@@ -6,8 +6,10 @@ import org.jhipster.mdl.domain.MdlUser;
 import org.jhipster.mdl.repository.MdlUserRepository;
 import org.jhipster.mdl.repository.UserRepository;
 import org.jhipster.mdl.service.dto.MdlUserDTO;
+import org.jhipster.mdl.service.dto.UserDTO;
 import org.jhipster.mdl.service.dto.WorkflowInstanceDTO;
 import org.jhipster.mdl.service.mapper.MdlUserMapper;
+import org.jhipster.mdl.service.mapper.UserMapper;
 import org.jhipster.mdl.service.mapper.WorkflowInstanceMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,13 +39,16 @@ public class MdlUserServiceImpl implements MdlUserService {
 
     private final UserRepository userRepository;
     
+    private final UserMapper userMapper;
+    
     private final WorkflowInstanceMapper workflowInstanceMapper;
 
-    public MdlUserServiceImpl(MdlUserRepository mdlUserRepository, MdlUserMapper mdlUserMapper, UserRepository userRepository, WorkflowInstanceMapper workflowInstanceMapper) {
+    public MdlUserServiceImpl(MdlUserRepository mdlUserRepository, MdlUserMapper mdlUserMapper, UserRepository userRepository, WorkflowInstanceMapper workflowInstanceMapper, UserMapper userMapper) {
         this.mdlUserRepository = mdlUserRepository;
         this.mdlUserMapper = mdlUserMapper;
         this.userRepository = userRepository;
         this.workflowInstanceMapper = workflowInstanceMapper;
+        this.userMapper = userMapper;
     }
 
     /**
@@ -111,6 +116,18 @@ public class MdlUserServiceImpl implements MdlUserService {
 				MdlUserDTO mdlUserDTO = mdlUserMapper.toDto(mdlUser);
 				return Optional.of(mdlUserDTO);
 			}
+		}
+		return Optional.empty();
+	}
+
+	@Override
+	public Optional<UserDTO> getUser(long mdlId) {
+		Optional<MdlUserDTO> mdlUser = findOne(mdlId);
+		if(mdlUser.isPresent()) {
+			mdlUser.get().getUserId();
+			Optional<User> jUser = userRepository.findById(mdlUser.get().getUserId());
+			if(jUser.isPresent())
+				return Optional.of(userMapper.userToUserDTO(jUser.get()));
 		}
 		return Optional.empty();
 	}

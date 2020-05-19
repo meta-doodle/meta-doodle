@@ -5,8 +5,6 @@ import { Observable } from 'rxjs';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
 import { IWorkflowInstance } from 'app/shared/model/workflow-instance.model';
-import { ISurveyView } from 'app/shared/model/survey-view';
-import { PostWorkFlowInstance } from 'app/shared/model/postWorkFlowInstance';
 
 type EntityResponseType = HttpResponse<IWorkflowInstance>;
 type EntityArrayResponseType = HttpResponse<IWorkflowInstance[]>;
@@ -15,7 +13,7 @@ type EntityArrayResponseType = HttpResponse<IWorkflowInstance[]>;
 export class WorkflowInstanceService {
   public resourceUrl = SERVER_API_URL + 'api/workflow-instances';
 
-  constructor(protected http: HttpClient) { }
+  constructor(protected http: HttpClient) {}
 
   create(workflowInstance: IWorkflowInstance): Observable<EntityResponseType> {
     return this.http.post<IWorkflowInstance>(this.resourceUrl, workflowInstance, { observe: 'response' });

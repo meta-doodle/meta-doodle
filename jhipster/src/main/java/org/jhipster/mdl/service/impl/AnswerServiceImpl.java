@@ -2,6 +2,7 @@ package org.jhipster.mdl.service.impl;
 
 import org.jhipster.mdl.service.AnswerService;
 import org.jhipster.mdl.domain.Answer;
+import org.jhipster.mdl.domain.MdlUser;
 import org.jhipster.mdl.domain.WorkflowInstance;
 import org.jhipster.mdl.interpreter.InterpreterInterface;
 import org.jhipster.mdl.interpreter.WorkflowExecutionStateImpl;
@@ -37,14 +38,14 @@ public class AnswerServiceImpl implements AnswerService {
 
 	private WorkflowInstanceRepository workflowInstanceRepository;
 
-	private CurrentStepRepository currentStepRepository;
+	private InterpreterInterface interpreterInterface;
 
 	public AnswerServiceImpl(AnswerRepository answerRepository, AnswerMapper answerMapper,
-			WorkflowInstanceRepository workflowInstanceRepository, CurrentStepRepository currentStepRepository) {
+			WorkflowInstanceRepository workflowInstanceRepository, InterpreterInterface interpreterInterface) {
 		this.answerRepository = answerRepository;
 		this.answerMapper = answerMapper;
 		this.workflowInstanceRepository = workflowInstanceRepository;
-		this.currentStepRepository = currentStepRepository;
+		this.interpreterInterface = interpreterInterface;
 	}
 
 	/**
@@ -109,6 +110,8 @@ public class AnswerServiceImpl implements AnswerService {
 			log.debug("WorkflowInstance found !");
 			WorkflowInstance wfi = optWFI.get();
 
+			MdlUser mdlUser = answer.getUser();
+
 			// Optional<CurrentStep> optStep =
 			// wfi.getState().findCurrentStepContainingMdlUser(answer.getUser());
 
@@ -117,15 +120,15 @@ public class AnswerServiceImpl implements AnswerService {
 			 * currentStep = optStep.get();
 			 */
 
-			WorkflowExecutionStateImpl workflowExecutionStateImpl = new WorkflowExecutionStateImpl(wfi,
-					answer.getUser(), currentStepRepository, answerRepository);
-			workflowExecutionStateImpl.setEndOfStep(true);
-
-			Optional<StepDTO> workflowStepData = InterpreterInterface.getWorkflowStepData(workflowExecutionStateImpl);
+//			WorkflowExecutionStateImpl workflowExecutionStateImpl = new WorkflowExecutionStateImpl(wfi,
+//					answer.getUser(), currentStepRepository, answerRepository);
+//			workflowExecutionStateImpl.setEndOfStep(true);
+//
+//			Optional<StepDTO> workflowStepData = InterpreterInterface.getWorkflowStepData(workflowExecutionStateImpl);
 			// WorkflowStepData workflowStepData = doExec(wfi.getState(), currentStep,
 			// answer.getUser());
 
-			return workflowStepData;
+			return interpreterInterface.getStepDTO(wfi, mdlUser);
 			/*
 			 * } else { log.debug("CurrentStep not found : {}", wfi, answer.getUser()); }
 			 */

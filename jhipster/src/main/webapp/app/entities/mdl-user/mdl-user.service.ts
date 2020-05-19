@@ -14,7 +14,7 @@ type EntityArrayResponseType = HttpResponse<IMdlUser[]>;
 export class MdlUserService {
   public resourceUrl = SERVER_API_URL + 'api/mdl-users';
 
-  constructor(protected http: HttpClient) { }
+  constructor(protected http: HttpClient) {}
 
   create(mdlUser: IMdlUser): Observable<EntityResponseType> {
     return this.http.post<IMdlUser>(this.resourceUrl, mdlUser, { observe: 'response' });
