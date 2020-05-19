@@ -139,9 +139,10 @@ public class MdlUserServiceImpl implements MdlUserService {
 		if(optMdlUser.isPresent()) {
 			log.debug("MdlUser with id : {} found", id);
 			MdlUser user = optMdlUser.get();
-			return user.getWorkflowInstances().parallelStream().
+			log.debug("WFI set : {} found", user.getWorkflowInstances());
+			return user.getWorkflowInstances().stream().
 					map(workflowInstanceMapper::toDto).
-					collect(Collectors.toSet());
+					collect(Collectors.toCollection(HashSet::new));
 		} else {
 			log.debug("MdlUser with id : {} not found", id);
 			return new HashSet<>();
