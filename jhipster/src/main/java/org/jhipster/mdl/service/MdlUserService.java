@@ -48,5 +48,5 @@ public interface MdlUserService {
 	
 	Optional<UserDTO> getUser(long mdlId);
 	
-	Set<WorkflowInstanceDTO> getWorkflows(MdlUserDTO mdlUserDTO);
+	Set<WorkflowInstanceDTO> getWorkflows(Long id);
 }

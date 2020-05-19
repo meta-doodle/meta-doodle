@@ -1,7 +1,6 @@
 package org.jhipster.mdl.web.rest;
 
 import org.jhipster.mdl.service.MdlUserService;
-import org.jhipster.mdl.service.UserService;
 import org.jhipster.mdl.web.rest.errors.BadRequestAlertException;
 import org.jhipster.mdl.service.dto.MdlUserDTO;
 import org.jhipster.mdl.service.dto.UserDTO;
