@@ -237,4 +237,8 @@ public class InterpreterInterface {
 		
 		currentStepRepository.save(currentStep);
 	}
+	
+	public List<String> getAllRoles(String wfModel){
+		return INTERPRETER.getWorkflowData(wfModel).getRoles();
+	}
 }

@@ -209,7 +209,13 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
 
 	@Override
 	public List<String> getRoles(Long idWFI) {
-		// No implem on this branch
+		
+		Optional<WorkflowInstance> optWorkflowInstance = workflowInstanceRepository.findById(idWFI);
+		if(optWorkflowInstance.isPresent()) {
+			WorkflowInstance workflowInstance = optWorkflowInstance.get();
+			return interpreterInterface.getAllRoles(workflowInstance.getWfModel().getBody());
+		}
+		
 		return new ArrayList<String>();
 	}
 }
