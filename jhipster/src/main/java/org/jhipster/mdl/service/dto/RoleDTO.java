@@ -12,10 +12,6 @@ public class RoleDTO implements Serializable {
     private String role;
 
 
-    private Long userId;
-
-    private Long workflowInstanceId;
-
     public Long getId() {
         return id;
     }
@@ -30,22 +26,6 @@ public class RoleDTO implements Serializable {
 
     public void setRole(String role) {
         this.role = role;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long mdlUserId) {
-        this.userId = mdlUserId;
-    }
-
-    public Long getWorkflowInstanceId() {
-        return workflowInstanceId;
-    }
-
-    public void setWorkflowInstanceId(Long workflowInstanceId) {
-        this.workflowInstanceId = workflowInstanceId;
     }
 
     @Override
@@ -74,8 +54,6 @@ public class RoleDTO implements Serializable {
         return "RoleDTO{" +
             "id=" + getId() +
             ", role='" + getRole() + "'" +
-            ", userId=" + getUserId() +
-            ", workflowInstanceId=" + getWorkflowInstanceId() +
             "}";
     }
 }

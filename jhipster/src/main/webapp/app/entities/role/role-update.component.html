@@ -15,20 +15,6 @@
                            formControlName="role"/>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_user">User</label>
-                    <select class="form-control" id="field_user" name="user" formControlName="userId">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="mdlUserOption.id" *ngFor="let mdlUserOption of users; trackBy: trackById">{{mdlUserOption.id}}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_workflowInstance">Workflow Instance</label>
-                    <select class="form-control" id="field_workflowInstance" name="workflowInstance" formControlName="workflowInstanceId">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="workflowInstanceOption.id" *ngFor="let workflowInstanceOption of workflowinstances; trackBy: trackById">{{workflowInstanceOption.id}}</option>
-                    </select>
-                </div>
             </div>
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">

@@ -10,6 +10,10 @@ import { IMdlUser, MdlUser } from 'app/shared/model/mdl-user.model';
 import { MdlUserService } from './mdl-user.service';
 import { IUser } from 'app/core/user/user.model';
 import { UserService } from 'app/core/user/user.service';
+import { IRole } from 'app/shared/model/role.model';
+import { RoleService } from 'app/entities/role/role.service';
+
+type SelectableEntity = IUser | IRole;
 
 @Component({
   selector: 'jhi-mdl-user-update',
@@ -20,14 +24,18 @@ export class MdlUserUpdateComponent implements OnInit {
 
   users: IUser[] = [];
 
+  roles: IRole[] = [];
+
   editForm = this.fb.group({
     id: [],
-    userId: []
+    userId: [],
+    roleId: []
   });
 
   constructor(
     protected mdlUserService: MdlUserService,
     protected userService: UserService,
+    protected roleService: RoleService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -44,13 +52,23 @@ export class MdlUserUpdateComponent implements OnInit {
           })
         )
         .subscribe((resBody: IUser[]) => (this.users = resBody));
+
+      this.roleService
+        .query()
+        .pipe(
+          map((res: HttpResponse<IRole[]>) => {
+            return res.body ? res.body : [];
+          })
+        )
+        .subscribe((resBody: IRole[]) => (this.roles = resBody));
     });
   }
 
   updateForm(mdlUser: IMdlUser): void {
     this.editForm.patchValue({
       id: mdlUser.id,
-      userId: mdlUser.userId
+      userId: mdlUser.userId,
+      roleId: mdlUser.roleId
     });
   }
 
@@ -72,7 +90,8 @@ export class MdlUserUpdateComponent implements OnInit {
     return {
       ...new MdlUser(),
       id: this.editForm.get(['id'])!.value,
-      userId: this.editForm.get(['userId'])!.value
+      userId: this.editForm.get(['userId'])!.value,
+      roleId: this.editForm.get(['roleId'])!.value
     };
   }
 
@@ -92,7 +111,7 @@ export class MdlUserUpdateComponent implements OnInit {
     this.isSaving = false;
   }
 
-  trackById(index: number, item: IUser): any {
+  trackById(index: number, item: SelectableEntity): any {
     return item.id;
   }
 }

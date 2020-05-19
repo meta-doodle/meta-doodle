@@ -13,7 +13,7 @@ type EntityArrayResponseType = HttpResponse<IMdlUser[]>;
 export class MdlUserService {
   public resourceUrl = SERVER_API_URL + 'api/mdl-users';
 
-  constructor(protected http: HttpClient) { }
+  constructor(protected http: HttpClient) {}
 
   create(mdlUser: IMdlUser): Observable<EntityResponseType> {
     return this.http.post<IMdlUser>(this.resourceUrl, mdlUser, { observe: 'response' });
@@ -34,13 +34,5 @@ export class MdlUserService {
 
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
-  }
-
-  findFromLogin(login: string): Observable<EntityResponseType> {
-    return this.http.get<IMdlUser>(`${this.resourceUrl}/convert/${login}`, { observe: 'response' })
-  }
-
-  createFromLogin(login: string): Observable<EntityResponseType> {
-    return this.http.post<IMdlUser>(`${this.resourceUrl}/convert`, login, { observe: 'response' })
   }
 }

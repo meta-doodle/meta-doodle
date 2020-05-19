@@ -87,9 +87,4 @@ public class RoleServiceImpl implements RoleService {
         log.debug("Request to delete Role : {}", id);
         roleRepository.deleteById(id);
     }
-    
-    @Override
-    public Optional<RoleDTO> getUsersRoleInWorkflow(Long userId, Long wfId) {
-    	return null;
-    }
 }

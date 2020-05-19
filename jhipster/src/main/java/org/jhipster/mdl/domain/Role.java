@@ -5,6 +5,8 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import javax.persistence.*;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A Role.
@@ -24,13 +26,13 @@ public class Role implements Serializable {
     @Column(name = "role")
     private String role;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private MdlUser user;
+    @OneToMany(mappedBy = "role")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<MdlUser> users = new HashSet<>();
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private WorkflowInstance workflowInstance;
+    @OneToMany(mappedBy = "role")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<WorkflowInstance> workflowInstances = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -54,30 +56,54 @@ public class Role implements Serializable {
         this.role = role;
     }
 
-    public MdlUser getUser() {
-        return user;
+    public Set<MdlUser> getUsers() {
+        return users;
     }
 
-    public Role user(MdlUser mdlUser) {
-        this.user = mdlUser;
+    public Role users(Set<MdlUser> mdlUsers) {
+        this.users = mdlUsers;
         return this;
     }
 
-    public void setUser(MdlUser mdlUser) {
-        this.user = mdlUser;
-    }
-
-    public WorkflowInstance getWorkflowInstance() {
-        return workflowInstance;
-    }
-
-    public Role workflowInstance(WorkflowInstance workflowInstance) {
-        this.workflowInstance = workflowInstance;
+    public Role addUser(MdlUser mdlUser) {
+        this.users.add(mdlUser);
+        mdlUser.setRole(this);
         return this;
     }
 
-    public void setWorkflowInstance(WorkflowInstance workflowInstance) {
-        this.workflowInstance = workflowInstance;
+    public Role removeUser(MdlUser mdlUser) {
+        this.users.remove(mdlUser);
+        mdlUser.setRole(null);
+        return this;
+    }
+
+    public void setUsers(Set<MdlUser> mdlUsers) {
+        this.users = mdlUsers;
+    }
+
+    public Set<WorkflowInstance> getWorkflowInstances() {
+        return workflowInstances;
+    }
+
+    public Role workflowInstances(Set<WorkflowInstance> workflowInstances) {
+        this.workflowInstances = workflowInstances;
+        return this;
+    }
+
+    public Role addWorkflowInstance(WorkflowInstance workflowInstance) {
+        this.workflowInstances.add(workflowInstance);
+        workflowInstance.setRole(this);
+        return this;
+    }
+
+    public Role removeWorkflowInstance(WorkflowInstance workflowInstance) {
+        this.workflowInstances.remove(workflowInstance);
+        workflowInstance.setRole(null);
+        return this;
+    }
+
+    public void setWorkflowInstances(Set<WorkflowInstance> workflowInstances) {
+        this.workflowInstances = workflowInstances;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

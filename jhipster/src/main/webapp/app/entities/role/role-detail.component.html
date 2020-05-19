@@ -9,18 +9,6 @@
                 <dd>
                     <span>{{role.role}}</span>
                 </dd>
-                <dt><span>User</span></dt>
-                <dd>
-                    <div *ngIf="role.userId">
-                        <a [routerLink]="['/mdl-user', role.userId, 'view']">{{role.userId}}</a>
-                    </div>
-                </dd>
-                <dt><span>Workflow Instance</span></dt>
-                <dd>
-                    <div *ngIf="role.workflowInstanceId">
-                        <a [routerLink]="['/workflow-instance', role.workflowInstanceId, 'view']">{{role.workflowInstanceId}}</a>
-                    </div>
-                </dd>
             </dl>
 
             <button type="submit"

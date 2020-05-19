@@ -23,7 +23,9 @@ export class WorkflowInstanceComponent implements OnInit, OnDestroy {
   ) {}
 
   loadAll(): void {
-    this.workflowInstanceService.query().subscribe((res: HttpResponse<IWorkflowInstance[]>) => (this.workflowInstances = res.body || []));
+    this.workflowInstanceService.query().subscribe((res: HttpResponse<IWorkflowInstance[]>) => {
+      this.workflowInstances = res.body ? res.body : [];
+    });
   }
 
   ngOnInit(): void {
