@@ -115,4 +115,10 @@ public class RoleResource {
         roleService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
     }
+    
+    @GetMapping("/roles/{userId}/{wfId}")
+    public ResponseEntity<RoleDTO> getUsersRoleInWorkflow(@PathVariable Long userId, @PathVariable Long wfId) {
+    	Optional<RoleDTO> roleDTO = roleService.getUsersRoleInWorkflow(userId, wfId);
+    	return ResponseUtil.wrapOrNotFound(roleDTO);
+    }
 }
