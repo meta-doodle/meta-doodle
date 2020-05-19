@@ -57,13 +57,16 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
 	private CurrentStepRepository currentStepRepository;
 
 	private AnswerRepository answerRepository;
-	
+
 	private MailService mailService;
+
+	private InterpreterInterface interpreterInterface;
 
 	public WorkflowInstanceServiceImpl(WorkflowInstanceRepository workflowInstanceRepository,
 			WorkflowInstanceMapper workflowInstanceMapper, WorkflowModelRepository workflowModelRepository,
 			MdlUserRepository mdlUserRepository, WorkflowInstanceStateRepository workflowInstanceStateRepository,
-			CurrentStepRepository currentStepRepository, AnswerRepository answerRepository, MailService mailService) {
+			CurrentStepRepository currentStepRepository, AnswerRepository answerRepository, MailService mailService,
+			InterpreterInterface interpreterInterface) {
 		this.workflowInstanceRepository = workflowInstanceRepository;
 		this.workflowInstanceMapper = workflowInstanceMapper;
 		this.workflowModelRepository = workflowModelRepository;
@@ -72,6 +75,7 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
 		this.currentStepRepository = currentStepRepository;
 		this.answerRepository = answerRepository;
 		this.mailService = mailService;
+		this.interpreterInterface = interpreterInterface;
 	}
 
 	/**
@@ -157,12 +161,12 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
 			log.debug("MdlUser {} not found in WorkflowInstance guests", login);
 			return Optional.empty();
 		}
-		
-		WorkflowExecutionStateImpl workflowExecutionStateImpl = new WorkflowExecutionStateImpl(wfi,
-				mdlUser.get(), currentStepRepository, answerRepository);
-		workflowExecutionStateImpl.setEndOfStep(true);
 
-		return InterpreterInterface.getWorkflowStepData(workflowExecutionStateImpl);
+//		WorkflowExecutionStateImpl workflowExecutionStateImpl = new WorkflowExecutionStateImpl(wfi, mdlUser.get(),
+//				currentStepRepository, answerRepository);
+//		workflowExecutionStateImpl.setEndOfStep(true);
+
+		return interpreterInterface.getStepDTO(wfi, mdlUser.get());
 
 		/*
 		 * FakeReturnExec ret = FakeInterpreter.INTERPRETER.exec(
@@ -221,9 +225,10 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
 			for (String mails : workflowInstanceParamsDTO.getGuests()) {
 				User user = mdlUser.getUser();
 				if (user != null && mails.equalsIgnoreCase(user.getEmail())) {
-					String emailContent = "Hello "+user.getEmail()+", you have been invited to the following workflow: "
-							+ "http://localhost:8080/workflow-instance/"+workflowInstance.getId()+"/view";
-					
+					String emailContent = "Hello " + user.getEmail()
+							+ ", you have been invited to the following workflow: "
+							+ "http://localhost:8080/workflow-instance/" + workflowInstance.getId() + "/view";
+
 					mailService.sendEmail(user.getEmail(), "MetaDoodle - New invitation", emailContent, false, false);
 				}
 			}
@@ -255,7 +260,7 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
 		MdlUser user = mdlUserRepository.getOne(mdlUserId);
 		workflowInstanceRepository.save(workflowInstanceRepository.getOne(wfiId).removeGuests(user));
 	}
-	
+
 	@Override
 	public List<String> getRoles(Long idWFI) {
 		// No implem on this branch

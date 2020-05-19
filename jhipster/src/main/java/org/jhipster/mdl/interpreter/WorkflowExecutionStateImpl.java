@@ -4,121 +4,43 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.jhipster.mdl.domain.Answer;
 import org.jhipster.mdl.domain.CurrentStep;
-import org.jhipster.mdl.domain.MdlUser;
 import org.jhipster.mdl.domain.WorkflowInstance;
 import org.jhipster.mdl.repository.AnswerRepository;
-import org.jhipster.mdl.repository.CurrentStepRepository;
-import org.xtext.metadoodle.interpreter.Implementation.IDImpl;
-import org.xtext.metadoodle.interpreter.Interface.Answer;
-import org.xtext.metadoodle.interpreter.Interface.ID;
-import org.xtext.metadoodle.interpreter.Interface.RetainedChoice;
 import org.xtext.metadoodle.interpreter.Interface.WorkflowExecutionState;
 
 public class WorkflowExecutionStateImpl implements WorkflowExecutionState {
 
+	private static final String DEFAULT_ROLE = "ANY_ROLE";
+
 	private WorkflowInstance workflowInstance;
-	private MdlUser mdlUser;
 
-	private CurrentStepRepository currentStepRepository;
-	private AnswerRepository answerRepository;
+	private String role = DEFAULT_ROLE;
 
-	private boolean endOfStep = false;
+	private CurrentStep currentStep;
 
-	public WorkflowExecutionStateImpl(WorkflowInstance workflowInstance, MdlUser mdlUser,
-			CurrentStepRepository currentStepRepository, AnswerRepository answerRepository) {
+	private List<Answer> answers;
+
+	public WorkflowExecutionStateImpl(WorkflowInstance workflowInstance, AnswerRepository answerRepository,
+			CurrentStep currentStep) {
 		this.workflowInstance = workflowInstance;
-		this.mdlUser = mdlUser;
-		this.currentStepRepository = currentStepRepository;
-		this.answerRepository = answerRepository;
+		this.currentStep = currentStep;
+		answers = getAnswersOfThisWFI(workflowInstance, answerRepository);
 	}
 
-	public WorkflowExecutionStateImpl setEndOfStep(boolean endOfStep) {
-		this.endOfStep = endOfStep;
-		return this;
+	public void setRole(String role) {
+		this.role = role;
 	}
 
-	public WorkflowInstance getWorkflowInstance() {
-		return workflowInstance;
-	}
-	
-	public Optional<CurrentStep> findCurrentStep() {
-		for (CurrentStep currentStep : currentStepRepository.findAllWithEagerRelationships()) {
-			if (currentStep.getUsers().contains(mdlUser)
-					&& currentStep.getWorkflowInstanceState().getId() == workflowInstance.getState().getId()) {
-				return Optional.of(currentStep);
-			}
-		}
-		return Optional.empty();
-	}
-	
-	public CurrentStepRepository getCurrentStepRepository() {
-		return currentStepRepository;
-	}
-	
-	public MdlUser getMdlUser() {
-		return mdlUser;
-	}
-	
-	public boolean isEndOfStep() {
-		return endOfStep;
-	}
-
-	private List<org.jhipster.mdl.domain.Answer> getListAnswer(String stepIdent) {
-		return answerRepository
-				.findAll().parallelStream().filter(a -> a.getWorkflowInstance().equals(workflowInstance)
-						&& a.getStepIdent().equals(stepIdent) && a.getUser().equals(mdlUser))
+	/**
+	 * List of the {@link Answer} relative to the workflowInstance executed
+	 * 
+	 * @return A list of {@link Answer}
+	 */
+	private List<Answer> getAnswersOfThisWFI(WorkflowInstance workflowInstance, AnswerRepository answerRepository) {
+		return answerRepository.findAll().parallelStream().filter(a -> a.getWorkflowInstance().equals(workflowInstance))
 				.collect(Collectors.toList());
-	}
-
-	@Override
-	public Optional<Answer> getCurrentAnswer() {
-		Optional<CurrentStep> currentStep = findCurrentStep();
-		if (currentStep.isPresent()) {
-			Answer answer = new Answer() {
-
-				@Override
-				public ID getUserID() {
-					return new IDImpl(mdlUser.getUser().getLogin());
-				}
-
-				@Override
-				public ID getStepID() {
-					return new IDImpl(currentStep.get().getStepIdent());
-				}
-
-				@Override
-				public List<String> getAnswer(ID id) {
-					String answerID = id.getID();
-					List<String> list = answerRepository.findAll().parallelStream()
-							.filter(a -> a.getQuestionIdent().equals(answerID)
-									&& a.getStepIdent().equals(currentStep.get().getStepIdent())
-									&& a.getUser().equals(mdlUser))
-							.map(a -> a.getAnswer()).collect(Collectors.toList());
-					return list;
-				}
-			};
-			return Optional.of(answer);
-		}
-		return Optional.empty();
-	}
-
-	@Override
-	public ID getCurrentStepID() {
-		String id = "Error";
-		if (findCurrentStep().isPresent()) {
-			id = findCurrentStep().get().getStepIdent();
-		}
-		return new IDImpl(id);
-	}
-
-	@Override
-	public int getNumberAnwers(ID id) {
-		Optional<CurrentStep> currentStep = findCurrentStep();
-		if (currentStep.isPresent()) {
-			return getListAnswer(currentStep.get().getStepIdent()).size();
-		}
-		return 0;
 	}
 
 	@Override
@@ -127,18 +49,34 @@ public class WorkflowExecutionStateImpl implements WorkflowExecutionState {
 	}
 
 	@Override
-	public Optional<Answer> getPreviousAnswer(ID arg0, ID arg1) {
+	public String getCurrentStepID() {
+		return currentStep.getStepIdent();
+	}
+
+	@Override
+	public int getNumberAnwers(String stepID) {
+		int count = 0;
+		for (Answer answer : answers) {
+			if (answer.getStepIdent().equals(stepID)) {
+				count++;
+			}
+		}
+		return count;
+	}
+
+	@Override
+	public Optional<String> getPreviousAnswer(String questionID, String stepID) {
+		for (Answer answer : answers) {
+			if (answer.getQuestionIdent().equals(questionID) && answer.getStepIdent().equals(stepID)) {
+				return Optional.of(answer.getAnswer());
+			}
+		}
 		return Optional.empty();
 	}
 
 	@Override
-	public RetainedChoice getPreviousRetainedChoice(String arg0) {
-		return null;
-	}
-
-	@Override
-	public boolean isStepComplete() {
-		return endOfStep;
+	public String getRole() {
+		return role;
 	}
 
 }
