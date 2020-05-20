@@ -1,6 +1,7 @@
 package org.xtext.metadoodle.interpreter.Interface;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Cette classe permet d'accéder aux informations 
@@ -29,4 +30,6 @@ public interface WorkflowInstanceData {
 	 * @return 
 	 */
 	public List<String> getRoles();
+	
+	public Optional<String> getQuestionTitle(String stepID, String questionID);
 }

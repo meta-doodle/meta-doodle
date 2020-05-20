@@ -3,7 +3,6 @@ package org.xtext.metadoodle.interpreter.Implementation;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 import org.xtext.metadoodle.interpreter.Interface.MailReminder;
 import org.xtext.metadoodle.mDL.MailReminderLan;
@@ -26,9 +25,8 @@ public class MailReminderImpl implements MailReminder {
 	}
 	
 	@Override
-	public Optional<String> getNextDateToSend() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<String> getNextDateToSend() {
+		return dates;
 	}
 
 	@Override

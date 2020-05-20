@@ -33,11 +33,6 @@ public class StepDTOImpl implements StepDTO {
 			userInteractions = userInteractionBuilder.doSwitch(userInteraction);
 		}
 	}
-	
-	@Override
-	public List<UserInteractionDTO> getInteractions() {
-		return List.copyOf(this.userInteractions);
-	}
 
 	public void addUserInteraction(UserInteractionDTOImpl ui) {
 		Objects.requireNonNull(ui);
@@ -63,5 +58,10 @@ public class StepDTOImpl implements StepDTO {
 	@Override
 	public String getStepID() {
 		return this.stepID.toString();
+	}
+
+	@Override
+	public List<? extends UserInteractionDTO> getUserInteractionDTOs() {
+		return userInteractions;
 	}
 }

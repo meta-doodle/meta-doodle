@@ -1,6 +1,6 @@
 package org.xtext.metadoodle.interpreter.Interface;
 
-import java.util.Optional;
+import java.util.List;
 
 public interface MailReminder {
 	
@@ -8,7 +8,7 @@ public interface MailReminder {
 	 * Retourne la prochaine date pour envoyer les mails de rappel.
 	 * @return une date d'envoie optionnel
 	 */
-	public Optional<String> getNextDateToSend();
+	public List<String> getNextDateToSend();
 	
 	/**
 	 * Cette methode retourne l'object des mails à envoyer.

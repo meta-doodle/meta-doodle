@@ -34,11 +34,11 @@ import com.google.inject.Injector;
  * 
  * @version 0.2
  */
-public class InterpreterImpl implements Interpreter {
+public class InterpreterV2 implements Interpreter {
 	/**
 	 * Le logger.
 	 */
-	private final Logger LOG = Logger.getLogger(InterpreterImpl.class.getName());
+	private final Logger LOG = Logger.getLogger(InterpreterV2.class.getName());
 	/**
 	 * Liste des ast déjà calculé lié avec le model.
 	 */
@@ -46,7 +46,7 @@ public class InterpreterImpl implements Interpreter {
 //	private String errorMessage;
 //	private boolean haveProblem;
 
-	public InterpreterImpl() {
+	public InterpreterV2() {
 		astList = new HashMap<>();
 //		errorMessage = "";
 //		haveProblem = false;
@@ -127,7 +127,7 @@ public class InterpreterImpl implements Interpreter {
 			LOG.info(error);
 			return new NoStepDTOFact(wes.getCurrentStepID(), error);
 		} else {
-			LOG.info("Current Step is now "+rightStep.get().getName());
+			LOG.info("Current Step is now " + rightStep.get().getName());
 		}
 
 		curStepLan = rightStep.get();
@@ -201,7 +201,7 @@ public class InterpreterImpl implements Interpreter {
 	private Optional<WorkflowStepLan> findRightCurrentStep(WorkflowStepLan curStepLan, WorkflowExecutionState wes) {
 
 		// check if all conditions are OK
-		if(curStepLan.getRole() == null) {
+		if (curStepLan.getRole() == null) {
 			if (!isCurrentStepDone(curStepLan, wes)) {
 				return Optional.of(curStepLan);
 			}
@@ -210,7 +210,7 @@ public class InterpreterImpl implements Interpreter {
 				return Optional.of(curStepLan);
 			}
 		}
-		
+
 		LOG.info(curStepLan.getName() + " is skiped");
 
 		Optional<WorkflowStepLan> nextWorkflowStepLan = getNextStepLan(curStepLan, wes);
@@ -254,8 +254,8 @@ public class InterpreterImpl implements Interpreter {
 
 	private Optional<WorkflowStepLan> getNextStepLan(WorkflowStepLan curStepLan, WorkflowExecutionState wes) {
 		WorkflowStepLan defaultNextStep = curStepLan.getNextStep();
-		
-		LOG.info("Checking Step : '"+curStepLan.getName()+"'");
+
+		LOG.info("Checking Step : '" + curStepLan.getName() + "'");
 
 		StepSwitch ss = new StepSwitch(wes, curStepLan.getName());
 
@@ -266,7 +266,7 @@ public class InterpreterImpl implements Interpreter {
 				return ret;
 			}
 		}
-		
+
 		if (defaultNextStep == null) {
 			// dernière étape.
 			return Optional.empty();
@@ -300,12 +300,20 @@ public class InterpreterImpl implements Interpreter {
 		WorkflowLan wfLan = (WorkflowLan) getRoot(wfString);
 		List<String> roles = new ArrayList<>();
 
+		LOG.info(wfLan + "");
 		for (RoleLan role : wfLan.getRoles()) {
 			roles.add(role.getName());
 		}
 
-		return new WorkflowInstanceDataImpl(wfLan.getName(), wfLan.getDesc(), wfLan.getFirstStep().getName().toString(),
-				roles);
+		LOG.info("StepID : " + wfLan.getName());
+		LOG.info("Step descr : " + wfLan.getDesc());
+		LOG.info("FirstStepName : " + wfLan.getFirstStep().getName());
+		LOG.info("Roles : " + roles);
+
+		QuestionTitleGetter questionTitleGetter = new QuestionTitleGetter(wfLan);
+
+		return new WorkflowInstanceDataImpl(wfLan.getName(), wfLan.getDesc(), wfLan.getFirstStep().getName(), roles,
+				questionTitleGetter);
 	}
 
 //	/**

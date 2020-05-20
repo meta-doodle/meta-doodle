@@ -21,6 +21,10 @@ public class UserInteractionDTOImpl implements UserInteractionDTO {
 		this.questionType = type;
 	}
 	
+	public void addNewPossibleAnswer(String answer) {
+		possibleAnswer.add(answer);
+	}
+	
 	@Override
 	public String getTitle() {
 		return this.title;
