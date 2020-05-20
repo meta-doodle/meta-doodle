@@ -35,4 +35,12 @@ export class RoleService {
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
+
+  findAllrole(): Observable<EntityArrayResponseType> {
+    return this.http.get<IRole[]>(`${this.resourceUrl}`, { observe: 'response' });
+  }
+
+  findRole(idUser: number, idWf: number): Observable<EntityResponseType>{
+    return this.http.get<IRole>(`${this.resourceUrl}/${idUser}/${idWf}`, { observe: 'response' });
+  }
 }

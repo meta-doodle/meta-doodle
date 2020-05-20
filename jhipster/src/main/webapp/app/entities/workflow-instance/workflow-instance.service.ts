@@ -5,8 +5,11 @@ import { Observable } from 'rxjs';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
 import { IWorkflowInstance } from 'app/shared/model/workflow-instance.model';
-import { ISurveyView } from "../../shared/model/survey-view";
-import { PostWorkFlowInstance } from "../../shared/model/postWorkFlowInstance";
+
+import { ISurveyView } from 'app/shared/model/survey-view';
+import { PostWorkFlowInstance } from 'app/shared/model/postWorkFlowInstance';
+
+
 
 type EntityResponseType = HttpResponse<IWorkflowInstance>;
 type EntityArrayResponseType = HttpResponse<IWorkflowInstance[]>;
@@ -14,6 +17,7 @@ type EntityArrayResponseType = HttpResponse<IWorkflowInstance[]>;
 @Injectable({ providedIn: 'root' })
 export class WorkflowInstanceService {
   public resourceUrl = SERVER_API_URL + 'api/workflow-instances';
+  public resourceRoleUrl = SERVER_API_URL + 'api/workflow-instances-roles';
 
   constructor(protected http: HttpClient) {}
 
@@ -38,6 +42,7 @@ export class WorkflowInstanceService {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
+
   view(login: string, idWFI: number): Observable<HttpResponse<ISurveyView>> {
     return this.http.get<ISurveyView>(`${this.resourceUrl}-view/${login}/${idWFI}`, { observe: 'response' });
   }
@@ -52,4 +57,9 @@ export class WorkflowInstanceService {
   findAllInstance(): Observable<EntityArrayResponseType>{
     return this.http.get<IWorkflowInstance[]>(`${this.resourceUrl}`, {observe: 'response'});
   }
+
+  findUserRole(idWFI: number): Observable<EntityArrayResponseType>{
+    return this.http.get<any>(`${this.resourceRoleUrl}/${idWFI}`, { observe: 'response' });
+  }
+
 }

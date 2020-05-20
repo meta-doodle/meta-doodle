@@ -36,6 +36,7 @@ export class EventItemComponent implements OnInit {
         x.body ? this.description = x.body.description! : "Description empty";
         x.body? creatorId = x.body.creatorId! : -1;
       });
+
       this.accountService.identity().subscribe( value => {
         value ?  this.creatorLogin = value.login : '';
       });

@@ -56,6 +56,7 @@ export class SurveyComponent implements OnInit {
   }
 
   demarerInstance(): void {
+    this.idWFI = this.route.snapshot.params['id'];
     this.workflowService.view(this.login, this.idWFI).subscribe(
       (res) => {
         this.surveyView = res.body;
@@ -83,6 +84,7 @@ export class SurveyComponent implements OnInit {
     answer.userId = this.idUser.userId;
     answer.workflowInstanceId = this.idWFI;
     this.answerService.send(answer).subscribe((res:any)=>{
+
     });
   }
 

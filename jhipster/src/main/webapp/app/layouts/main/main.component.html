@@ -4,8 +4,22 @@
         <router-outlet name="navbar"></router-outlet>
     </div>
     <div class="page-content container-fluid">
-        <div class="card jh-card">
-            <router-outlet></router-outlet>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="card jh-card" style="height: 90%; text-align: center; position: fixed;">
+                    <div style="background-color: darkgrey;">
+
+                        <h2><fa-icon icon="calendar-week" fixedWidth="true"></fa-icon>Evenements</h2>
+                    </div>
+                   <router-outlet name="sidebar"></router-outlet>
+                </div>
+            </div>
+            <div class="col-md-10">
+                <div class="card jh-card">
+                    <router-outlet></router-outlet>
+                </div>
+            </div>
+
         </div>
     </div>
     <div class="footer-bottom">
