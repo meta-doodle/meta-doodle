@@ -9,20 +9,13 @@ import org.xtext.metadoodle.interpreter.Interface.UserInteractionDTO;
 public class EmptyStep implements StepDTO {
 	
 	private List<UserInteractionDTO> userInteractionDTOs = new ArrayList<>();
-	private String errorMessage;
 	
-	public EmptyStep(String errorMessage) {
-		this.errorMessage = errorMessage;
+	public EmptyStep() {
 	}
 
 	@Override
 	public List<? extends UserInteractionDTO> getUserInteractionDTOs() {
 		return userInteractionDTOs;
-	}
-
-	@Override
-	public String getStepDescription() {
-		return errorMessage;
 	}
 
 	@Override
