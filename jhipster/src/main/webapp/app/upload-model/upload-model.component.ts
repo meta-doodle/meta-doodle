@@ -67,6 +67,7 @@ private fb: FormBuilder
       (success) => {
         this.router.navigate(['/list-model']);
       },(error) => {
+        console.log(error);
         this.router.navigate(['/404']);
       });
   }

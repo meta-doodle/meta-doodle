@@ -1,9 +1,14 @@
-<div class="center survey-container">
+
+<div *ngIf="this.emptyStep; then thenBlock else elseBlock"></div>
+<ng-template #thenBlock>Merci pour vos réponses</ng-template>
+<ng-template #elseBlock><div class="center survey-container">
     <div class="list-group">
         <jhi-question *ngFor="let item of this.questions" [question]="item"></jhi-question>
     </div>
 
 </div>
-<div class="center">
-    <button class="btn btn-primary" (click)="submit()">Envoyer</button>
-</div>
+    <div class="center">
+        <button class="btn btn-primary" (click)="submit()">Envoyer</button>
+    </div>
+</ng-template>
+
