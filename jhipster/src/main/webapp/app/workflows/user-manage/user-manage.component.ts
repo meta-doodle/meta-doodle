@@ -82,7 +82,7 @@ export class UserManageComponent implements OnInit {
                 this.roleName = data.body
                 this.dataRole = resultat.body? resultat.body : null;
                 if(keys === this.wfName.id){
-                  this.workflowUsersList.push(new UserManage(this.wfName.id, val.userId, this.wfName.description,this.roleName.login ,this.dataRole.role));
+                  this.workflowUsersList.push(new UserManage(this.wfName.id,this.dataRole.id, val.userId, this.wfName.description,this.roleName.login ,this.dataRole.role));
                 }
               })
 
@@ -102,13 +102,13 @@ export class UserManageComponent implements OnInit {
       return self.indexOf(value) === index ;
    }
 
-   updateRole(idWF: any, idUser: any, role:any): void{
+   updateRole(roleId: any,idWF: any, idUser: any, role:any): void{
      this.irole = new Role();
+     this.irole.id = roleId;
      this.irole.role = role ;
      this.irole.userId = idUser;
      this.irole.workflowInstanceId = idWF
-     console.log(this.irole)
-     this.roleService.create(this.irole).subscribe((res)=>{
+     this.roleService.update(this.irole).subscribe((res)=>{
        alert("insertion effectue");
      })
 
