@@ -7,6 +7,7 @@ import { WorkflowInstanceService } from 'app/entities/workflow-instance/workflow
 import { UserManage } from 'app/shared/types/userManage';
 import { RoleService } from 'app/entities/role/role.service';
 import { IRole, URole, Role } from 'app/shared/model/role.model';
+import { IMdlUser } from 'app/shared/model/mdl-user.model';
 
 @Component({
   selector: 'jhi-user-manage',
@@ -35,7 +36,7 @@ export class UserManageComponent implements OnInit {
   itemList: Array<any> = [];
   index: Array<any> = [];
 
-  constructor(private workflowService: MdlUserService, private answerService: AnswerService,
+  constructor(private mdlUserService: MdlUserService, private answerService: AnswerService,
     private userService: AccountService, private workflowInstanceService: WorkflowInstanceService,
     private roleService: RoleService ) { }
 
@@ -77,10 +78,14 @@ export class UserManageComponent implements OnInit {
              this.roleService.findRole(val.userId,this.wfName.id).subscribe((resultat)=>{
               this.wfName = res.body? res.body : null ;
               // console.log(this.wfName)
+              this.mdlUserService.findJUser(val.userId).subscribe((data)=>{
+                this.roleName = data.body
                 this.dataRole = resultat.body? resultat.body : null;
                 if(keys === this.wfName.id){
-                  this.workflowUsersList.push(new UserManage(this.wfName.id,this.wfName.description, val.userId,this.dataRole.role));
+                  this.workflowUsersList.push(new UserManage(this.wfName.id, val.userId, this.wfName.description,this.roleName.login ,this.dataRole.role));
                 }
+              })
+
               })
           });
 

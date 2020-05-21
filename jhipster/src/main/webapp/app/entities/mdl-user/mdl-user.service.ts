@@ -52,4 +52,8 @@ export class MdlUserService {
   findWorkflows(id: number): Observable<EntityArrayResponseType> {
     return this.http.get<IWorkflowInstance[]>(`${this.resourceUrl}/${id}/workflows`, { observe: 'response' })
   }
+
+  findJUser(id: number): Observable<EntityResponseType>{
+    return this.http.get<IMdlUser>(`${this.resourceUrl}/${id}/get-user`, { observe: 'response' })
+  }
 }
