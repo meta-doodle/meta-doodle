@@ -1,0 +1,49 @@
+<div>
+    <h2 id="page-heading">
+        <div class="jumbotron" style="text-align: center;">
+            <h2>Gestion des Users</h2>
+        </div>
+
+    </h2>
+    <jhi-alert-error></jhi-alert-error>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="alert alert-warning" *ngIf="workflowUsersList?.length === 0">
+        <span>No answers found</span>
+    </div>
+    <div class="table-responsive" *ngIf="workflowUsersList?.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+            <tr>
+            <th scope="col" ><span>Workflow Instance</span></th>
+            <th scope="col" ><span>User</span></th>
+            <th scope="col" ><span>Role</span></th>
+            <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of this.workflowUsersList">
+                <td>{{item.workflow}}</td>
+                <td>{{item.user}}</td>
+                <td>
+                    <select #roleValue>
+                        <option *ngFor="let item1 of this.roleListe" [value]="item1" >{{item1}}</option>
+                    </select>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button type="submit"
+                        (click) = "updateRole(item.id, item.user,roleValue.value)"
+                            class="btn btn-info btn-sm">
+                            <fa-icon icon="eye"></fa-icon>
+                            <span class="d-none d-md-inline">Modifier</span>
+                        </button>
+                    </div>
+                </td>
+
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+

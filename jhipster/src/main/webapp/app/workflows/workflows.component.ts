@@ -25,14 +25,12 @@ export class WorkflowsComponent implements OnInit {
   findAllWorkflows(): void{
     this.workflowService.findAllInstance().subscribe((res)=>{
       this.workflows = res.body;
-      console.log(this.workflows);
     })
   }
 
   findAllanswers(): void {
     this.answerService.findAllAnswer().subscribe((res)=>{
       this.instance = res.body;
-      console.log(this.instance);
     })
   }
 

@@ -9,8 +9,9 @@
         <p>{{ this.description}}</p>
     </div>
     <div class="right_container container">
-      <a class="navlink" [routerLink]="['/list-model/instantiate',id]">
-       <span>create</span>
-   </a>
+        <button type="submit" class="btn btn-danger btn-sm" [routerLink]="['/list-model/instantiate',id]">
+            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+        create
+        </button>
     </div>
 </div>

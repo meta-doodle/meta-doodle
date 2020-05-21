@@ -10,6 +10,10 @@ import { AccountService } from 'app/core/auth/account.service';
   styleUrls: ['main.scss']
 })
 export class MainComponent implements OnInit {
+
+  isNavbarCollapsed = true;
+
+
   constructor(private accountService: AccountService, private titleService: Title, private router: Router) {}
 
   ngOnInit(): void {
@@ -40,5 +44,12 @@ export class MainComponent implements OnInit {
       pageTitle = 'Mdl';
     }
     this.titleService.setTitle(pageTitle);
+  }
+
+  isAuthenticated(): boolean {
+    return this.accountService.isAuthenticated();
+  }
+  collapseNavbar(): void {
+    this.isNavbarCollapsed = true;
   }
 }

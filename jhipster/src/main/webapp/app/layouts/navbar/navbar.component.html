@@ -12,58 +12,6 @@
         [ngSwitch]="isAuthenticated()">
         <ul class="navbar-nav ml-auto">
 
-            <li *ngSwitchCase="true" ngbDropdown class="nav-item dropdown pointer" display="dynamic"
-                routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-                <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="events-menu">
-                    <span>
-                        <fa-icon icon="list-alt"></fa-icon>
-                        <span>
-                            Evenements
-                        </span>
-                    </span>
-                </a>
-                <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="events-menu">
-                    <li>
-                        <a class="dropdown-item" routerLink="list-model" routerLinkActive="active" (click)="collapseNavbar()">
-                            <fa-icon icon="plus" fixedWidth="true"></fa-icon>
-                            <span>Créer</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="/events/manage" routerLinkActive="active"
-                            (click)="collapseNavbar()">
-                            <fa-icon icon="edit" fixedWidth="true"></fa-icon>
-                            <span>Gérer</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" routerLink="/workflows/workflow-recap" routerLinkActive="active"
-                            (click)="collapseNavbar()">
-                            <fa-icon icon="eye" fixedWidth="true"></fa-icon>
-                            <span>Récapitulatif</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-            <li *ngSwitchCase="true" ngbDropdown class="nav-item dropdown pointer" display="dynamic"
-                routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-                <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="workflow-menu">
-                    <span>
-                        <fa-icon icon="list-alt"></fa-icon>
-                        <span>
-                            Workflow
-                        </span>
-                    </span>
-                </a>
-                <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="workflow-menu">
-                    <li>
-                        <a class="dropdown-item" routerLink="upload-model" routerLinkActive="active" (click)="collapseNavbar()">
-                            <fa-icon icon="plus" fixedWidth="true"></fa-icon>
-                            <span>Upload</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
             <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
             <li *ngSwitchCase="true" ngbDropdown class="nav-item dropdown pointer" display="dynamic"
                 routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">

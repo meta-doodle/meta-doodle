@@ -1,0 +1,49 @@
+<div class="sidenav">
+<div >
+    <ul class="navbar-nav ml-auto">
+        <li>
+            <button *ngIf="isAuthenticated()" type="button" class="btn btn-light btn-lg btn-block">
+                <fa-icon icon="plus" fixedWidth="true"></fa-icon>
+            <a *ngIf="isAuthenticated()" class="dropdown-item" routerLink="list-model" routerLinkActive="active"
+                (click)="collapseNavbar()">
+                Créer
+            </a></button>
+        </li>
+        <li>
+            <button *ngIf="isAuthenticated()" type="button" class="btn btn-light btn-lg btn-block">
+                <fa-icon icon="edit" fixedWidth="true"></fa-icon>
+            <a *ngIf="isAuthenticated()"  class="dropdown-item" routerLink="/events/manage" routerLinkActive="active"
+                (click)="collapseNavbar()">
+                Gerer
+            </a></button>
+        </li>
+        <li>
+            <button *ngIf="isAuthenticated()" type="button" class="btn btn-light btn-lg btn-block">
+                <fa-icon icon="th-list" fixedWidth="true"></fa-icon>
+                <a  class="dropdown-item" routerLink="/workflows/workflow-recap" routerLinkActive="active"
+                (click)="collapseNavbar()">
+                Récapitulatif
+            </a></button>
+        </li>
+        <li>
+            <button *ngIf="isAuthenticated()" type="button" class="btn btn-light btn-lg btn-block">
+
+                <fa-icon icon="upload" fixedWidth="true"></fa-icon>
+            <a *ngIf="isAuthenticated()" class="dropdown-item" routerLink="upload-model" routerLinkActive="active"
+                (click)="collapseNavbar()">
+                Workflow Upload
+            </a></button>
+        </li>
+        <li>
+            <button *ngIf="isAuthenticated()" type="button" class="btn btn-light btn-lg btn-block">
+
+                <fa-icon icon="users" fixedWidth="true"></fa-icon>
+            <a *ngIf="isAuthenticated()" class="dropdown-item" routerLink="/workflows/user-manage" routerLinkActive="active"
+                (click)="collapseNavbar()">
+                Gestion des Users
+            </a></button>
+        </li>
+
+    </ul>
+</div>
+</div>
