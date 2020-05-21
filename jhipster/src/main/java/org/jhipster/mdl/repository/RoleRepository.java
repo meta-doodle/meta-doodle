@@ -1,5 +1,6 @@
 package org.jhipster.mdl.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.jhipster.mdl.domain.MdlUser;
@@ -16,5 +17,7 @@ import org.springframework.stereotype.Repository;
 public interface RoleRepository extends JpaRepository<Role, Long> {
 
 	Optional<Role> findDistinctRoleByWorkflowInstanceIdAndUserId(Long wfId, Long userId);
+	
+	List<Role> findRoleByWorkflowInstanceIdAndRole(Long wfId, String role);
 
 }
