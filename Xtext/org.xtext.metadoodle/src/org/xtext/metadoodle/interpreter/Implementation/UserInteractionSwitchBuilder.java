@@ -8,7 +8,6 @@ import org.xtext.metadoodle.mDL.AbrstractQuest;
 import org.xtext.metadoodle.mDL.CalendarLan;
 import org.xtext.metadoodle.mDL.FileUploadLan;
 import org.xtext.metadoodle.mDL.GotoQuestionLan;
-import org.xtext.metadoodle.mDL.PossibleAnswerLan;
 import org.xtext.metadoodle.mDL.StandardQuestionLan;
 import org.xtext.metadoodle.mDL.SurveyLan;
 import org.xtext.metadoodle.mDL.util.MDLSwitch;
@@ -62,7 +61,7 @@ public class UserInteractionSwitchBuilder extends MDLSwitch<List<UserInteraction
 		UserInteractionDTOImpl userInteractionDTOImpl = new UserInteractionDTOImpl(id, title, type);
 		gotoQuestionLan.getGotoNextStep().forEach(a -> userInteractionDTOImpl.addNewPossibleAnswer(a.getResponse()));
 
-		list.add(new UserInteractionDTOImpl(id, title, type));
+		list.add(userInteractionDTOImpl);
 		return list;
 	}
 

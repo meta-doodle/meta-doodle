@@ -11,14 +11,14 @@ public class NoStepDTOFact implements StepDTOFactory {
 
 	private final Logger LOG = Logger.getLogger(NoStepDTOFact.class.getName());
 	
-	private String curStepID, desc; 
+	private String curStepID, error; 
 	
 	public NoStepDTOFact(String id, String desc) {
 		Objects.requireNonNull(id);
 		Objects.requireNonNull(desc);
 		
 		this.curStepID = id;
-		this.desc = desc;
+		this.error = desc;
 	}
 	
 	@Override
@@ -43,6 +43,6 @@ public class NoStepDTOFact implements StepDTOFactory {
 
 	@Override
 	public Optional<String> getError() {
-		return Optional.of(this.desc);
+		return Optional.of(this.error);
 	}
 }

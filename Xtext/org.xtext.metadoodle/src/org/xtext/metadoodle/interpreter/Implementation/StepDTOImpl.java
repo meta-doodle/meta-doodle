@@ -12,20 +12,20 @@ import org.xtext.metadoodle.mDL.WorkflowStepLan;
 public class StepDTOImpl implements StepDTO {
 
 	private List<UserInteractionDTOImpl> userInteractions;
-	private String stepDescription;
+	//private String stepDescription;
 	private String stepID;
 	
-	public StepDTOImpl(String desc, String id) {
-		Objects.requireNonNull(desc);
+	public StepDTOImpl(String id) {
+		//Objects.requireNonNull(desc);
 		Objects.requireNonNull(id);
 		
 		this.userInteractions = new ArrayList<>();
-		this.stepDescription = desc;
+		//this.stepDescription = desc;
 		this.stepID = id;
 	}
 	
 	public StepDTOImpl(WorkflowStepLan workflowStepLan) {
-		stepDescription = workflowStepLan.getComment();
+		//stepDescription = workflowStepLan.getComment();
 		stepID = workflowStepLan.getName();
 		
 		UserInteractionSwitchBuilder userInteractionBuilder = new UserInteractionSwitchBuilder();
@@ -50,10 +50,10 @@ public class StepDTOImpl implements StepDTO {
 		throw new IllegalArgumentException("La questionID : " + id + " est inconnu dans l'étape " + stepID);
 	}
 	
-	@Override
-	public String getStepDescription() {
-		return this.stepDescription;
-	}
+//	@Override
+//	public String getStepDescription() {
+//		return this.stepDescription;
+//	}
 
 	@Override
 	public String getStepID() {

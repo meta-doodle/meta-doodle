@@ -226,17 +226,20 @@ public class InterpreterV2 implements Interpreter {
 
 	private boolean isCurrentStepDone(WorkflowStepLan curStepLan, WorkflowExecutionState wes) {
 		SynchroLan stepSynchro = curStepLan.getSynchro();
-		Date now = new Date();
-		try {
-			Date stepSynchroDate = new SimpleDateFormat("dd/MM/yy").parse(stepSynchro.getEndStepDate());
+		
+		if(stepSynchro.getEndStepDate() != null) {
+			Date now = new Date();
+			try {
+				Date stepSynchroDate = new SimpleDateFormat("dd/MM/yy").parse(stepSynchro.getEndStepDate());
 
-			LOG.info("CurDate : " + now + " | stepDate : " + stepSynchroDate);
-			if (stepSynchroDate.before(now)) { // Si l'étape est passée,
-				return true;
+				LOG.info("CurDate : " + now + " | stepDate : " + stepSynchroDate + " -> step expired");
+				if (stepSynchroDate.before(now)) { // Si l'étape est passée,
+					return true;
+				}
+
+			} catch (ParseException e) {
+				LOG.severe(e.getMessage());
 			}
-
-		} catch (ParseException e) {
-			LOG.severe(e.getMessage());
 		}
 
 		HasBeenAnsweredSwitch hasBeenAnsweredSwitch = new HasBeenAnsweredSwitch(wes, curStepLan.getName());
@@ -305,15 +308,14 @@ public class InterpreterV2 implements Interpreter {
 			roles.add(role.getName());
 		}
 
-		LOG.info("StepID : " + wfLan.getName());
-		LOG.info("Step descr : " + wfLan.getDesc());
+//		LOG.info("StepID : " + wfLan.getName());
+//		LOG.info("Step descr : " + wfLan.getDesc());
 		LOG.info("FirstStepName : " + wfLan.getFirstStep().getName());
 		LOG.info("Roles : " + roles);
 
 		QuestionTitleGetter questionTitleGetter = new QuestionTitleGetter(wfLan);
 
-		return new WorkflowInstanceDataImpl(wfLan.getName(), wfLan.getDesc(), wfLan.getFirstStep().getName(), roles,
-				questionTitleGetter);
+		return new WorkflowInstanceDataImpl(wfLan.getFirstStep().getName(), roles, questionTitleGetter);
 	}
 
 //	/**

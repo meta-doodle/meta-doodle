@@ -9,16 +9,16 @@ import java.util.Optional;
  * @version 1.0
  */
 public interface WorkflowInstanceData {
-	/**
-	 * Retourne le nom du workflow.
-	 * @return
-	 */
-	public String getName();
-	/**
-	 * Retourne la description du workflow.
-	 * @return
-	 */
-	public String getDescription();
+//	/**
+//	 * Retourne le nom du workflow.
+//	 * @return
+//	 */
+//	public String getName();
+//	/**
+//	 * Retourne la description du workflow.
+//	 * @return
+//	 */
+//	public String getDescription();
 	/**
 	 * Retourne l'id de la première étape.
 	 * @return

@@ -5,8 +5,8 @@ generate mDL "http//www.xtext.org/metadoodle/MDL"
 
 // Lan => Language
 WorkflowLan:
-	'MDLWorkflow' name=ID
-	'Description' Desc=STRING
+	//'MDLWorkflow' name=ID
+	//'Description' Desc=STRING
 	'FirstStep' firstStep=[WorkflowStepLan]
 	('Roles' (roles+=RoleLan)+ )?
 	'Steps' (steps+=WorkflowStepLan)+
@@ -14,7 +14,7 @@ WorkflowLan:
 
 WorkflowStepLan :
     '{' 'StepName' name=ID
-    'Comment' comment=STRING
+    //'Comment' comment=STRING
     ('Role' role=[RoleLan])?
     ('NextStep' nextStep=[WorkflowStepLan])?
     (userInteraction+=UserInteractionLan)?
@@ -83,7 +83,7 @@ FileUploadLan:
 
 SynchroLan:
 	'Synchro'
-    '{' 'EndStepDate' endStepDate=DATE
+    '{' ('EndStepDate' endStepDate=DATE)?
     // If we have a certain percentage of answer
     'PercentCompletionNeeded' percentageCompletionNeeded=INT '}'
 ;

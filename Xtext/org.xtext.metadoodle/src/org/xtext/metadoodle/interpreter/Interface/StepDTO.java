@@ -5,7 +5,7 @@ import java.util.List;
 public interface StepDTO {
 	public List<? extends UserInteractionDTO> getUserInteractionDTOs();
 	
-	public String getStepDescription();
+//	public String getStepDescription();
 	
 	public String getStepID();
 }
