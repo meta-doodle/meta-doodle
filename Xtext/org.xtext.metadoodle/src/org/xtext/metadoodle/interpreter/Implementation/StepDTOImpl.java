@@ -30,8 +30,9 @@ public class StepDTOImpl implements StepDTO {
 		
 		UserInteractionSwitchBuilder userInteractionBuilder = new UserInteractionSwitchBuilder();
 		for (UserInteractionLan userInteraction : workflowStepLan.getUserInteraction()) {
-			userInteractions = userInteractionBuilder.doSwitch(userInteraction);
+			userInteractionBuilder.doSwitch(userInteraction);
 		}
+		userInteractions = userInteractionBuilder.getList();
 	}
 
 	public void addUserInteraction(UserInteractionDTOImpl ui) {

@@ -112,11 +112,11 @@ public class InterpreterV2 implements Interpreter {
 
 		Optional<WorkflowStepLan> optStep = findWorkflowStepLanByName(wes.getCurrentStepID(), root);
 		if (!optStep.isPresent()) {
-			String error = "No such Step in the WF";
+			String error = "No such Step in the WF : "+wes.getCurrentStepID();
 			LOG.severe(error);
 			return new NoStepDTOFact(wes.getCurrentStepID(), error);
 		} else {
-			LOG.info("Step '" + wes.getCurrentStepID() + "' found");
+			LOG.info("Step '" + wes.getCurrentStepID() + "' found as current step");
 		}
 
 		WorkflowStepLan curStepLan = optStep.get();
@@ -199,19 +199,15 @@ public class InterpreterV2 implements Interpreter {
 	}
 
 	private Optional<WorkflowStepLan> findRightCurrentStep(WorkflowStepLan curStepLan, WorkflowExecutionState wes) {
+		LOG.info("Searching new current step");
+		LOG.info("Testing "+curStepLan.getName());
 
 		// check if all conditions are OK
-		if (curStepLan.getRole() == null) {
-			if (!isCurrentStepDone(curStepLan, wes)) {
-				return Optional.of(curStepLan);
-			}
-		} else {
-			if (wes.getRole().equals(curStepLan.getRole().getName()) && !isCurrentStepDone(curStepLan, wes)) {
-				return Optional.of(curStepLan);
-			}
+		if (!isCurrentStepDone(curStepLan, wes)) {
+			return Optional.of(curStepLan);
 		}
 
-		LOG.info(curStepLan.getName() + " is skiped");
+		LOG.info(curStepLan.getName() + " is done");
 
 		Optional<WorkflowStepLan> nextWorkflowStepLan = getNextStepLan(curStepLan, wes);
 
@@ -225,15 +221,17 @@ public class InterpreterV2 implements Interpreter {
 	}
 
 	private boolean isCurrentStepDone(WorkflowStepLan curStepLan, WorkflowExecutionState wes) {
+		LOG.info("Check if " + curStepLan.getName() + " is done...");
 		SynchroLan stepSynchro = curStepLan.getSynchro();
-		
-		if(stepSynchro.getEndStepDate() != null) {
+
+		if (stepSynchro.getEndStepDate() != null) {
 			Date now = new Date();
 			try {
 				Date stepSynchroDate = new SimpleDateFormat("dd/MM/yy").parse(stepSynchro.getEndStepDate());
 
-				LOG.info("CurDate : " + now + " | stepDate : " + stepSynchroDate + " -> step expired");
+				LOG.info("CurDate : " + now + " | stepDate : " + stepSynchroDate);
 				if (stepSynchroDate.before(now)) { // Si l'étape est passée,
+					LOG.info("Step is expired");
 					return true;
 				}
 
@@ -248,17 +246,24 @@ public class InterpreterV2 implements Interpreter {
 		for (UserInteractionLan userInteractionLan : curStepLan.getUserInteraction()) {
 			boolean answered = hasBeenAnsweredSwitch.doSwitch(userInteractionLan);
 			if (!answered) {
+				LOG.info("Step not done");
 				return false;
 			}
 		}
-
+		
+		if(stepSynchro.getPercentageCompletionNeeded() != 0 && wes.getNumberOfUser() != 0) {
+			int nbStepAnswers = wes.getNumberAnwers(curStepLan.getName());
+			double pourcentAnswered = (nbStepAnswers*100) / wes.getNumberOfUser();
+			return pourcentAnswered >= stepSynchro.getPercentageCompletionNeeded();
+		}
+		
 		return true;
 	}
 
 	private Optional<WorkflowStepLan> getNextStepLan(WorkflowStepLan curStepLan, WorkflowExecutionState wes) {
-		WorkflowStepLan defaultNextStep = curStepLan.getNextStep();
+		Optional<WorkflowStepLan> defaultNextStep = findNextStepByRole(wes.getRole(), curStepLan.getNextStep());
 
-		LOG.info("Checking Step : '" + curStepLan.getName() + "'");
+		LOG.info("Searching next of Step : '" + curStepLan.getName() + "'");
 
 		StepSwitch ss = new StepSwitch(wes, curStepLan.getName());
 
@@ -270,12 +275,21 @@ public class InterpreterV2 implements Interpreter {
 			}
 		}
 
-		if (defaultNextStep == null) {
-			// dernière étape.
-			return Optional.empty();
-		}
+		return defaultNextStep;
+	}
 
-		return Optional.of(defaultNextStep);
+	private Optional<WorkflowStepLan> findNextStepByRole(String role, List<NextStep> nextSteps) {
+		Optional<WorkflowStepLan> defaultStep = Optional.empty();
+		for (NextStep nextStep : nextSteps) {
+			if(nextStep.getRole() != null) {
+				if (nextStep.getRole().getName().equals(role)) {
+					return Optional.of(nextStep.getStep());
+				}
+			} else {
+				defaultStep = Optional.of(nextStep.getStep());
+			}
+		}
+		return defaultStep;
 	}
 
 //	private StepDTOImpl getStepDTO(WorkflowStepLan stepLan) {
