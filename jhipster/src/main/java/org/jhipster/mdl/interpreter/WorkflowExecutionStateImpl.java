@@ -8,6 +8,7 @@ import org.jhipster.mdl.domain.Answer;
 import org.jhipster.mdl.domain.CurrentStep;
 import org.jhipster.mdl.domain.WorkflowInstance;
 import org.jhipster.mdl.repository.AnswerRepository;
+import org.jhipster.mdl.repository.RoleRepository;
 import org.xtext.metadoodle.interpreter.Interface.WorkflowExecutionState;
 
 public class WorkflowExecutionStateImpl implements WorkflowExecutionState {
@@ -22,10 +23,13 @@ public class WorkflowExecutionStateImpl implements WorkflowExecutionState {
 
 	private List<Answer> answers;
 
+	private RoleRepository roleRepository;
+
 	public WorkflowExecutionStateImpl(WorkflowInstance workflowInstance, AnswerRepository answerRepository,
-			CurrentStep currentStep) {
+			CurrentStep currentStep, RoleRepository roleRepository) {
 		this.workflowInstance = workflowInstance;
 		this.currentStep = currentStep;
+		this.roleRepository = roleRepository;
 		answers = getAnswersOfThisWFI(workflowInstance, answerRepository);
 	}
 
@@ -45,7 +49,7 @@ public class WorkflowExecutionStateImpl implements WorkflowExecutionState {
 
 	@Override
 	public int getNumberOfUser() {
-		return workflowInstance.getGuests().size();
+		return roleRepository.findRoleByWorkflowInstanceIdAndRole(workflowInstance.getId(), role).size();
 	}
 
 	@Override

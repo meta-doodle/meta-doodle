@@ -134,7 +134,7 @@ public class InterpreterInterface {
 		
 		return Optional.empty();
 	}
-
+	
 	public Optional<StepDTO> getStepDTO(WorkflowInstance workflowInstance, MdlUser mdlUser) {
 		LOG.debug("Request StepDTO with {}", workflowInstance, mdlUser);
 
@@ -147,7 +147,7 @@ public class InterpreterInterface {
 		CurrentStep currentStep = optCurrentStep.get();
 
 		WorkflowExecutionStateImpl workflowExecutionStateImpl = new WorkflowExecutionStateImpl(workflowInstance,
-				answerRepository, currentStep);
+				answerRepository, currentStep, roleRepository);
 		
 		String model = workflowInstance.getWfModel().getBody();
 
