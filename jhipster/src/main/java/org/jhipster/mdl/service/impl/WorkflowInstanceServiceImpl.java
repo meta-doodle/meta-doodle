@@ -203,8 +203,14 @@ public class WorkflowInstanceServiceImpl implements WorkflowInstanceService {
 
 	@Override
 	public void removeGuest(long wfiId, long mdlUserId) {
-		MdlUser user = mdlUserRepository.getOne(mdlUserId);
-		workflowInstanceRepository.save(workflowInstanceRepository.getOne(wfiId).removeGuests(user));
+		Optional<MdlUser> optUser = mdlUserRepository.findById(mdlUserId);
+		Optional<WorkflowInstance> optWFI = workflowInstanceRepository.findById(wfiId);
+		if(optUser.isPresent() && optWFI.isPresent()) {
+			optWFI.get().removeGuests(optUser.get());
+			
+			mdlUserRepository.save(optUser.get());
+			workflowInstanceRepository.saveAndFlush(optWFI.get());
+		}
 	}
 
 	@Override
