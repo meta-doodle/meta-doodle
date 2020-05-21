@@ -25,6 +25,7 @@ export class SurveyComponent implements OnInit {
   idWFI = -1;
   step! : string;
   login!: string;
+  emptyStep!: boolean;
   private surveyView: any;
 
 
@@ -52,6 +53,7 @@ export class SurveyComponent implements OnInit {
     this.questions!.forEach(question => this.sendAnswer(question, this.surveyService.getValue(question.title))
     );
     this.result = {};
+    debugger;
    location.reload();
   }
 
@@ -59,9 +61,13 @@ export class SurveyComponent implements OnInit {
     this.idWFI = this.route.snapshot.params['id'];
     this.workflowService.view(this.login, this.idWFI).subscribe(
       (res) => {
+        console.log(res,'res');
         this.surveyView = res.body;
         this.questions = this.surveyView.userInteractionDTOs;
+        console.log(this.questions);
         this.step = this.surveyView.stepID;
+        console.log(this.step);
+        this.emptyStep = this.step === 'Empty Step';
       },
     error => {
       console.log(error+" error");
@@ -84,7 +90,8 @@ export class SurveyComponent implements OnInit {
     answer.userId = this.idUser.userId;
     answer.workflowInstanceId = this.idWFI;
     this.answerService.send(answer).subscribe((res:any)=>{
-
+      console.log(res);
+      debugger;
     });
   }
 

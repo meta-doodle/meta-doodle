@@ -12,7 +12,6 @@ import {IWorkflowInstance} from "../../shared/model/workflow-instance.model";
 export class EventListComponent implements OnInit {
 
   @Input() idUser: any;
-  // @Input() data: Array<EventInterface> = [];
   @Input() data: IWorkflowInstance[] | undefined;
   mdlUser?: IMdlUser |null;
 
