@@ -157,7 +157,8 @@ public class InterpreterInterface {
 		StepDTOFactory wfStepFactory = INTERPRETER.getStep(model, workflowExecutionStateImpl);
 
 		if (wfStepFactory.getError().isPresent()) {
-			EmptyStep emptyStep = new EmptyStep(wfStepFactory.getError().get());
+			LOG.error("Error from interpreter : {} ", wfStepFactory.getError().get());
+			EmptyStep emptyStep = new EmptyStep();
 			return Optional.of(emptyStep);
 		}
 
