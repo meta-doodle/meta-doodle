@@ -21,7 +21,8 @@ export class EventItemComponent implements OnInit {
 
 
   description!: string;
-  creatorLogin! : String;
+  creatorLogin! : string;
+  userLogin! : string;
 
     constructor(
     private workflowInstanceService: WorkflowInstanceService,
@@ -38,7 +39,7 @@ export class EventItemComponent implements OnInit {
       });
 
       this.accountService.identity().subscribe( value => {
-        value ?  this.creatorLogin = value.login : '';
+        value ?  this.userLogin = value.login : '';
       });
     }
 
@@ -48,14 +49,13 @@ export class EventItemComponent implements OnInit {
     alert('details for ' + this.event.description);
   }
 
-  /*
-  join(): void {
-    this.event.status = 'accepted';
-  }
-   */
+
 
   delete(): void {
     this.remove(this.index);
+    this.workflowInstanceService.leave(this.userLogin, this.event.wfModelId!).subscribe( x => {
+      
+    });
   }
 
   getOwnerStatusAsString(): string {

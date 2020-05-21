@@ -3,6 +3,9 @@ import { WorkflowInstanceService } from 'app/entities/workflow-instance/workflow
 import { AccountService } from 'app/core/auth/account.service';
 import {IMdlUser} from 'app/shared/model/mdl-user.model';
 import {MdlUserService} from "../../entities/mdl-user/mdl-user.service";
+import {User} from "../../core/user/user.model";
+import { UserService } from "../../core/user/user.service";
+
 
 @Component({
   selector: 'jhi-manage',
@@ -19,15 +22,23 @@ export class ManageComponent implements OnInit {
 
   constructor(private workflowService: WorkflowInstanceService,
               private accountService: AccountService,
-              private mdlUserService: MdlUserService,
+              private userService: UserService,
+              private mdlUserService: MdlUserService
   ) {}
 
 
   ngOnInit(): void {
-    this.mdlUser = this.accountService.getMdlUser();
-    this.mdlUserService.findUserWorkflows(this.mdlUser!.id!).subscribe( x => {
+    let login : string;
+    let id : number;
+    this.accountService.identity().subscribe( account => {
+      login = account!.login;
+      this.userService.find(login).subscribe( user => {
+        id = user.id;
+        this.mdlUserService.findUserWorkflows(id).subscribe( x => {
           x ? this.data = x.body : null;
-        })
-      }
+        });
+      });
+    });
+  }
 
 }
