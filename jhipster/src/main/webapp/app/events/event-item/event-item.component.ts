@@ -52,10 +52,15 @@ export class EventItemComponent implements OnInit {
 
 
   delete(): void {
-    this.remove(this.index);
-    this.workflowInstanceService.leave(this.userLogin, this.event.wfModelId!).subscribe( x => {
-      
-    });
+      let id: number;
+      this.mdlUserService.findFromLogin(this.userLogin).subscribe( mdlUser => {
+        mdlUser ? id = mdlUser.body!.id! : -1;
+        this.workflowInstanceService.leave(id, this.event.id!).subscribe( x => {
+          console.log(x);
+          this.remove(this.index);
+        });
+      })
+
   }
 
   getOwnerStatusAsString(): string {
