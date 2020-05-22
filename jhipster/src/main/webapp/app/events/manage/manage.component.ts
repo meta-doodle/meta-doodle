@@ -36,7 +36,6 @@ export class ManageComponent implements OnInit {
         id = user.id;
         this.mdlUserService.findUserWorkflows(id).subscribe( x => {
           x ? this.data = x.body : null;
-          console.log(x, ' xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
         });
       });
     });

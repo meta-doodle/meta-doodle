@@ -6,6 +6,7 @@ import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
 import { IMdlUser } from 'app/shared/model/mdl-user.model';
 import { IWorkflowInstance } from 'app/shared/model/workflow-instance.model';
+import {IUser} from "../../core/user/user.model";
 
 type EntityResponseType = HttpResponse<IMdlUser>;
 type EntityArrayResponseType = HttpResponse<IMdlUser[]>;
@@ -54,6 +55,6 @@ export class MdlUserService {
   }
 
   findJUser(id: number): Observable<EntityResponseType>{
-    return this.http.get<IMdlUser>(`${this.resourceUrl}/${id}/get-user`, { observe: 'response' })
+    return this.http.get<IUser>(`${this.resourceUrl}/${id}/get-user`, { observe: 'response' })
   }
 }
