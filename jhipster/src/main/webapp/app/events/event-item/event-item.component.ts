@@ -4,7 +4,6 @@ import { AccountService } from 'app/core/auth/account.service';
 import {WorkflowInstance} from "../../shared/model/workflow-instance.model";
 import {WorkflowModelService} from "../../entities/workflow-model/workflow-model.service";
 import {MdlUserService} from "../../entities/mdl-user/mdl-user.service";
-import {IUser} from "../../core/user/user.model";
 
 @Component({
   selector: 'jhi-event-item',
@@ -32,7 +31,7 @@ export class EventItemComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-      let creatorId = this.event.creatorId;
+      const creatorId = this.event.creatorId;
       this.workflowModelService.find(this.event.wfModelId!).subscribe( x => {
         x.body ? this.description = x.body.description! : "Description empty";
         console.log(x.body);
@@ -42,7 +41,7 @@ export class EventItemComponent implements OnInit {
       });
     this.mdlUserService.findJUser(creatorId!).subscribe( jhiUser => {
       console.log(creatorId);
-      jhiUser ? this.creatorLogin = jhiUser.body!.login : '';
+      jhiUser ? this.creatorLogin = jhiUser.body!.login! : '';
     });
 
     }
