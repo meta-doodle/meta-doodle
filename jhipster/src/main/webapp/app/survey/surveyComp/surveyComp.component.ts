@@ -50,11 +50,16 @@ export class SurveyComponent implements OnInit {
   submit(): void {
     this.result = this.surveyService.answers;
     this.idUser = this.accountService.getMdlUser();
-    this.questions!.forEach(question => this.sendAnswer(question, this.surveyService.getValue(question.title))
-    );
-    this.result = {};
-    debugger;
-   location.reload();
+    for(let i = 0; i < this.questions!.length; i++) {
+      let answer = this.buildAnswer(this.questions![i], this.surveyService.getValue(this.questions![i].title))
+      this.answerService.send(answer).subscribe((res:any)=>{
+        console.log(res);
+        if(i === this.questions!.length -1) {
+          this.result = {};
+          this.demarerInstance();
+        }
+      });
+    };
   }
 
   demarerInstance(): void {
@@ -74,7 +79,7 @@ export class SurveyComponent implements OnInit {
     });
   }
 
-  sendAnswer(question: IQuestion, result : string | Array<string>): void{
+  buildAnswer(question: IQuestion, result : string | Array<string>): Answer {
     const answer : Answer = {};
     if(Array.isArray(result)) {
       result = result.join();
@@ -89,10 +94,7 @@ export class SurveyComponent implements OnInit {
     }
     answer.userId = this.idUser.userId;
     answer.workflowInstanceId = this.idWFI;
-    this.answerService.send(answer).subscribe((res:any)=>{
-      console.log(res);
-      debugger;
-    });
+   return answer;
   }
 
 }

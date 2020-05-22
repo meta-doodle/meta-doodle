@@ -29,10 +29,9 @@ export class WorkflowInstanceService {
     return this.http.put<IWorkflowInstance>(this.resourceUrl, workflowInstance, { observe: 'response' });
   }
 
-  leave(idMdlUser : string, idWFI : number): Observable<Object> {
-    return this.http.put(`${this.resourceUrl}/${idWFI}/leave/${idMdlUser}`, { observe: 'response' });
-
-  }
+  leave(idMdlUser : number, idWFI : number): Observable<EntityResponseType> {
+      return this.http.put(`${this.resourceUrl}/${idWFI}/leave/${idMdlUser}`, null, { observe: 'response' });
+    }
 
   find(id: number): Observable<EntityResponseType> {
     return this.http.get<IWorkflowInstance>(`${this.resourceUrl}/${id}`, { observe: 'response' });

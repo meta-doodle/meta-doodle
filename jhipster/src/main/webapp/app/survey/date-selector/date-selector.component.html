@@ -1,5 +1,5 @@
 <p>{{ this.title }}</p>
 <div class="custom-control ">
-    <input type="date" name="birtdate" placeholder="select date" min="{{ this.begin }}" max="{{ this.end }}"
-        (change)="onChange($event.target.value)">
+    <input type="date" name="birtdate" min="{{ this.begin }}" max="{{ this.end }}"
+           [ngModel] ="dt | date:'yyyy-MM-dd'"  (change)="onChange($event.target.value)">
 </div>
