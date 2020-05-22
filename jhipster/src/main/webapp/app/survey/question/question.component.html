@@ -1,4 +1,7 @@
-<ul class="">
+<div *ngIf="this.question.alreadyAnswered; then thenBlock else elseBlock"></div>
+<ng-template #thenBlock> Merci d'avoir répondu, nous reviendrons vers vous pour une prochaine étape (lorsque suffisamment d'invités auront répondu  ou lorsqu'une date sera atteinte).  </ng-template>
+<ng-template #elseBlock>
+    <ul class="">
     <div class="list-group-item">
         <jhi-radio *ngIf="'RADIOBUTTON' === this.question.questionType" [question]="this.question"></jhi-radio>
         <jhi-checkbox *ngIf="'CHECKBOX' === this.question.questionType" [question]="this.question"></jhi-checkbox>
@@ -6,3 +9,4 @@
         <jhi-date-selector *ngIf="'CALENDAR' === this.question.questionType" [question]="this.question"></jhi-date-selector>
     </div>
 </ul>
+</ng-template>
