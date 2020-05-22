@@ -17,6 +17,7 @@ export class NavbarComponent implements OnInit {
   isNavbarCollapsed = true;
   swaggerEnabled?: boolean;
   version: string;
+  loginUser!: string;
 
   constructor(
     private loginService: LoginService,
@@ -32,6 +33,13 @@ export class NavbarComponent implements OnInit {
     this.profileService.getProfileInfo().subscribe(profileInfo => {
       this.inProduction = profileInfo.inProduction;
       this.swaggerEnabled = profileInfo.swaggerEnabled;
+    });
+    this.accountService.identity().subscribe( (res)=>{
+      if(res != null && res) {
+        this.loginUser = res.login;
+      } else {
+        this.loginUser = 'Account';
+      }
     });
   }
 
