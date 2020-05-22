@@ -43,10 +43,7 @@ export class EventItemComponent implements OnInit {
       console.log(creatorId);
       jhiUser ? this.creatorLogin = jhiUser.body!.login! : '';
     });
-
-    }
-
-
+   }
 
   details(): void {
     alert('details for ' + this.event.description);
