@@ -13,6 +13,7 @@ export class EventListComponent implements OnInit {
 
   @Input() idUser: any;
   @Input() data: IWorkflowInstance[] | undefined;
+  wfsAdmin: IWorkflowInstance[] | undefined;
   mdlUser?: IMdlUser |null;
 
 
@@ -24,6 +25,8 @@ export class EventListComponent implements OnInit {
   ngOnInit(): void {
     const user =  this.accountService.getMdlUser();
     this.idUser = user ? user.userId : -1 ;
+    this.wfsAdmin = this.data!.filter(e => e.creatorId === this.idUser);
+    this.data = this.data!.filter((x: IWorkflowInstance) => !this.wfsAdmin!.includes(x));
   }
 
   remove(index: number): void {
