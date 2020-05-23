@@ -10,6 +10,8 @@ import org.jhipster.mdl.domain.MdlUser;
 import org.jhipster.mdl.domain.WorkflowInstance;
 import org.jhipster.mdl.repository.AnswerRepository;
 import org.jhipster.mdl.repository.RoleRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xtext.metadoodle.interpreter.Interface.WorkflowExecutionState;
 
 public class WorkflowExecutionStateImpl implements WorkflowExecutionState {
@@ -25,13 +27,18 @@ public class WorkflowExecutionStateImpl implements WorkflowExecutionState {
 	private List<Answer> answers;
 
 	private RoleRepository roleRepository;
+	
+	private static final Logger LOG = LoggerFactory.getLogger(WorkflowExecutionStateImpl.class);
+
+	private MdlUser mdlUser;
 
 	public WorkflowExecutionStateImpl(WorkflowInstance workflowInstance, MdlUser mdlUser, AnswerRepository answerRepository,
 			CurrentStep currentStep, RoleRepository roleRepository) {
 		this.workflowInstance = workflowInstance;
+		this.mdlUser = mdlUser;
 		this.currentStep = currentStep;
 		this.roleRepository = roleRepository;
-		answers = getAnswersOfThisWFI(workflowInstance, mdlUser, answerRepository);
+		answers = getAnswersOfThisWFI(workflowInstance, answerRepository);
 	}
 
 	public void setRole(String role) {
@@ -46,14 +53,16 @@ public class WorkflowExecutionStateImpl implements WorkflowExecutionState {
 	 * @param answerRepository
 	 * @return The list of Answers
 	 */
-	private List<Answer> getAnswersOfThisWFI(WorkflowInstance workflowInstance, MdlUser mdlUser, AnswerRepository answerRepository) {
-		return answerRepository.findAll().parallelStream().filter(a -> a.getWorkflowInstance().equals(workflowInstance) && a.getUser().equals(mdlUser))
+	private List<Answer> getAnswersOfThisWFI(WorkflowInstance workflowInstance, AnswerRepository answerRepository) {
+		return answerRepository.findAll().parallelStream().filter(a -> a.getWorkflowInstance().equals(workflowInstance))
 				.collect(Collectors.toList());
 	}
 
 	@Override
 	public int getNumberOfUser() {
-		return roleRepository.findRoleByWorkflowInstanceIdAndRole(workflowInstance.getId(), role).size();
+		int nbUsers = roleRepository.findRoleByWorkflowInstanceIdAndRole(workflowInstance.getId(), role).size();
+		LOG.info("Found "+nbUsers+" users in this step");
+		return nbUsers;
 	}
 
 	@Override
@@ -69,13 +78,14 @@ public class WorkflowExecutionStateImpl implements WorkflowExecutionState {
 				count++;
 			}
 		}
+		LOG.info("Found "+count+" answers in this step");
 		return count;
 	}
 
 	@Override
 	public Optional<String> getPreviousAnswer(String questionID, String stepID) {
 		for (Answer answer : answers) {
-			if (answer.getQuestionIdent().equals(questionID) && answer.getStepIdent().equals(stepID)) {
+			if (answer.getQuestionIdent().equals(questionID) && answer.getStepIdent().equals(stepID) && answer.getUser().equals(mdlUser)) {
 				return Optional.of(answer.getAnswer());
 			}
 		}
