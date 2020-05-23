@@ -4,8 +4,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.stream.Collectors;
@@ -35,6 +37,8 @@ public class InterpreterInterface {
 	private static final Logger LOG = LoggerFactory.getLogger(InterpreterInterface.class);
 
 	private static final Interpreter INTERPRETER = new InterpreterV2();
+	
+	private static Set<String> sendMail = new HashSet<>();
 
 	private final CurrentStepRepository currentStepRepository;
 
@@ -45,7 +49,7 @@ public class InterpreterInterface {
 	private final MailService mailService;
 
 	private final WorkflowInstanceStateRepository workflowInstanceStateRepository;
-
+	
 	public InterpreterInterface(CurrentStepRepository currentStepRepository, AnswerRepository answerRepository,
 			WorkflowInstanceStateRepository workflowInstanceStateRepository, RoleRepository roleRepository,
 			MailService mailService) {
@@ -181,12 +185,19 @@ public class InterpreterInterface {
 
 	private void newMailSender(String date, MdlUser mdlUser, String mailObject, String mailBody) {
 		LOG.info("Prepare to send mail at {}", date);
+		
+		String s = date + mdlUser.getId() + mailObject + mailBody;
+		if(sendMail.contains(s)) {
+			return;
+		} else {
+			sendMail.add(s);
+		}
 
 		try {
-			Date d = new SimpleDateFormat("dd/MM/yy").parse(date);
+			Date sendDate = new SimpleDateFormat("dd/MM/yy").parse(date);
 			Timer timer = new Timer(true);
-			Date now = Date.from(Instant.now());
-			if (now.before(d) || now.equals(d)) {
+			Date now = new Date();
+			if (now.after(sendDate) || now.equals(sendDate)) {
 				LOG.debug("deamon launch");
 				timer.schedule(new TimerTask() {
 
@@ -196,7 +207,7 @@ public class InterpreterInterface {
 						mailService.sendEmail(mdlUser.getUser().getEmail(), mailObject, mailBody, false, false);
 //						sendMail(mailReminder.getObject(), mailReminder.getBody(), mdlUser.getUser().getEmail());
 					}
-				}, d);
+				}, sendDate);
 			}
 		} catch (ParseException e1) {
 			// TODO Auto-generated catch block
