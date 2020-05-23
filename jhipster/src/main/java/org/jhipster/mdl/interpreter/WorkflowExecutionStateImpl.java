@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.jhipster.mdl.domain.Answer;
 import org.jhipster.mdl.domain.CurrentStep;
+import org.jhipster.mdl.domain.MdlUser;
 import org.jhipster.mdl.domain.WorkflowInstance;
 import org.jhipster.mdl.repository.AnswerRepository;
 import org.jhipster.mdl.repository.RoleRepository;
@@ -25,25 +26,28 @@ public class WorkflowExecutionStateImpl implements WorkflowExecutionState {
 
 	private RoleRepository roleRepository;
 
-	public WorkflowExecutionStateImpl(WorkflowInstance workflowInstance, AnswerRepository answerRepository,
+	public WorkflowExecutionStateImpl(WorkflowInstance workflowInstance, MdlUser mdlUser, AnswerRepository answerRepository,
 			CurrentStep currentStep, RoleRepository roleRepository) {
 		this.workflowInstance = workflowInstance;
 		this.currentStep = currentStep;
 		this.roleRepository = roleRepository;
-		answers = getAnswersOfThisWFI(workflowInstance, answerRepository);
+		answers = getAnswersOfThisWFI(workflowInstance, mdlUser, answerRepository);
 	}
 
 	public void setRole(String role) {
 		this.role = role;
 	}
 
+	
 	/**
 	 * List of the {@link Answer} relative to the workflowInstance executed
-	 * 
-	 * @return A list of {@link Answer}
+	 * @param workflowInstance
+	 * @param mdlUser
+	 * @param answerRepository
+	 * @return The list of Answers
 	 */
-	private List<Answer> getAnswersOfThisWFI(WorkflowInstance workflowInstance, AnswerRepository answerRepository) {
-		return answerRepository.findAll().parallelStream().filter(a -> a.getWorkflowInstance().equals(workflowInstance))
+	private List<Answer> getAnswersOfThisWFI(WorkflowInstance workflowInstance, MdlUser mdlUser, AnswerRepository answerRepository) {
+		return answerRepository.findAll().parallelStream().filter(a -> a.getWorkflowInstance().equals(workflowInstance) && a.getUser().equals(mdlUser))
 				.collect(Collectors.toList());
 	}
 

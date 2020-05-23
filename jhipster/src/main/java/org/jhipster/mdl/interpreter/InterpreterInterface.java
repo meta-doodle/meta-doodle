@@ -146,7 +146,7 @@ public class InterpreterInterface {
 
 		CurrentStep currentStep = optCurrentStep.get();
 
-		WorkflowExecutionStateImpl workflowExecutionStateImpl = new WorkflowExecutionStateImpl(workflowInstance,
+		WorkflowExecutionStateImpl workflowExecutionStateImpl = new WorkflowExecutionStateImpl(workflowInstance, mdlUser,
 				answerRepository, currentStep, roleRepository);
 		
 		String model = workflowInstance.getWfModel().getBody();
